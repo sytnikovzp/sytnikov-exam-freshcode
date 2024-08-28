@@ -1,11 +1,12 @@
-import React from 'react';
-import styles from '../../Brief/Brief.module.sass';
 import CONSTANTS from '../../../constants';
+// =============================================
 import LogoContestSpecialInfo from './LogoContestSpecialInfo';
 import NameContestSpecialInfo from './NameContestSpecialInfo';
 import TaglineContestSpecialInfo from './TaglineContestSpecialInfo';
+// =============================================
+import styles from '../../Brief/Brief.module.sass';
 
-const ContestInfo = props => {
+const ContestInfo = (props) => {
   const { changeEditContest, userId, contestData, role, goChat } = props;
   const {
     typeOfTagline,
@@ -30,16 +31,17 @@ const ContestInfo = props => {
             <span className={styles.label}>Contest Type</span>
             <span className={styles.data}>{contestType}</span>
           </div>
-          {User.id === userId && status !== CONSTANTS.CONTEST_STATUS_FINISHED && (
-            <div
-              onClick={() => changeEditContest(true)}
-              className={styles.editBtn}
-            >
-              Edit
-            </div>
-          )}
+          {User.id === userId &&
+            status !== CONSTANTS.CONTEST_STATUS_FINISHED && (
+              <div
+                onClick={() => changeEditContest(true)}
+                className={styles.editBtn}
+              >
+                Edit
+              </div>
+            )}
           {role !== CONSTANTS.CUSTOMER && (
-            <i onClick={goChat} className='fas fa-comments' />
+            <i onClick={goChat} className="fas fa-comments" />
           )}
         </div>
         <div className={styles.dataContainer}>
@@ -82,11 +84,11 @@ const ContestInfo = props => {
           <div className={styles.dataContainer}>
             <span className={styles.label}>Additional File</span>
             <a
-              target='_blank'
+              target="_blank"
               className={styles.file}
               href={`${CONSTANTS.publicURL}${fileName}`}
               download={originalFileName}
-              rel='noreferrer'
+              rel="noreferrer"
             >
               {originalFileName}
             </a>

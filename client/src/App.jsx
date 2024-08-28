@@ -1,25 +1,31 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
 import { ToastContainer } from 'react-toastify';
+// =============================================
 import Router from './router';
+// =============================================
+import browserHistory from './browserHistory';
+// =============================================
+import CONSTANTS from './constants';
+// =============================================
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import Payment from './pages/Payment/Payment';
 import StartContestPage from './pages/StartContestPage/StartContestPage';
 import Dashboard from './pages/Dashboard/Dashboard';
-import NotFound from './components/NotFound/NotFound';
 import Home from './pages/Home/Home';
 import ContestPage from './pages/ContestPage/ContestPage';
 import UserProfile from './pages/UserProfile/UserProfile';
-import 'react-toastify/dist/ReactToastify.css';
 import ContestCreationPage from './pages/ContestCreation/ContestCreationPage';
-import CONSTANTS from './constants';
-import browserHistory from './browserHistory';
-import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
 import Layout from './pages/Layout/Layout';
+// =============================================
+import NotFound from './components/NotFound/NotFound';
+import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
 import OnlyNotAuthorizedUserRoute from './components/Routes/OnlyNotAuthorizedUserRoute/OnlyNotAuthorizedUserRoute';
 import PrivateRoute from './components/Routes/PrivateRoute/PrivateRoute';
+// =============================================
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 
 class App extends Component {
   render() {
@@ -76,8 +82,8 @@ class App extends Component {
                 }
               />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/contest/:id" element={<ContestPage />}/>
-              <Route path="/account" element={<UserProfile />}/>
+              <Route path="/contest/:id" element={<ContestPage />} />
+              <Route path="/account" element={<UserProfile />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Route>

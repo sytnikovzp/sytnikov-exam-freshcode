@@ -1,14 +1,17 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import CONSTANTS from '../../../../constants';
+// =============================================
 import {
   goToExpandedDialog,
   changeChatFavorite,
   changeChatBlock,
   changeShowAddChatToCatalogMenu,
 } from '../../../../store/slices/chatSlice';
+// =============================================
+import CONSTANTS from '../../../../constants';
+// =============================================
 import DialogBox from '../DialogBox/DialogBox';
+// =============================================
 import styles from './DialogList.module.sass';
 
 const DialogList = (props) => {
@@ -43,14 +46,7 @@ const DialogList = (props) => {
 
   const renderPreview = (filterFunc) => {
     const arrayList = [];
-    const {
-      userId,
-      preview,
-      goToExpandedDialog,
-      chatMode,
-      removeChat,
-      interlocutor,
-    } = props;
+    const { userId, preview, goToExpandedDialog, chatMode, removeChat } = props;
     preview.forEach((chatPreview, index) => {
       const dialogNode = (
         <DialogBox

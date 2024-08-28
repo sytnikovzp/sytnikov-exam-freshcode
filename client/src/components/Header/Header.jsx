@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styles from './Header.module.sass';
+// =============================================
+import { clearUserStore, getUser } from '../../store/slices/userSlice';
+// =============================================
 import CONSTANTS from '../../constants';
-import { clearUserStore } from '../../store/slices/userSlice';
-import { getUser } from '../../store/slices/userSlice';
+// =============================================
 import withRouter from '../../hocs/withRouter';
+// =============================================
+import styles from './Header.module.sass';
 
 class Header extends React.Component {
   componentDidMount() {
@@ -54,18 +57,12 @@ class Header extends React.Component {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="#"
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link to="#" style={{ textDecoration: 'none' }}>
                   <span>Messages</span>
                 </Link>
               </li>
               <li>
-                <Link
-                  to="#"
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link to="#" style={{ textDecoration: 'none' }}>
                   <span>Affiliate Dashboard</span>
                 </Link>
               </li>
@@ -247,9 +244,7 @@ class Header extends React.Component {
                       <a href="#">ULTIMATE NAMING GUIDE</a>
                     </li>
                     <li>
-                      <a href="#">
-                        POETIC DEVICES IN BUSINESS NAMING
-                      </a>
+                      <a href="#">POETIC DEVICES IN BUSINESS NAMING</a>
                     </li>
                     <li>
                       <a href="#">CROWDED BAR THEORY</a>

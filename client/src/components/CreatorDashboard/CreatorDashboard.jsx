@@ -3,18 +3,23 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
+// =============================================
 import {
   getContests,
   clearContestsList,
   setNewCreatorFilter,
 } from '../../store/slices/contestsSlice';
 import { getDataForContest } from '../../store/slices/dataForContestSlice';
+// =============================================
 import withRouter from '../../hocs/withRouter';
+// =============================================
+import CONSTANTS from '../../constants';
+// =============================================
 import ContestsContainer from '../ContestsContainer/ContestsContainer';
 import ContestBox from '../ContestBox/ContestBox';
-import styles from './CreatorDashboard.module.sass';
 import TryAgain from '../TryAgain/TryAgain';
-import CONSTANTS from '../../constants';
+// =============================================
+import styles from './CreatorDashboard.module.sass';
 
 const types = [
   '',
@@ -88,7 +93,7 @@ class CreatorDashboard extends React.Component {
     );
   };
 
-  componentWillReceiveProps(nextProps, nextContext) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.location.search !== this.props.location.search) {
       this.parseUrlForParams(nextProps.location.search);
     }

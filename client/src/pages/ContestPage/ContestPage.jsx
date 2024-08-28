@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import LightBox from 'react-18-image-lightbox';
-import withRouter from '../../hocs/withRouter';
+// =============================================
 import { goToExpandedDialog } from '../../store/slices/chatSlice';
 import {
   getContestById,
@@ -13,17 +13,21 @@ import {
   changeContestViewMode,
   changeShowImage,
 } from '../../store/slices/contestByIdSlice';
-import Header from '../../components/Header/Header';
+// =============================================
+import CONSTANTS from '../../constants';
+// =============================================
+import withRouter from '../../hocs/withRouter';
+// =============================================
 import ContestSideBar from '../../components/ContestSideBar/ContestSideBar';
-import styles from './ContestPage.module.sass';
 import OfferBox from '../../components/OfferBox/OfferBox';
 import OfferForm from '../../components/OfferForm/OfferForm';
-import CONSTANTS from '../../constants';
 import Brief from '../../components/Brief/Brief';
 import Spinner from '../../components/Spinner/Spinner';
 import TryAgain from '../../components/TryAgain/TryAgain';
-import 'react-18-image-lightbox/style.css';
 import Error from '../../components/Error/Error';
+// =============================================
+import styles from './ContestPage.module.sass';
+import 'react-18-image-lightbox/style.css';
 
 class ContestPage extends React.Component {
   componentWillUnmount() {
@@ -227,4 +231,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeShowImage: (data) => dispatch(changeShowImage(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ContestPage));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ContestPage));

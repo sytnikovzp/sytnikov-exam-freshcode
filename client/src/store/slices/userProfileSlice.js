@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+// =============================================
 import CONSTANTS from '../../constants';
 
 const USER_PROFILE_SLICE_NAME = 'userProfile';

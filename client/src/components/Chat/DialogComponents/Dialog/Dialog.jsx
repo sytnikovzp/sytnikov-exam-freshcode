@@ -2,13 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import className from 'classnames';
+// =============================================
 import {
   getDialogMessages,
   clearMessageList,
 } from '../../../../store/slices/chatSlice';
+// =============================================
 import ChatHeader from '../../ChatComponents/ChatHeader/ChatHeader';
-import styles from './Dialog.module.sass';
 import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
+// =============================================
+import styles from './Dialog.module.sass';
 
 class Dialog extends React.Component {
   componentDidMount() {
@@ -22,7 +25,7 @@ class Dialog extends React.Component {
     this.messagesEnd.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  componentWillReceiveProps(nextProps, nextContext) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.interlocutor.id !== this.props.interlocutor.id)
       this.props.getDialog({ interlocutorId: nextProps.interlocutor.id });
   }

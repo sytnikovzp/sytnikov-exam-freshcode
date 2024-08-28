@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+// =============================================
 import CONSTANTS from '../../constants';
+// =============================================
 import * as restController from '../../api/rest/restController';
+// =============================================
 import {
   decorateAsyncThunk,
   pendingReducer,
@@ -26,13 +29,13 @@ export const checkAuth = decorateAsyncThunk({
 });
 
 const reducers = {
-  clearAuthError: state => {
+  clearAuthError: (state) => {
     state.error = null;
   },
   clearAuth: () => initialState,
 };
 
-const extraReducers = builder => {
+const extraReducers = (builder) => {
   builder.addCase(checkAuth.pending, pendingReducer);
   builder.addCase(checkAuth.fulfilled, fulfilledReducer);
   builder.addCase(checkAuth.rejected, rejectedReducer);

@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+// =============================================
 import * as restController from '../../api/rest/restController';
+// =============================================
 import CONSTANTS from '../../constants';
+// =============================================
 import { decorateAsyncThunk, pendingReducer } from '../../utils/store';
 
 const CONTESTS_SLICE_NAME = 'contests';
@@ -32,7 +35,7 @@ export const getContests = decorateAsyncThunk({
 });
 
 const reducers = {
-  clearContestsList: state => {
+  clearContestsList: (state) => {
     state.error = null;
     state.contests = [];
   },
@@ -48,7 +51,7 @@ const reducers = {
   }),
 };
 
-const extraReducers = builder => {
+const extraReducers = (builder) => {
   builder.addCase(getContests.pending, pendingReducer);
   builder.addCase(getContests.fulfilled, (state, { payload }) => {
     state.isFetching = false;
@@ -71,10 +74,7 @@ const contestsSlice = createSlice({
 
 const { actions, reducer } = contestsSlice;
 
-export const {
-  clearContestsList,
-  setNewCustomerFilter,
-  setNewCreatorFilter,
-} = actions;
+export const { clearContestsList, setNewCustomerFilter, setNewCreatorFilter } =
+  actions;
 
 export default reducer;
