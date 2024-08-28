@@ -1,26 +1,12 @@
-import { defineConfig, transformWithEsbuild } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 
 export default defineConfig({
-  plugins: [
-    {
-      name: 'transform-js-to-jsx',
-      async transform(code, id) {
-        if (!id.match(/src\/.*\.js$/)) {
-          return null;
-        }
-
-        return transformWithEsbuild(code, id, {
-          loader: 'jsx',
-          jsx: 'automatic',
-        });
-      },
-    },
-    react(),
-  ],
+  plugins: [react()],
   server: {
-    port: 3000,
+    port: 5000,
+    strictPort: true,
     host: true,
   },
   build: {
@@ -30,13 +16,5 @@ export default defineConfig({
       'not ie <= 11',
       'not op_mini all',
     ]),
-  },
-  optimizeDeps: {
-    force: true,
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx',
-      },
-    },
   },
 });
