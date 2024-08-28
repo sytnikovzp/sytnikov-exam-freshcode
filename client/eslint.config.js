@@ -41,7 +41,9 @@ export default [
         },
       ],
       'react/jsx-no-target-blank': 'off',
+      'react/no-unescaped-entities': 'off',
       'react/prop-types': 'off',
+      'no-undef': 'warn',
       'no-unused-vars': 'warn',
       'react-refresh/only-export-components': [
         'warn',
