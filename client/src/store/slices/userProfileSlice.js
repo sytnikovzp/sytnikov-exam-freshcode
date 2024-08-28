@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import CONSTANTS from '../../constants';
+import { UI_MODES } from '../../constants';
 
 const USER_PROFILE_SLICE_NAME = 'userProfile';
 
 const initialState = {
-  profileViewMode: CONSTANTS.USER_INFO_MODE,
+  profileViewMode: UI_MODES.USER_INFO,
   isEdit: false,
 };
 

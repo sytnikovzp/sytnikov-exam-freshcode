@@ -8,7 +8,7 @@ import {
   getCatalogList,
 } from '../../../../store/slices/chatSlice';
 // =============================================
-import CONSTANTS from '../../../../constants';
+import { CHAT_ACTION_TYPES } from '../../../../constants';
 // =============================================
 import AddToCatalog from '../AddToCatalog/AddToCatalog';
 import CreateCatalog from '../CreateCatalog/CreateCatalog';
@@ -27,8 +27,7 @@ class CatalogCreation extends React.Component {
       changeShowAddChatToCatalogMenu,
       isFetching,
     } = this.props;
-    const { ADD_CHAT_TO_OLD_CATALOG, CREATE_NEW_CATALOG_AND_ADD_CHAT } =
-      CONSTANTS;
+
     return (
       <>
         {!isFetching && (
@@ -39,27 +38,36 @@ class CatalogCreation extends React.Component {
             />
             <div className={styles.buttonsContainer}>
               <span
-                onClick={() => changeTypeOfChatAdding(ADD_CHAT_TO_OLD_CATALOG)}
+                onClick={() =>
+                  changeTypeOfChatAdding(
+                    CHAT_ACTION_TYPES.ADD_CHAT_TO_OLD_CATALOG
+                  )
+                }
                 className={classNames({
                   [styles.active]:
-                    catalogCreationMode === ADD_CHAT_TO_OLD_CATALOG,
+                    catalogCreationMode ===
+                    CHAT_ACTION_TYPES.ADD_CHAT_TO_OLD_CATALOG,
                 })}
               >
                 Old
               </span>
               <span
                 onClick={() =>
-                  changeTypeOfChatAdding(CREATE_NEW_CATALOG_AND_ADD_CHAT)
+                  changeTypeOfChatAdding(
+                    CHAT_ACTION_TYPES.CREATE_NEW_CATALOG_AND_ADD_CHAT
+                  )
                 }
                 className={classNames({
                   [styles.active]:
-                    catalogCreationMode === CREATE_NEW_CATALOG_AND_ADD_CHAT,
+                    catalogCreationMode ===
+                    CHAT_ACTION_TYPES.CREATE_NEW_CATALOG_AND_ADD_CHAT,
                 })}
               >
                 New
               </span>
             </div>
-            {catalogCreationMode === CREATE_NEW_CATALOG_AND_ADD_CHAT ? (
+            {catalogCreationMode ===
+            CHAT_ACTION_TYPES.CREATE_NEW_CATALOG_AND_ADD_CHAT ? (
               <CreateCatalog />
             ) : (
               <AddToCatalog />

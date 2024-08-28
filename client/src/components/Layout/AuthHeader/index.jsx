@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 // =============================================
-import CONSTANTS from '../../../constants';
+import { IMAGE_PATHS } from '../../../constants';
 // =============================================
 import Logo from '../../Logo';
 // =============================================
@@ -15,7 +15,7 @@ const AuthHeader = () => {
     <div className={styles.container}>
       <div className={styles.loginContainer}>
         <div className={styles.headerAuthPage}>
-          <Logo src={`${CONSTANTS.STATIC_IMAGES_PATH}logo.png`} alt="logo" />
+          <Logo src={`${IMAGE_PATHS.STATIC}logo.png`} alt="logo" />
           <div className={styles.linkAuthContainer}>
             <Link
               to={isLoginPage ? '/registration' : '/login'}

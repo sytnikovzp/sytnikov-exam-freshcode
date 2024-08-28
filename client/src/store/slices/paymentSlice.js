@@ -6,7 +6,7 @@ import { clearContestStore } from './contestCreationSlice';
 import { changeProfileViewMode } from './userProfileSlice';
 import { updateUser } from './userSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import { UI_MODES } from '../../constants';
 // =============================================
 import {
   decorateAsyncThunk,
@@ -36,7 +36,7 @@ export const cashOut = decorateAsyncThunk({
   thunk: async (payload, { dispatch }) => {
     const { data } = await restController.cashOut(payload);
     dispatch(updateUser.fulfilled(data));
-    dispatch(changeProfileViewMode(CONSTANTS.USER_INFO_MODE));
+    dispatch(changeProfileViewMode(UI_MODES.USER_INFO));
   },
 });
 

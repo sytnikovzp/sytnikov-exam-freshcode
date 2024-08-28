@@ -13,7 +13,7 @@ import { getDataForContest } from '../../store/slices/dataForContestSlice';
 // =============================================
 import withRouter from '../../hocs/withRouter';
 // =============================================
-import CONSTANTS from '../../constants';
+import { USER_ROLES } from '../../constants';
 // =============================================
 import ContestsContainer from '../ContestsContainer/ContestsContainer';
 import ContestBox from '../ContestBox/ContestBox';
@@ -292,7 +292,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getContests: (data) =>
-    dispatch(getContests({ requestData: data, role: CONSTANTS.CREATOR })),
+    dispatch(getContests({ requestData: data, role: USER_ROLES.CREATOR })),
   clearContestsList: () => dispatch(clearContestsList()),
   newFilter: (filter) => dispatch(setNewCreatorFilter(filter)),
   getDataForContest: () => dispatch(getDataForContest()),

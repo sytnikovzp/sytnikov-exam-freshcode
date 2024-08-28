@@ -1,16 +1,16 @@
 import axios from 'axios';
 // =============================================
-import CONSTANTS from '../constants';
+import { SERVER_CONFIG, TOKEN_CONFIG } from '../constants';
 // =============================================
 import history from '../browserHistory';
 
 const instance = axios.create({
-  baseURL: CONSTANTS.BASE_URL,
+  baseURL: SERVER_CONFIG.BASE_URL,
 });
 
 instance.interceptors.request.use(
   (config) => {
-    const token = window.localStorage.getItem(CONSTANTS.ACCESS_TOKEN);
+    const token = window.localStorage.getItem(TOKEN_CONFIG.ACCESS_TOKEN);
     if (token) {
       config.headers = { ...config.headers, Authorization: token };
     }
@@ -22,7 +22,10 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     if (response.data.token) {
-      window.localStorage.setItem(CONSTANTS.ACCESS_TOKEN, response.data.token);
+      window.localStorage.setItem(
+        TOKEN_CONFIG.ACCESS_TOKEN,
+        response.data.token
+      );
     }
     return response;
   },

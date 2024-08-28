@@ -8,7 +8,7 @@ import {
   setNewCustomerFilter,
 } from '../../store/slices/contestsSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import { CONTEST_STATUS, USER_ROLES } from '../../constants';
 // =============================================
 import ContestsContainer from '../ContestsContainer/ContestsContainer';
 import ContestBox from '../ContestBox/ContestBox';
@@ -77,40 +77,28 @@ class CustomerDashboard extends React.Component {
       <div className={styles.mainContainer}>
         <div className={styles.filterContainer}>
           <div
-            onClick={() =>
-              this.props.newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE)
-            }
+            onClick={() => this.props.newFilter(CONTEST_STATUS.ACTIVE)}
             className={classNames({
-              [styles.activeFilter]:
-                CONSTANTS.CONTEST_STATUS_ACTIVE === customerFilter,
-              [styles.filter]:
-                CONSTANTS.CONTEST_STATUS_ACTIVE !== customerFilter,
+              [styles.activeFilter]: CONTEST_STATUS.ACTIVE === customerFilter,
+              [styles.filter]: CONTEST_STATUS.ACTIVE !== customerFilter,
             })}
           >
             Active Contests
           </div>
           <div
-            onClick={() =>
-              this.props.newFilter(CONSTANTS.CONTEST_STATUS_FINISHED)
-            }
+            onClick={() => this.props.newFilter(CONTEST_STATUS.FINISHED)}
             className={classNames({
-              [styles.activeFilter]:
-                CONSTANTS.CONTEST_STATUS_FINISHED === customerFilter,
-              [styles.filter]:
-                CONSTANTS.CONTEST_STATUS_FINISHED !== customerFilter,
+              [styles.activeFilter]: CONTEST_STATUS.FINISHED === customerFilter,
+              [styles.filter]: CONTEST_STATUS.FINISHED !== customerFilter,
             })}
           >
             Completed contests
           </div>
           <div
-            onClick={() =>
-              this.props.newFilter(CONSTANTS.CONTEST_STATUS_PENDING)
-            }
+            onClick={() => this.props.newFilter(CONTEST_STATUS.PENDING)}
             className={classNames({
-              [styles.activeFilter]:
-                CONSTANTS.CONTEST_STATUS_PENDING === customerFilter,
-              [styles.filter]:
-                CONSTANTS.CONTEST_STATUS_PENDING !== customerFilter,
+              [styles.activeFilter]: CONTEST_STATUS.PENDING === customerFilter,
+              [styles.filter]: CONTEST_STATUS.PENDING !== customerFilter,
             })}
           >
             Inactive contests
@@ -139,7 +127,7 @@ const mapStateToProps = (state) => state.contestsList;
 
 const mapDispatchToProps = (dispatch) => ({
   getContests: (data) =>
-    dispatch(getContests({ requestData: data, role: CONSTANTS.CUSTOMER })),
+    dispatch(getContests({ requestData: data, role: USER_ROLES.CUSTOMER })),
   clearContestsList: () => dispatch(clearContestsList()),
   newFilter: (filter) => dispatch(setNewCustomerFilter(filter)),
 });

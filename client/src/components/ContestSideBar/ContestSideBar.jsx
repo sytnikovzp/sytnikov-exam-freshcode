@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import moment from 'moment';
 // =============================================
-import CONSTANTS from '../../constants';
+import { IMAGE_PATHS, SERVER_CONFIG } from '../../constants';
 // =============================================
 import styles from './ContestSideBar.module.sass';
 
@@ -25,28 +25,19 @@ const ContestSideBar = (props) => {
         <div className={styles.contestInfo}>
           <div className={styles.awardAndTimeContainer}>
             <div className={styles.prizeContainer}>
-              <img
-                src={`${CONSTANTS.STATIC_IMAGES_PATH}big-diamond.png`}
-                alt="diamond"
-              />
+              <img src={`${IMAGE_PATHS.STATIC}big-diamond.png`} alt="diamond" />
               <span>{`$ ${prize}`}</span>
             </div>
             <div className={styles.timeContainer}>
               <div className={styles.timeDesc}>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}clock.png`}
-                  alt="clock"
-                />
+                <img src={`${IMAGE_PATHS.STATIC}clock.png`} alt="clock" />
                 <span>Going</span>
               </div>
               <span className={styles.time}>{getTimeStr()}</span>
             </div>
             <div className={styles.guaranteedPrize}>
               <div>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}smallCheck.png`}
-                  alt="check"
-                />
+                <img src={`${IMAGE_PATHS.STATIC}smallCheck.png`} alt="check" />
               </div>
               <span>Guaranteed prize</span>
             </div>
@@ -68,8 +59,8 @@ const ContestSideBar = (props) => {
               <img
                 src={
                   User.avatar === 'anon.png'
-                    ? CONSTANTS.ANONYM_IMAGE_PATH
-                    : `${CONSTANTS.publicURL}${User.avatar}`
+                    ? IMAGE_PATHS.ANONYM
+                    : `${SERVER_CONFIG.PUBLIC_URL}${User.avatar}`
                 }
                 alt="user"
               />

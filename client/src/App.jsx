@@ -6,7 +6,7 @@ import Router from './router';
 // =============================================
 import browserHistory from './browserHistory';
 // =============================================
-import CONSTANTS from './constants';
+import { CONTEST_TYPES } from './constants';
 // =============================================
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
@@ -58,7 +58,7 @@ class App extends Component {
                 path="/startContest/nameContest"
                 element={
                   <ContestCreationPage
-                    contestType={CONSTANTS.NAME_CONTEST}
+                    contestType={CONTEST_TYPES.NAME}
                     title="Company Name"
                   />
                 }
@@ -67,7 +67,7 @@ class App extends Component {
                 path="/startContest/taglineContest"
                 element={
                   <ContestCreationPage
-                    contestType={CONSTANTS.TAGLINE_CONTEST}
+                    contestType={CONTEST_TYPES.TAGLINE}
                     title="TAGLINE"
                   />
                 }
@@ -76,7 +76,7 @@ class App extends Component {
                 path="/startContest/logoContest"
                 element={
                   <ContestCreationPage
-                    contestType={CONSTANTS.LOGO_CONTEST}
+                    contestType={CONTEST_TYPES.LOGO}
                     title="LOGO"
                   />
                 }

@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik';
 // =============================================
 import { sendMessage } from '../../../../store/slices/chatSlice';
 // =============================================
-import CONSTANTS from '../../../../constants';
+import { IMAGE_PATHS } from '../../../../constants';
 // =============================================
 import Schems from '../../../../utils/validators/validationSchems';
 // =============================================
@@ -40,10 +40,7 @@ const ChatInput = (props) => {
             }}
           />
           <button type="submit">
-            <img
-              src={`${CONSTANTS.STATIC_IMAGES_PATH}send.png`}
-              alt="send Message"
-            />
+            <img src={`${IMAGE_PATHS.STATIC}send.png`} alt="send Message" />
           </button>
         </Form>
       </Formik>

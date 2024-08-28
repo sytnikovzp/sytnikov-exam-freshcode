@@ -8,7 +8,7 @@ import {
   changeShowAddChatToCatalogMenu,
 } from '../../../../store/slices/chatSlice';
 // =============================================
-import CONSTANTS from '../../../../constants';
+import { CHAT_MODES } from '../../../../constants';
 // =============================================
 import DialogBox from '../DialogBox/DialogBox';
 // =============================================
@@ -59,7 +59,7 @@ const DialogList = (props) => {
           changeBlackList={changeBlackList}
           chatMode={chatMode}
           catalogOperation={
-            chatMode === CONSTANTS.CATALOG_PREVIEW_CHAT_MODE
+            chatMode === CHAT_MODES.CATALOG
               ? removeChat
               : changeShowCatalogCreation
           }
@@ -81,10 +81,9 @@ const DialogList = (props) => {
 
   const renderChatPreview = () => {
     const { chatMode } = props;
-    if (chatMode === CONSTANTS.FAVORITE_PREVIEW_CHAT_MODE)
+    if (chatMode === CHAT_MODES.FAVORITE)
       return renderPreview(onlyFavoriteDialogs);
-    if (chatMode === CONSTANTS.BLOCKED_PREVIEW_CHAT_MODE)
-      return renderPreview(onlyBlockDialogs);
+    if (chatMode === CHAT_MODES.BLOCKED) return renderPreview(onlyBlockDialogs);
     return renderPreview();
   };
 

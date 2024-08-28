@@ -14,7 +14,12 @@ import {
   changeShowImage,
 } from '../../store/slices/contestByIdSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import {
+  CONTEST_STATUS,
+  OFFER_STATUS,
+  SERVER_CONFIG,
+  USER_ROLES,
+} from '../../constants';
 // =============================================
 import withRouter from '../../hocs/withRouter';
 // =============================================
@@ -72,8 +77,8 @@ class ContestPage extends React.Component {
     const contestStatus = this.props.contestByIdStore.contestData.status;
     return (
       contestCreatorId === userId &&
-      contestStatus === CONSTANTS.CONTEST_STATUS_ACTIVE &&
-      offerStatus === CONSTANTS.OFFER_STATUS_PENDING
+      contestStatus === CONTEST_STATUS.ACTIVE &&
+      offerStatus === OFFER_STATUS.PENDING
     );
   };
 
@@ -143,7 +148,7 @@ class ContestPage extends React.Component {
         {/* <Chat/> */}
         {isShowOnFull && (
           <LightBox
-            mainSrc={`${CONSTANTS.publicURL}${imagePath}`}
+            mainSrc={`${SERVER_CONFIG.PUBLIC_URL}${imagePath}`}
             onCloseRequest={() =>
               changeShowImage({ isShowOnFull: false, imagePath: null })
             }
@@ -186,8 +191,8 @@ class ContestPage extends React.Component {
                 />
               ) : (
                 <div className={styles.offersContainer}>
-                  {role === CONSTANTS.CREATOR &&
-                    contestData.status === CONSTANTS.CONTEST_STATUS_ACTIVE && (
+                  {role === USER_ROLES.CREATOR &&
+                    contestData.status === CONTEST_STATUS.ACTIVE && (
                       <OfferForm
                         contestType={contestData.contestType}
                         contestId={contestData.id}

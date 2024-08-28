@@ -11,7 +11,13 @@ import {
   changeShowImage,
 } from '../../store/slices/contestByIdSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import {
+  OFFER_STATUS,
+  IMAGE_PATHS,
+  SERVER_CONFIG,
+  CONTEST_TYPES,
+  USER_ROLES,
+} from '../../constants';
 // =============================================
 import withRouter from '../../hocs/withRouter';
 // =============================================
@@ -85,14 +91,14 @@ const OfferBox = (props) => {
 
   const offerStatus = () => {
     const { status } = props.data;
-    if (status === CONSTANTS.OFFER_STATUS_REJECTED) {
+    if (status === OFFER_STATUS.REJECTED) {
       return (
         <i
           className={classNames('fas fa-times-circle reject', styles.reject)}
         />
       );
     }
-    if (status === CONSTANTS.OFFER_STATUS_WON) {
+    if (status === OFFER_STATUS.WON) {
       return (
         <i
           className={classNames('fas fa-check-circle resolve', styles.resolve)}
@@ -120,8 +126,8 @@ const OfferBox = (props) => {
             <img
               src={
                 avatar === 'anon.png'
-                  ? CONSTANTS.ANONYM_IMAGE_PATH
-                  : `${CONSTANTS.publicURL}${avatar}`
+                  ? IMAGE_PATHS.ANONYM
+                  : `${SERVER_CONFIG.PUBLIC_URL}${avatar}`
               }
               alt="user"
             />
@@ -136,20 +142,14 @@ const OfferBox = (props) => {
               initialRating={rating}
               fractions={2}
               fullSymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
-                  alt="star"
-                />
+                <img src={`${IMAGE_PATHS.STATIC}star.png`} alt="star" />
               }
               placeholderSymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
-                  alt="star"
-                />
+                <img src={`${IMAGE_PATHS.STATIC}star.png`} alt="star" />
               }
               emptySymbol={
                 <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star-outline.png`}
+                  src={`${IMAGE_PATHS.STATIC}star-outline.png`}
                   alt="star-outline"
                 />
               }
@@ -158,7 +158,7 @@ const OfferBox = (props) => {
           </div>
         </div>
         <div className={styles.responseConainer}>
-          {contestType === CONSTANTS.LOGO_CONTEST ? (
+          {contestType === CONTEST_TYPES.LOGO ? (
             <img
               onClick={() =>
                 props.changeShowImage({
@@ -167,7 +167,7 @@ const OfferBox = (props) => {
                 })
               }
               className={styles.responseLogo}
-              src={`${CONSTANTS.publicURL}${data.fileName}`}
+              src={`${SERVER_CONFIG.PUBLIC_URL}${data.fileName}`}
               alt="logo"
             />
           ) : (
@@ -177,29 +177,20 @@ const OfferBox = (props) => {
             <Rating
               fractions={2}
               fullSymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
-                  alt="star"
-                />
+                <img src={`${IMAGE_PATHS.STATIC}star.png`} alt="star" />
               }
               placeholderSymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
-                  alt="star"
-                />
+                <img src={`${IMAGE_PATHS.STATIC}star.png`} alt="star" />
               }
               emptySymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star-outline.png`}
-                  alt="star"
-                />
+                <img src={`${IMAGE_PATHS.STATIC}star-outline.png`} alt="star" />
               }
               onClick={changeMark}
               placeholderRating={data.mark}
             />
           )}
         </div>
-        {role !== CONSTANTS.CREATOR && (
+        {role !== USER_ROLES.CREATOR && (
           <i onClick={goChat} className="fas fa-comments" />
         )}
       </div>

@@ -3,7 +3,7 @@ import { isEqual, remove } from 'lodash';
 // =============================================
 import * as restController from '../../api/rest/restController';
 // =============================================
-import CONSTANTS from '../../constants';
+import { CHAT_MODES, CHAT_ACTION_TYPES } from '../../constants';
 // =============================================
 import {
   decorateAsyncThunk,
@@ -25,11 +25,11 @@ const initialState = {
   interlocutor: [],
   messagesPreview: [],
   isShow: false,
-  chatMode: CONSTANTS.NORMAL_PREVIEW_CHAT_MODE,
+  chatMode: CHAT_MODES.NORMAL,
   catalogList: [],
   isRenameCatalog: false,
   isShowChatsInCatalog: false,
-  catalogCreationMode: CONSTANTS.ADD_CHAT_TO_OLD_CATALOG,
+  catalogCreationMode: CHAT_ACTION_TYPES.ADD_CHAT_TO_OLD_CATALOG,
 };
 
 //---------- getPreviewChat
