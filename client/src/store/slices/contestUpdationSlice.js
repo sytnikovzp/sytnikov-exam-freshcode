@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 // =============================================
 import { CONTEST_UPDATION_SLICE_NAME } from '../../constants';
 // =============================================
-import * as restController from '../../api/rest/restController';
+import restController from '../../api/rest/restController';
 // =============================================
 import { updateStoreAfterUpdateContest } from './contestByIdSlice';
 // =============================================

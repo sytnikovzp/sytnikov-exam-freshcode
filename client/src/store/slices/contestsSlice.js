@@ -6,7 +6,7 @@ import {
   USER_ROLES,
 } from '../../constants';
 // =============================================
-import * as restController from '../../api/rest/restController';
+import restController from '../../api/rest/restController';
 // =============================================
 import { decorateAsyncThunk, pendingReducer } from '../../utils/store';
 

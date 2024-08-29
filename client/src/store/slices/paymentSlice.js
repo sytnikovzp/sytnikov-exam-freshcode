@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 // =============================================
 import { PAYMENT_SLICE_NAME, UI_MODES } from '../../constants';
 // =============================================
-import * as restController from '../../api/rest/restController';
+import restController from '../../api/rest/restController';
 // =============================================
 import { clearContestStore } from './contestCreationSlice';
 import { changeProfileViewMode } from './userProfileSlice';

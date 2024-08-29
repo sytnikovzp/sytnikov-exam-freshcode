@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // =============================================
 import { USER_SLICE_NAME } from '../../constants';
 // =============================================
-import * as restController from '../../api/rest/restController';
+import restController from '../../api/rest/restController';
 import { controller } from '../../api/ws/socketController';
 // =============================================
 import { changeEditModeOnUserProfile } from './userProfileSlice';

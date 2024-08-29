@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 // =============================================
 import { AUTH_SLICE_NAME, AUTH_MODE } from '../../constants';
 // =============================================
-import * as restController from '../../api/rest/restController';
+import restController from '../../api/rest/restController';
 // =============================================
 import {
   decorateAsyncThunk,

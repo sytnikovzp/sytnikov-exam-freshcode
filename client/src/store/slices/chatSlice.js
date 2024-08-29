@@ -7,7 +7,7 @@ import {
   CHAT_ACTION_TYPES,
 } from '../../constants';
 // =============================================
-import * as restController from '../../api/rest/restController';
+import restController from '../../api/rest/restController';
 // =============================================
 import {
   decorateAsyncThunk,

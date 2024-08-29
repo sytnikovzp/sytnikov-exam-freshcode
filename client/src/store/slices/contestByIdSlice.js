@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 // =============================================
 import { CONTEST_BY_ID_SLICE_NAME, OFFER_STATUS } from '../../constants';
 // =============================================
-import * as restController from '../../api/rest/restController';
+import restController from '../../api/rest/restController';
 // =============================================
 import {
   decorateAsyncThunk,
