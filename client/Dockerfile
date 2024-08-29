@@ -8,14 +8,12 @@ RUN mkdir -p ./client
 
 WORKDIR /client
 
-COPY package*.json ./
-
 COPY . .
 
-EXPOSE 5000
-
-RUN npm install
+RUN npm i
 
 RUN chown -R node:node /client/node_modules
 
-CMD npm start
+EXPOSE 5000
+
+CMD ["npm", "start"]
