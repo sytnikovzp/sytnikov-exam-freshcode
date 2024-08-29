@@ -1,64 +1,49 @@
-import http from '../interceptor';
+import api from '../interceptor';
 
-export const registerRequest = (data) => http.post('registration', data);
-export const loginRequest = (data) => http.post('login', data);
-export const getUser = () => http.post('getUser');
-export const updateContest = (data) => http.post('updateContest', data);
-export const setNewOffer = (data) => http.post('setNewOffer', data);
-export const setOfferStatus = (data) => http.post('setOfferStatus', data);
-export const downloadContestFile = (data) =>
-  http.get(`downloadFile/${data.fileName}`);
-export const payMent = (data) => http.post('pay', data.formData);
-export const changeMark = (data) => http.post('changeMark', data);
-export const getPreviewChat = () => http.post('getPreview');
-export const getDialog = (data) => http.post('getChat', data);
-export const dataForContest = (data) => http.post('dataForContest', data);
-export const cashOut = (data) => http.post('cashout', data);
-export const updateUser = (data) => http.post('updateUser', data);
-export const newMessage = (data) => http.post('newMessage', data);
-export const changeChatFavorite = (data) => http.post('favorite', data);
-export const changeChatBlock = (data) => http.post('blackList', data);
-export const getCatalogList = (data) => http.post('getCatalogs', data);
-export const addChatToCatalog = (data) =>
-  http.post('addNewChatToCatalog', data);
-export const createCatalog = (data) => http.post('createCatalog', data);
-export const deleteCatalog = (data) => http.post('deleteCatalog', data);
+// User-related requests
+export const registerRequest = (data) => api.post('registration', data);
+export const loginRequest = (data) => api.post('login', data);
+export const getUser = () => api.get('getUser');
+export const updateUser = (data) => api.put('updateUser', data);
+export const cashOut = (data) => api.post('cashout', data);
+
+// Contest-related requests
+export const updateContest = (data) => api.put('updateContest', data);
+export const getCustomersContests = ({ limit, offset, contestStatus }) =>
+  api.get('getCustomersContests', {
+    params: { limit, offset },
+    headers: { status: contestStatus },
+  });
+export const getActiveContests = (query) =>
+  api.get('getAllContests', { params: query });
+export const getContestById = (contestId) =>
+  api.get('getContestById', {
+    headers: { contestId },
+  });
+export const dataForContest = (params) => api.get('dataForContest', { params });
+export const changeMark = (data) => api.put('changeMark', data);
+
+// Offer-related requests
+export const setNewOffer = (data) => api.post('setNewOffer', data);
+export const setOfferStatus = (data) => api.put('setOfferStatus', data);
+
+// Chat-related requests
+export const getPreviewChat = () => api.get('getPreview');
+export const getDialog = (params) => api.get('getChat', { params });
+export const newMessage = (data) => api.post('newMessage', data);
+export const changeChatFavorite = (data) => api.put('favorite', data);
+export const changeChatBlock = (data) => api.put('blackList', data);
+export const getCatalogList = () => api.get('getCatalogs');
+export const addChatToCatalog = (data) => api.post('addNewChatToCatalog', data);
+export const createCatalog = (data) => api.post('createCatalog', data);
+export const deleteCatalog = (data) => api.delete('deleteCatalog', { data });
 export const removeChatFromCatalog = (data) =>
-  http.post('removeChatFromCatalog', data);
-export const changeCatalogName = (data) => http.post('updateNameCatalog', data);
-export const getCustomersContests = (data) =>
-  http.post(
-    'getCustomersContests',
-    { limit: data.limit, offset: data.offset },
-    {
-      headers: {
-        status: data.contestStatus,
-      },
-    }
-  );
+  api.delete('removeChatFromCatalog', { data });
+export const changeCatalogName = (data) => api.put('updateNameCatalog', data);
 
-export const getActiveContests = ({
-  offset,
-  limit,
-  typeIndex,
-  contestId,
-  industry,
-  awardSort,
-  ownEntries,
-}) =>
-  http.post('getAllContests', {
-    offset,
-    limit,
-    typeIndex,
-    contestId,
-    industry,
-    awardSort,
-    ownEntries,
-  });
+// File-related requests
+export const downloadContestFile = (fileName) =>
+  api.get(`downloadFile/${fileName}`);
 
-export const getContestById = (data) =>
-  http.get('getContestById', {
-    headers: {
-      contestId: data.contestId,
-    },
-  });
+// Payment-related requests
+export const payMent = (data) => api.post('pay', data.formData);

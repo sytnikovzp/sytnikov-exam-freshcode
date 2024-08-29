@@ -1,12 +1,12 @@
 const env = import.meta.env.MODE || 'development';
 
 const SERVER_CONFIG = {
-  IP: 'localhost',
+  HOST: 'localhost',
   PORT: env === 'production' ? 80 : 3000,
 };
 
-const BASE_URL = `http://${SERVER_CONFIG.IP}:${SERVER_CONFIG.PORT}/`;
-const PUBLIC_URL = `http://${SERVER_CONFIG.IP}:${SERVER_CONFIG.PORT}/public/images/`;
+const BASE_URL = `http://${SERVER_CONFIG.HOST}:${SERVER_CONFIG.PORT}/`;
+const PUBLIC_URL = `http://${SERVER_CONFIG.HOST}:${SERVER_CONFIG.PORT}/public/images/`;
 
 const AUTH_SLICE_NAME = 'auth';
 const BUNDLE_SLICE_NAME = 'bundle';
