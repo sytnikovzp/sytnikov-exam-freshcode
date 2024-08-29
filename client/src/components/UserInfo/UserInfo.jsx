@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { updateUser } from '../../store/slices/userSlice';
 import { changeEditModeOnUserProfile } from '../../store/slices/userProfileSlice';
 // =============================================
-import { IMAGE_PATHS, SERVER_CONFIG, USER_ROLES } from '../../constants';
+import { IMAGE_PATHS, PUBLIC_URL, USER_ROLES } from '../../constants';
 // =============================================
 import UpdateUserInfoForm from '../UpdateUserInfoForm/UpdateUserInfoForm';
 // =============================================
@@ -32,7 +32,7 @@ const UserInfo = (props) => {
             src={
               avatar === 'anon.png'
                 ? IMAGE_PATHS.ANONYM
-                : `${SERVER_CONFIG.PUBLIC_URL}${avatar}`
+                : `${PUBLIC_URL}${avatar}`
             }
             className={styles.avatar}
             alt="user"

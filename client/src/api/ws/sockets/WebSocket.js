@@ -1,12 +1,12 @@
 import socketIoClient from 'socket.io-client';
 // =============================================
-import { SERVER_CONFIG } from '../../../constants';
+import { BASE_URL } from '../../../constants';
 
 class WebSocket {
   constructor(dispatch, getState, room) {
     this.dispatch = dispatch;
     this.getState = getState;
-    this.socket = socketIoClient(`${SERVER_CONFIG.BASE_URL}${room}`, {
+    this.socket = socketIoClient(`${BASE_URL}${room}`, {
       origins: 'localhost:*',
     });
     this.listen();

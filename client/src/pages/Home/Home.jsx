@@ -2,10 +2,16 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // =============================================
-import { HEADER_ANIMATION_TEXT, IMAGE_PATHS } from '../../constants';
+import {
+  HEADER_ANIMATION_TEXT,
+  IMAGE_PATHS,
+  SLIDER_TYPES,
+  MAIN_SLIDER_IMAGES,
+  EXAMPLE_SLIDER_IMAGES,
+  FEEDBACK_SLIDER_IMAGES,
+} from '../../constants';
 // =============================================
 import SlideBar from '../../components/SlideBar/SlideBar';
-import carouselConstants from '../../carouselConstants';
 import Spinner from '../../components/Spinner/Spinner';
 // =============================================
 import styles from './Home.module.sass';
@@ -54,8 +60,8 @@ const Home = (props) => {
             </div>
             <div className={styles.greyContainer}>
               <SlideBar
-                images={carouselConstants.mainSliderImages}
-                carouselType={carouselConstants.MAIN_SLIDER}
+                images={MAIN_SLIDER_IMAGES}
+                carouselType={SLIDER_TYPES.MAIN}
               />
             </div>
             <div className={styles.container__description}>
@@ -239,8 +245,8 @@ const Home = (props) => {
               </p>
             </div>
             <SlideBar
-              images={carouselConstants.exampleSliderImages}
-              carouselType={carouselConstants.EXAMPLE_SLIDER}
+              images={EXAMPLE_SLIDER_IMAGES}
+              carouselType={SLIDER_TYPES.EXAMPLE}
             />
             <div className={styles.button}>
               <Link className={styles.button__link} to="/dashboard">
@@ -250,8 +256,8 @@ const Home = (props) => {
             <div className={styles.blueContainer}>
               <h2 className={styles.whiteUnderline}>What our customers say</h2>
               <SlideBar
-                images={carouselConstants.feedbackSliderImages}
-                carouselType={carouselConstants.FEEDBACK_SLIDER}
+                images={FEEDBACK_SLIDER_IMAGES}
+                carouselType={SLIDER_TYPES.FEEDBACK}
               />
             </div>
           </div>

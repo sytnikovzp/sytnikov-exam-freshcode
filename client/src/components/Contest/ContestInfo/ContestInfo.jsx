@@ -2,7 +2,7 @@ import {
   CONTEST_STATUS,
   USER_ROLES,
   CONTEST_TYPES,
-  SERVER_CONFIG,
+  PUBLIC_URL,
 } from '../../../constants';
 // =============================================
 import LogoContestSpecialInfo from './LogoContestSpecialInfo';
@@ -90,7 +90,7 @@ const ContestInfo = (props) => {
             <a
               target="_blank"
               className={styles.file}
-              href={`${SERVER_CONFIG.PUBLIC_URL}${fileName}`}
+              href={`${PUBLIC_URL}${fileName}`}
               download={originalFileName}
               rel="noreferrer"
             >

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // =============================================
 import { clearUserStore, getUser } from '../../store/slices/userSlice';
 // =============================================
-import { IMAGE_PATHS, SERVER_CONFIG, USER_ROLES } from '../../constants';
+import { IMAGE_PATHS, PUBLIC_URL, USER_ROLES } from '../../constants';
 // =============================================
 import withRouter from '../../hocs/withRouter';
 // =============================================
@@ -36,7 +36,7 @@ class Header extends React.Component {
               src={
                 this.props.data.avatar === 'anon.png'
                   ? IMAGE_PATHS.ANONYM
-                  : `${SERVER_CONFIG.PUBLIC_URL}${this.props.data.avatar}`
+                  : `${PUBLIC_URL}${this.props.data.avatar}`
               }
               alt="user"
             />

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 // =============================================
-import { IMAGE_PATHS, SERVER_CONFIG, CHAT_MODES } from '../../../../constants';
+import { IMAGE_PATHS, PUBLIC_URL, CHAT_MODES } from '../../../../constants';
 // =============================================
 import styles from './DialogBox.module.sass';
 
@@ -39,7 +39,7 @@ const DialogBox = (props) => {
         src={
           interlocutor.avatar === 'anon.png'
             ? IMAGE_PATHS.ANONYM
-            : `${SERVER_CONFIG.PUBLIC_URL}${interlocutor.avatar}`
+            : `${PUBLIC_URL}${interlocutor.avatar}`
         }
         alt="user"
       />

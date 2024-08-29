@@ -14,7 +14,7 @@ import {
 import {
   OFFER_STATUS,
   IMAGE_PATHS,
-  SERVER_CONFIG,
+  PUBLIC_URL,
   CONTEST_TYPES,
   USER_ROLES,
 } from '../../constants';
@@ -127,7 +127,7 @@ const OfferBox = (props) => {
               src={
                 avatar === 'anon.png'
                   ? IMAGE_PATHS.ANONYM
-                  : `${SERVER_CONFIG.PUBLIC_URL}${avatar}`
+                  : `${PUBLIC_URL}${avatar}`
               }
               alt="user"
             />
@@ -167,7 +167,7 @@ const OfferBox = (props) => {
                 })
               }
               className={styles.responseLogo}
-              src={`${SERVER_CONFIG.PUBLIC_URL}${data.fileName}`}
+              src={`${PUBLIC_URL}${data.fileName}`}
               alt="logo"
             />
           ) : (

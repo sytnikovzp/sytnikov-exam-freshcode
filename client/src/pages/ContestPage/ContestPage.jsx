@@ -17,7 +17,7 @@ import {
 import {
   CONTEST_STATUS,
   OFFER_STATUS,
-  SERVER_CONFIG,
+  PUBLIC_URL,
   USER_ROLES,
 } from '../../constants';
 // =============================================
@@ -148,7 +148,7 @@ class ContestPage extends React.Component {
         {/* <Chat/> */}
         {isShowOnFull && (
           <LightBox
-            mainSrc={`${SERVER_CONFIG.PUBLIC_URL}${imagePath}`}
+            mainSrc={`${PUBLIC_URL}${imagePath}`}
             onCloseRequest={() =>
               changeShowImage({ isShowOnFull: false, imagePath: null })
             }

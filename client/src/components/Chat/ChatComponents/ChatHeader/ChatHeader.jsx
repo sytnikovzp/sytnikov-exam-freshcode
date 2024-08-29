@@ -7,7 +7,7 @@ import {
   changeChatBlock,
 } from '../../../../store/slices/chatSlice';
 // =============================================
-import { IMAGE_PATHS, SERVER_CONFIG } from '../../../../constants';
+import { IMAGE_PATHS, PUBLIC_URL } from '../../../../constants';
 // =============================================
 import styles from './ChatHeader.module.sass';
 
@@ -48,7 +48,7 @@ const ChatHeader = (props) => {
             src={
               avatar === 'anon.png'
                 ? IMAGE_PATHS.ANONYM
-                : `${SERVER_CONFIG.PUBLIC_URL}${avatar}`
+                : `${PUBLIC_URL}${avatar}`
             }
             alt="user"
           />

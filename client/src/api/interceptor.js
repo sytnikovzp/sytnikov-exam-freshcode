@@ -1,11 +1,11 @@
 import axios from 'axios';
 // =============================================
-import { SERVER_CONFIG, TOKEN_CONFIG } from '../constants';
+import { BASE_URL, TOKEN_CONFIG } from '../constants';
 // =============================================
 import history from '../browserHistory';
 
 const instance = axios.create({
-  baseURL: SERVER_CONFIG.BASE_URL,
+  baseURL: BASE_URL,
 });
 
 instance.interceptors.request.use(
