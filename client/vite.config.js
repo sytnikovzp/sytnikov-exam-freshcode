@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
   console.log('Loaded from .env variables:', env);
 
   return {
-    envPrefix: 'CLIENT_',
+    envPrefix: 'SH_',
     plugins: [react(), envCompatible({ path: '../' })],
     server: {
       port: parseInt(env.VITE_PORT) || 5000,

@@ -1,10 +1,14 @@
 const env = import.meta.env.MODE || 'development';
 
-console.log('All env variables:', import.meta.env);
+const SRV_HOST = import.meta.env.SH_SERVER_HOST;
+const SRV_PORT = parseInt(import.meta.env.SH_SERVER_PORT);
+
+const A_TOKEN = import.meta.env.SH_ACCESS_TOKEN;
+const R_TOKEN = import.meta.env.SH_REFRESH_TOKEN;
 
 const SERVER_CONFIG = {
-  HOST: 'localhost',
-  PORT: env === 'production' ? 80 : 3000,
+  HOST: SRV_HOST,
+  PORT: env === 'production' ? 80 : SRV_PORT,
 };
 
 const BASE_URL = `http://${SERVER_CONFIG.HOST}:${SERVER_CONFIG.PORT}/api/`;
@@ -23,8 +27,8 @@ const USER_PROFILE_SLICE_NAME = 'userProfile';
 const USER_SLICE_NAME = 'user';
 
 const TOKEN_CONFIG = {
-  ACCESS_TOKEN: 'accessToken',
-  REFRESH_TOKEN: 'refreshToken',
+  ACCESS_TOKEN: A_TOKEN,
+  REFRESH_TOKEN: R_TOKEN,
 };
 
 const USER_ROLES = {
