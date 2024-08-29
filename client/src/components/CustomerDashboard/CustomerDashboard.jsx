@@ -42,8 +42,8 @@ class CustomerDashboard extends React.Component {
     }
   }
 
-  goToExtended = (contest_id) => {
-    this.props.navigate(`/contest/${contest_id}`);
+  goToExtended = (contestId) => {
+    this.props.navigate(`/contest/${contestId}`);
   };
 
   setContestList = () => {

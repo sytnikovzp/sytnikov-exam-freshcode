@@ -5,7 +5,7 @@ const SERVER_CONFIG = {
   PORT: env === 'production' ? 80 : 3000,
 };
 
-const BASE_URL = `http://${SERVER_CONFIG.HOST}:${SERVER_CONFIG.PORT}/`;
+const BASE_URL = `http://${SERVER_CONFIG.HOST}:${SERVER_CONFIG.PORT}/api/`;
 const PUBLIC_URL = `http://${SERVER_CONFIG.HOST}:${SERVER_CONFIG.PORT}/public/images/`;
 
 const AUTH_SLICE_NAME = 'auth';
