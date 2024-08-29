@@ -3,23 +3,23 @@ import { Link } from 'react-router-dom';
 // =============================================
 import { IMAGE_PATHS } from '../../constants';
 
-const Logo = ({ to, ...props }) => (
+const Logotype = ({ to, ...props }) => (
   <Link to={to}>
     <img {...props} />
   </Link>
 );
 
-Logo.propTypes = {
+Logotype.propTypes = {
   className: PropTypes.string,
   to: PropTypes.string,
   src: PropTypes.string,
   alt: PropTypes.string,
 };
 
-Logo.defaultProps = {
+Logotype.defaultProps = {
   to: '/',
   src: `${IMAGE_PATHS.STATIC}blue-logo.png`,
   alt: 'logo',
 };
 
-export default Logo;
+export default Logotype;
