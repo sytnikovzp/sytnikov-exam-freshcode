@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import { AUTH_MODE } from '../../constants';
+import { AUTH_SLICE_NAME, AUTH_MODE } from '../../constants';
 // =============================================
 import * as restController from '../../api/rest/restController';
 // =============================================
@@ -10,8 +10,6 @@ import {
   fulfilledReducer,
   rejectedReducer,
 } from '../../utils/store';
-
-const AUTH_SLICE_NAME = 'auth';
 
 const initialState = {
   isFetching: false,

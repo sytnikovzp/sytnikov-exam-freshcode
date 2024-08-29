@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-const CONTEST_SAVING_SLICE_NAME = 'contestCreation';
+// =============================================
+import { CONTEST_CREATION_SLICE_NAME } from '../../constants';
 
 const initialState = {
   contests: {},
@@ -17,7 +17,7 @@ const reducers = {
 };
 
 const contestSavingSlice = createSlice({
-  name: CONTEST_SAVING_SLICE_NAME,
+  name: CONTEST_CREATION_SLICE_NAME,
   initialState,
   reducers,
 });

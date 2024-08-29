@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
+import {
+  CONTESTS_SLICE_NAME,
+  CONTEST_STATUS,
+  USER_ROLES,
+} from '../../constants';
+// =============================================
 import * as restController from '../../api/rest/restController';
 // =============================================
-import { CONTEST_STATUS, USER_ROLES } from '../../constants';
-// =============================================
 import { decorateAsyncThunk, pendingReducer } from '../../utils/store';
-
-const CONTESTS_SLICE_NAME = 'contests';
 
 const initialState = {
   isFetching: true,

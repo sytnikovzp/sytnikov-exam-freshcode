@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // =============================================
+import { USER_SLICE_NAME } from '../../constants';
+// =============================================
 import * as restController from '../../api/rest/restController';
 import { controller } from '../../api/ws/socketController';
 // =============================================
-import { rejectedReducer } from '../../utils/store';
-// =============================================
 import { changeEditModeOnUserProfile } from './userProfileSlice';
-
-const USER_SLICE_NAME = 'user';
+// =============================================
+import { rejectedReducer } from '../../utils/store';
 
 const initialState = {
   isFetching: true,

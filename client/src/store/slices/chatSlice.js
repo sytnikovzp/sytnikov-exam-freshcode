@@ -1,17 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { isEqual, remove } from 'lodash';
 // =============================================
-import * as restController from '../../api/rest/restController';
+import {
+  CHAT_SLICE_NAME,
+  CHAT_MODES,
+  CHAT_ACTION_TYPES,
+} from '../../constants';
 // =============================================
-import { CHAT_MODES, CHAT_ACTION_TYPES } from '../../constants';
+import * as restController from '../../api/rest/restController';
 // =============================================
 import {
   decorateAsyncThunk,
   createExtraReducers,
   rejectedReducer,
 } from '../../utils/store';
-
-const CHAT_SLICE_NAME = 'chat';
 
 const initialState = {
   isFetching: true,

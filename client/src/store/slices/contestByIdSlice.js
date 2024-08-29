@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import { OFFER_STATUS } from '../../constants';
+import { CONTEST_BY_ID_SLICE_NAME, OFFER_STATUS } from '../../constants';
 // =============================================
 import * as restController from '../../api/rest/restController';
 // =============================================
@@ -9,8 +9,6 @@ import {
   rejectedReducer,
   createExtraReducers,
 } from '../../utils/store';
-
-const CONTEST_BY_ID_SLICE_NAME = 'getContestById';
 
 const initialState = {
   isFetching: true,

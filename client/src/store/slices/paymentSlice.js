@@ -1,20 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
+import { PAYMENT_SLICE_NAME, UI_MODES } from '../../constants';
+// =============================================
 import * as restController from '../../api/rest/restController';
 // =============================================
 import { clearContestStore } from './contestCreationSlice';
 import { changeProfileViewMode } from './userProfileSlice';
 import { updateUser } from './userSlice';
 // =============================================
-import { UI_MODES } from '../../constants';
-// =============================================
 import {
   decorateAsyncThunk,
   pendingReducer,
   rejectedReducer,
 } from '../../utils/store';
-
-const PAYMENT_SLICE_NAME = 'payment';
 
 const initialState = {
   isFetching: false,

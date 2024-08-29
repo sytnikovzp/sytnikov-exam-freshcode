@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import { updateStoreAfterUpdateContest } from './contestByIdSlice';
+import { CONTEST_UPDATION_SLICE_NAME } from '../../constants';
 // =============================================
 import * as restController from '../../api/rest/restController';
+// =============================================
+import { updateStoreAfterUpdateContest } from './contestByIdSlice';
 // =============================================
 import {
   decorateAsyncThunk,
@@ -10,8 +12,6 @@ import {
   fulfilledReducer,
   rejectedReducer,
 } from '../../utils/store';
-
-const CONTEST_UPDATION_SLICE_NAME = 'contestUpdation';
 
 const initialState = {
   isFetching: true,

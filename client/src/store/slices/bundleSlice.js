@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-const BUNDLE_SLICE_NAME = 'bundle';
+// =============================================
+import { BUNDLE_SLICE_NAME } from '../../constants';
 
 const initialState = {
   bundle: null,
