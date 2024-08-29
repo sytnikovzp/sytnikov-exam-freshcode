@@ -29,7 +29,8 @@ module.exports = [
       sequelize,
     },
     rules: {
-      'comma-dangle': ['warn', 'always-multiline'],
+      'camelcase': ['warn', { properties: 'always' }],
+      'comma-dangle': ['off', 'always-multiline'],
       'comma-spacing': [
         'warn',
         {

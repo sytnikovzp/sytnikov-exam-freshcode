@@ -1,5 +1,7 @@
 const env = import.meta.env.MODE || 'development';
 
+console.log('All env variables:', import.meta.env);
+
 const SERVER_CONFIG = {
   HOST: 'localhost',
   PORT: env === 'production' ? 80 : 3000,
