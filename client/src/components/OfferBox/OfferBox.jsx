@@ -11,13 +11,7 @@ import {
   changeShowImage,
 } from '../../store/slices/contestByIdSlice';
 // =============================================
-import {
-  OFFER_STATUS,
-  IMAGE_PATHS,
-  PUBLIC_URL,
-  CONTEST_TYPES,
-  USER_ROLES,
-} from '../../constants';
+import CONSTANTS from '../../constants';
 // =============================================
 import withRouter from '../../hocs/withRouter';
 // =============================================
@@ -91,14 +85,14 @@ const OfferBox = (props) => {
 
   const offerStatus = () => {
     const { status } = props.data;
-    if (status === OFFER_STATUS.REJECTED) {
+    if (status === CONSTANTS.OFFER_STATUS.REJECTED) {
       return (
         <i
           className={classNames('fas fa-times-circle reject', styles.reject)}
         />
       );
     }
-    if (status === OFFER_STATUS.WON) {
+    if (status === CONSTANTS.OFFER_STATUS.WON) {
       return (
         <i
           className={classNames('fas fa-check-circle resolve', styles.resolve)}
@@ -126,8 +120,8 @@ const OfferBox = (props) => {
             <img
               src={
                 avatar === 'anon.png'
-                  ? IMAGE_PATHS.ANONYM
-                  : `${PUBLIC_URL}${avatar}`
+                  ? CONSTANTS.IMAGE_PATHS.ANONYM
+                  : `${CONSTANTS.PUBLIC_URL}${avatar}`
               }
               alt="user"
             />
@@ -142,14 +136,20 @@ const OfferBox = (props) => {
               initialRating={rating}
               fractions={2}
               fullSymbol={
-                <img src={`${IMAGE_PATHS.STATIC}star.png`} alt="star" />
+                <img
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star.png`}
+                  alt="star"
+                />
               }
               placeholderSymbol={
-                <img src={`${IMAGE_PATHS.STATIC}star.png`} alt="star" />
+                <img
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star.png`}
+                  alt="star"
+                />
               }
               emptySymbol={
                 <img
-                  src={`${IMAGE_PATHS.STATIC}star-outline.png`}
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star-outline.png`}
                   alt="star-outline"
                 />
               }
@@ -158,7 +158,7 @@ const OfferBox = (props) => {
           </div>
         </div>
         <div className={styles.responseConainer}>
-          {contestType === CONTEST_TYPES.LOGO ? (
+          {contestType === CONSTANTS.CONTEST_TYPES.LOGO ? (
             <img
               onClick={() =>
                 props.changeShowImage({
@@ -167,7 +167,7 @@ const OfferBox = (props) => {
                 })
               }
               className={styles.responseLogo}
-              src={`${PUBLIC_URL}${data.fileName}`}
+              src={`${CONSTANTS.PUBLIC_URL}${data.fileName}`}
               alt="logo"
             />
           ) : (
@@ -177,20 +177,29 @@ const OfferBox = (props) => {
             <Rating
               fractions={2}
               fullSymbol={
-                <img src={`${IMAGE_PATHS.STATIC}star.png`} alt="star" />
+                <img
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star.png`}
+                  alt="star"
+                />
               }
               placeholderSymbol={
-                <img src={`${IMAGE_PATHS.STATIC}star.png`} alt="star" />
+                <img
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star.png`}
+                  alt="star"
+                />
               }
               emptySymbol={
-                <img src={`${IMAGE_PATHS.STATIC}star-outline.png`} alt="star" />
+                <img
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star-outline.png`}
+                  alt="star"
+                />
               }
               onClick={changeMark}
               placeholderRating={data.mark}
             />
           )}
         </div>
-        {role !== USER_ROLES.CREATOR && (
+        {role !== CONSTANTS.USER_ROLES.CREATOR && (
           <i onClick={goChat} className="fas fa-comments" />
         )}
       </div>

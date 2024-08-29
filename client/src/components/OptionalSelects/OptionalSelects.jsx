@@ -1,4 +1,4 @@
-import { CONTEST_TYPES } from '../../constants';
+import CONSTANTS from '../../constants';
 // =============================================
 import SelectInput from '../SelectInput/SelectInput';
 import FormInput from '../FormInput/FormInput';
@@ -11,7 +11,7 @@ const OptionalSelects = (props) => {
     return <Spinner />;
   }
   switch (props.contestType) {
-    case CONTEST_TYPES.NAME: {
+    case CONSTANTS.CONTEST_TYPES.NAME: {
       return (
         <>
           <SelectInput
@@ -39,7 +39,7 @@ const OptionalSelects = (props) => {
         </>
       );
     }
-    case CONTEST_TYPES.LOGO: {
+    case CONSTANTS.CONTEST_TYPES.LOGO: {
       return (
         <>
           <div className={styles.inputContainer}>
@@ -71,7 +71,7 @@ const OptionalSelects = (props) => {
         </>
       );
     }
-    case CONTEST_TYPES.TAGLINE: {
+    case CONSTANTS.CONTEST_TYPES.TAGLINE: {
       return (
         <>
           <div className={styles.inputContainer}>

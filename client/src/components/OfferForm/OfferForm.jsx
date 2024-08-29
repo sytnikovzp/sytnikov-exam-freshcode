@@ -6,7 +6,7 @@ import {
   clearAddOfferError,
 } from '../../store/slices/contestByIdSlice';
 // =============================================
-import { CONTEST_TYPES } from '../../constants';
+import CONSTANTS from '../../constants';
 // =============================================
 import Schems from '../../utils/validators/validationSchems';
 // =============================================
@@ -18,7 +18,7 @@ import styles from './OfferForm.module.sass';
 
 const OfferForm = (props) => {
   const renderOfferInput = () => {
-    if (props.contestType === CONTEST_TYPES.LOGO) {
+    if (props.contestType === CONSTANTS.CONTEST_TYPES.LOGO) {
       return (
         <ImageUpload
           name="offerData"
@@ -59,7 +59,7 @@ const OfferForm = (props) => {
 
   const { valid, addOfferError, clearOfferError } = props;
   const validationSchema =
-    props.contestType === CONTEST_TYPES.LOGO
+    props.contestType === CONSTANTS.CONTEST_TYPES.LOGO
       ? Schems.LogoOfferSchema
       : Schems.TextOfferSchema;
   return (

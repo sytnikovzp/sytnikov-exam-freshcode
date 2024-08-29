@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import { PAYMENT_SLICE_NAME, UI_MODES } from '../../constants';
+import CONSTANTS from '../../constants';
 // =============================================
 import restController from '../../api/rest/restController';
 // =============================================
@@ -21,7 +21,7 @@ const initialState = {
 };
 
 export const pay = decorateAsyncThunk({
-  key: `${PAYMENT_SLICE_NAME}/pay`,
+  key: `${CONSTANTS.PAYMENT_SLICE_NAME}/pay`,
   thunk: async ({ data, navigate }, { dispatch }) => {
     await restController.payMent(data);
     navigate('/dashboard', { replace: true });
@@ -30,11 +30,11 @@ export const pay = decorateAsyncThunk({
 });
 
 export const cashOut = decorateAsyncThunk({
-  key: `${PAYMENT_SLICE_NAME}/cashOut`,
+  key: `${CONSTANTS.PAYMENT_SLICE_NAME}/cashOut`,
   thunk: async (payload, { dispatch }) => {
     const { data } = await restController.cashOut(payload);
     dispatch(updateUser.fulfilled(data));
-    dispatch(changeProfileViewMode(UI_MODES.USER_INFO));
+    dispatch(changeProfileViewMode(CONSTANTS.UI_MODES.USER_INFO));
   },
 });
 
@@ -56,7 +56,7 @@ const extraReducers = (builder) => {
 };
 
 const paymentSlice = createSlice({
-  name: PAYMENT_SLICE_NAME,
+  name: CONSTANTS.PAYMENT_SLICE_NAME,
   initialState,
   reducers,
   extraReducers,

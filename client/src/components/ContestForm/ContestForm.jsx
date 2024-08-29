@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // =============================================
 import { getDataForContest } from '../../store/slices/dataForContestSlice';
 // =============================================
-import { CONTEST_TYPES } from '../../constants';
+import CONSTANTS from '../../constants';
 // =============================================
 import withRouter from '../../hocs/withRouter';
 // =============================================
@@ -21,15 +21,15 @@ import OptionalSelects from '../OptionalSelects/OptionalSelects';
 import styles from './ContestForm.module.sass';
 
 const variableOptions = {
-  [CONTEST_TYPES.NAME]: {
+  [CONSTANTS.CONTEST_TYPES.NAME]: {
     styleName: '',
     typeOfName: '',
   },
-  [CONTEST_TYPES.LOGO]: {
+  [CONSTANTS.CONTEST_TYPES.LOGO]: {
     nameVenture: '',
     brandStyle: '',
   },
-  [CONTEST_TYPES.TAGLINE]: {
+  [CONSTANTS.CONTEST_TYPES.TAGLINE]: {
     nameVenture: '',
     typeOfTagline: '',
   },
@@ -39,18 +39,18 @@ class ContestForm extends React.Component {
   getPreference = () => {
     const { contestType } = this.props;
     switch (contestType) {
-      case CONTEST_TYPES.NAME: {
+      case CONSTANTS.CONTEST_TYPES.NAME: {
         this.props.getData({
           characteristic1: 'nameStyle',
           characteristic2: 'typeOfName',
         });
         break;
       }
-      case CONTEST_TYPES.TAGLINE: {
+      case CONSTANTS.CONTEST_TYPES.TAGLINE: {
         this.props.getData({ characteristic1: 'typeOfTagline' });
         break;
       }
-      case CONTEST_TYPES.LOGO: {
+      case CONSTANTS.CONTEST_TYPES.LOGO: {
         this.props.getData({ characteristic1: 'brandStyle' });
         break;
       }

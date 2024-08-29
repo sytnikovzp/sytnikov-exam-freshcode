@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 // =============================================
-import { IMAGE_PATHS, PUBLIC_URL, CHAT_MODES } from '../../../../constants';
+import CONSTANTS from '../../../../constants';
 // =============================================
 import styles from './DialogBox.module.sass';
 
@@ -38,8 +38,8 @@ const DialogBox = (props) => {
       <img
         src={
           interlocutor.avatar === 'anon.png'
-            ? IMAGE_PATHS.ANONYM
-            : `${PUBLIC_URL}${interlocutor.avatar}`
+            ? CONSTANTS.IMAGE_PATHS.ANONYM
+            : `${CONSTANTS.PUBLIC_URL}${interlocutor.avatar}`
         }
         alt="user"
       />
@@ -85,8 +85,8 @@ const DialogBox = (props) => {
           <i
             onClick={(event) => catalogOperation(event, _id)}
             className={classNames({
-              'far fa-plus-square': chatMode !== CHAT_MODES.CATALOG,
-              'fas fa-minus-circle': chatMode === CHAT_MODES.CATALOG,
+              'far fa-plus-square': chatMode !== CONSTANTS.CHAT_MODES.CATALOG,
+              'fas fa-minus-circle': chatMode === CONSTANTS.CHAT_MODES.CATALOG,
             })}
           />
         </div>

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { cashOut, clearPaymentStore } from '../../store/slices/paymentSlice';
 import { changeProfileViewMode } from '../../store/slices/userProfileSlice';
 // =============================================
-import { UI_MODES, USER_ROLES } from '../../constants';
+import CONSTANTS from '../../constants';
 // =============================================
 import UserInfo from '../../components/UserInfo/UserInfo';
 import PayForm from '../../components/PayForm/PayForm';
@@ -39,25 +39,31 @@ const UserProfile = (props) => {
           <div className={styles.optionsContainer}>
             <div
               className={classNames(styles.optionContainer, {
-                [styles.currentOption]: profileViewMode === UI_MODES.USER_INFO,
+                [styles.currentOption]:
+                  profileViewMode === CONSTANTS.UI_MODES.USER_INFO,
               })}
-              onClick={() => changeProfileViewMode(UI_MODES.USER_INFO)}
+              onClick={() =>
+                changeProfileViewMode(CONSTANTS.UI_MODES.USER_INFO)
+              }
             >
               UserInfo
             </div>
-            {role === USER_ROLES.CREATOR && (
+            {role === CONSTANTS.USER_ROLES.CREATOR && (
               <div
                 className={classNames(styles.optionContainer, {
-                  [styles.currentOption]: profileViewMode === UI_MODES.CASHOUT,
+                  [styles.currentOption]:
+                    profileViewMode === CONSTANTS.UI_MODES.CASHOUT,
                 })}
-                onClick={() => changeProfileViewMode(UI_MODES.CASHOUT)}
+                onClick={() =>
+                  changeProfileViewMode(CONSTANTS.UI_MODES.CASHOUT)
+                }
               >
                 Cashout
               </div>
             )}
           </div>
         </div>
-        {profileViewMode === UI_MODES.USER_INFO ? (
+        {profileViewMode === CONSTANTS.UI_MODES.USER_INFO ? (
           <UserInfo />
         ) : (
           <div className={styles.container}>

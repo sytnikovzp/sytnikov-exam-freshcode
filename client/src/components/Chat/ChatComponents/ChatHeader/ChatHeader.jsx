@@ -7,7 +7,7 @@ import {
   changeChatBlock,
 } from '../../../../store/slices/chatSlice';
 // =============================================
-import { IMAGE_PATHS, PUBLIC_URL } from '../../../../constants';
+import CONSTANTS from '../../../../constants';
 // =============================================
 import styles from './ChatHeader.module.sass';
 
@@ -40,15 +40,18 @@ const ChatHeader = (props) => {
         className={styles.buttonContainer}
         onClick={() => backToDialogList()}
       >
-        <img src={`${IMAGE_PATHS.STATIC}arrow-left-thick.png`} alt="back" />
+        <img
+          src={`${CONSTANTS.IMAGE_PATHS.STATIC}arrow-left-thick.png`}
+          alt="back"
+        />
       </div>
       <div className={styles.infoContainer}>
         <div>
           <img
             src={
               avatar === 'anon.png'
-                ? IMAGE_PATHS.ANONYM
-                : `${PUBLIC_URL}${avatar}`
+                ? CONSTANTS.IMAGE_PATHS.ANONYM
+                : `${CONSTANTS.PUBLIC_URL}${avatar}`
             }
             alt="user"
           />

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import moment from 'moment';
 // =============================================
-import { IMAGE_PATHS, PUBLIC_URL } from '../../constants';
+import CONSTANTS from '../../constants';
 // =============================================
 import styles from './ContestSideBar.module.sass';
 
@@ -25,19 +25,28 @@ const ContestSideBar = (props) => {
         <div className={styles.contestInfo}>
           <div className={styles.awardAndTimeContainer}>
             <div className={styles.prizeContainer}>
-              <img src={`${IMAGE_PATHS.STATIC}big-diamond.png`} alt="diamond" />
+              <img
+                src={`${CONSTANTS.IMAGE_PATHS.STATIC}big-diamond.png`}
+                alt="diamond"
+              />
               <span>{`$ ${prize}`}</span>
             </div>
             <div className={styles.timeContainer}>
               <div className={styles.timeDesc}>
-                <img src={`${IMAGE_PATHS.STATIC}clock.png`} alt="clock" />
+                <img
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}clock.png`}
+                  alt="clock"
+                />
                 <span>Going</span>
               </div>
               <span className={styles.time}>{getTimeStr()}</span>
             </div>
             <div className={styles.guaranteedPrize}>
               <div>
-                <img src={`${IMAGE_PATHS.STATIC}smallCheck.png`} alt="check" />
+                <img
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}smallCheck.png`}
+                  alt="check"
+                />
               </div>
               <span>Guaranteed prize</span>
             </div>
@@ -59,8 +68,8 @@ const ContestSideBar = (props) => {
               <img
                 src={
                   User.avatar === 'anon.png'
-                    ? IMAGE_PATHS.ANONYM
-                    : `${PUBLIC_URL}${User.avatar}`
+                    ? CONSTANTS.IMAGE_PATHS.ANONYM
+                    : `${CONSTANTS.PUBLIC_URL}${User.avatar}`
                 }
                 alt="user"
               />

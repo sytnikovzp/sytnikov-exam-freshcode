@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 // =============================================
-import { IMAGE_PATHS } from '../../../constants';
+import CONSTANTS from '../../../constants';
 // =============================================
 import Logotype from '../../Logotype/Logotype';
 // =============================================
@@ -15,7 +15,10 @@ const AuthHeader = () => {
     <div className={styles.container}>
       <div className={styles.loginContainer}>
         <div className={styles.headerAuthPage}>
-          <Logotype src={`${IMAGE_PATHS.STATIC}logo.png`} alt="logo" />
+          <Logotype
+            src={`${CONSTANTS.IMAGE_PATHS.STATIC}logo.png`}
+            alt="logo"
+          />
           <div className={styles.linkAuthContainer}>
             <Link
               to={isLoginPage ? '/registration' : '/login'}

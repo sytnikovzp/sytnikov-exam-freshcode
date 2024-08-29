@@ -8,7 +8,7 @@ import {
   getCatalogList,
 } from '../../../../store/slices/chatSlice';
 // =============================================
-import { CHAT_ACTION_TYPES } from '../../../../constants';
+import CONSTANTS from '../../../../constants';
 // =============================================
 import AddToCatalog from '../AddToCatalog/AddToCatalog';
 import CreateCatalog from '../CreateCatalog/CreateCatalog';
@@ -40,13 +40,13 @@ class CatalogCreation extends React.Component {
               <span
                 onClick={() =>
                   changeTypeOfChatAdding(
-                    CHAT_ACTION_TYPES.ADD_CHAT_TO_OLD_CATALOG
+                    CONSTANTS.CHAT_ACTION_TYPES.ADD_CHAT_TO_OLD_CATALOG
                   )
                 }
                 className={classNames({
                   [styles.active]:
                     catalogCreationMode ===
-                    CHAT_ACTION_TYPES.ADD_CHAT_TO_OLD_CATALOG,
+                    CONSTANTS.CHAT_ACTION_TYPES.ADD_CHAT_TO_OLD_CATALOG,
                 })}
               >
                 Old
@@ -54,20 +54,20 @@ class CatalogCreation extends React.Component {
               <span
                 onClick={() =>
                   changeTypeOfChatAdding(
-                    CHAT_ACTION_TYPES.CREATE_NEW_CATALOG_AND_ADD_CHAT
+                    CONSTANTS.CHAT_ACTION_TYPES.CREATE_NEW_CATALOG_AND_ADD_CHAT
                   )
                 }
                 className={classNames({
                   [styles.active]:
                     catalogCreationMode ===
-                    CHAT_ACTION_TYPES.CREATE_NEW_CATALOG_AND_ADD_CHAT,
+                    CONSTANTS.CHAT_ACTION_TYPES.CREATE_NEW_CATALOG_AND_ADD_CHAT,
                 })}
               >
                 New
               </span>
             </div>
             {catalogCreationMode ===
-            CHAT_ACTION_TYPES.CREATE_NEW_CATALOG_AND_ADD_CHAT ? (
+            CONSTANTS.CHAT_ACTION_TYPES.CREATE_NEW_CATALOG_AND_ADD_CHAT ? (
               <CreateCatalog />
             ) : (
               <AddToCatalog />

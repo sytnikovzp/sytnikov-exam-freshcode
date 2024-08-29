@@ -2,14 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // =============================================
-import {
-  HEADER_ANIMATION_TEXT,
-  IMAGE_PATHS,
-  SLIDER_TYPES,
-  MAIN_SLIDER_IMAGES,
-  EXAMPLE_SLIDER_IMAGES,
-  FEEDBACK_SLIDER_IMAGES,
-} from '../../constants';
+import CONSTANTS from '../../constants';
 // =============================================
 import SlideBar from '../../components/SlideBar/SlideBar';
 import Spinner from '../../components/Spinner/Spinner';
@@ -33,7 +26,10 @@ const Home = (props) => {
   });
 
   const { isFetching } = props;
-  const text = HEADER_ANIMATION_TEXT[index % HEADER_ANIMATION_TEXT.length];
+  const text =
+    CONSTANTS.HEADER_ANIMATION_TEXT[
+      index % CONSTANTS.HEADER_ANIMATION_TEXT.length
+    ];
   return (
     <>
       {isFetching ? (
@@ -60,8 +56,8 @@ const Home = (props) => {
             </div>
             <div className={styles.greyContainer}>
               <SlideBar
-                images={MAIN_SLIDER_IMAGES}
-                carouselType={SLIDER_TYPES.MAIN}
+                images={CONSTANTS.MAIN_SLIDER_IMAGES}
+                carouselType={CONSTANTS.SLIDER_TYPES.MAIN}
               />
             </div>
             <div className={styles.container__description}>
@@ -69,7 +65,7 @@ const Home = (props) => {
               <div className={styles.cardContainer}>
                 <div className={styles.card}>
                   <img
-                    src={`${IMAGE_PATHS.STATIC}more-benifits-world-icon.png`}
+                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}more-benifits-world-icon.png`}
                     alt="globe"
                   />
                   <h3>Largest Naming Community</h3>
@@ -83,7 +79,7 @@ const Home = (props) => {
                 </div>
                 <div className={styles.card}>
                   <img
-                    src={`${IMAGE_PATHS.STATIC}more-benifits-high-quality-icon.png`}
+                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}more-benifits-high-quality-icon.png`}
                     alt="desktop"
                   />
                   <h3>High Quality & Collaboration</h3>
@@ -96,7 +92,7 @@ const Home = (props) => {
                 </div>
                 <div className={styles.card}>
                   <img
-                    src={`${IMAGE_PATHS.STATIC}more-benifits-trademark-icon.png`}
+                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}more-benifits-trademark-icon.png`}
                     alt="cards"
                   />
                   <h3>Agency-Level Features</h3>
@@ -114,31 +110,31 @@ const Home = (props) => {
               <div className={styles.adv}>
                 <div className={styles.images}>
                   <img
-                    src={`${IMAGE_PATHS.STATIC}sponsors/Forbes-inactive.png`}
+                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}sponsors/Forbes-inactive.png`}
                     alt="forbes"
                   />
                   <img
-                    src={`${IMAGE_PATHS.STATIC}sponsors/Forbes-active.png`}
+                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}sponsors/Forbes-active.png`}
                     alt="forbes"
                   />
                 </div>
                 <div className={styles.images}>
                   <img
-                    src={`${IMAGE_PATHS.STATIC}sponsors/the_next_web_inactive.png`}
+                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}sponsors/the_next_web_inactive.png`}
                     alt="web"
                   />
                   <img
-                    src={`${IMAGE_PATHS.STATIC}sponsors/the_next_web_active.png`}
+                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}sponsors/the_next_web_active.png`}
                     alt="web"
                   />
                 </div>
                 <div className={styles.images}>
                   <img
-                    src={`${IMAGE_PATHS.STATIC}sponsors/mashable-inactive.png`}
+                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}sponsors/mashable-inactive.png`}
                     alt="mashable"
                   />
                   <img
-                    src={`${IMAGE_PATHS.STATIC}sponsors/mashable-active.png`}
+                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}sponsors/mashable-active.png`}
                     alt="mashable"
                   />
                 </div>
@@ -179,7 +175,7 @@ const Home = (props) => {
                   </p>
                 </div>
                 <img
-                  src={`${IMAGE_PATHS.STATIC}gif/1-compressed.gif`}
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}gif/1-compressed.gif`}
                   alt="compressed"
                 />
               </div>
@@ -187,7 +183,7 @@ const Home = (props) => {
             <div className={styles.greenContainer}>
               <div className={styles.step}>
                 <img
-                  src={`${IMAGE_PATHS.STATIC}gif/2-compressed-new.gif`}
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}gif/2-compressed-new.gif`}
                   alt="compressed"
                 />
                 <div className={styles.greenStep}>
@@ -230,7 +226,7 @@ const Home = (props) => {
                   </p>
                 </div>
                 <img
-                  src={`${IMAGE_PATHS.STATIC}gif/3-compressed.gif`}
+                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}gif/3-compressed.gif`}
                   alt="compressed"
                 />
               </div>
@@ -245,8 +241,8 @@ const Home = (props) => {
               </p>
             </div>
             <SlideBar
-              images={EXAMPLE_SLIDER_IMAGES}
-              carouselType={SLIDER_TYPES.EXAMPLE}
+              images={CONSTANTS.EXAMPLE_SLIDER_IMAGES}
+              carouselType={CONSTANTS.SLIDER_TYPES.EXAMPLE}
             />
             <div className={styles.button}>
               <Link className={styles.button__link} to="/dashboard">
@@ -256,8 +252,8 @@ const Home = (props) => {
             <div className={styles.blueContainer}>
               <h2 className={styles.whiteUnderline}>What our customers say</h2>
               <SlideBar
-                images={FEEDBACK_SLIDER_IMAGES}
-                carouselType={SLIDER_TYPES.FEEDBACK}
+                images={CONSTANTS.FEEDBACK_SLIDER_IMAGES}
+                carouselType={CONSTANTS.SLIDER_TYPES.FEEDBACK}
               />
             </div>
           </div>

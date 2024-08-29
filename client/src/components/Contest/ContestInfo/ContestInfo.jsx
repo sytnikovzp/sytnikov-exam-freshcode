@@ -1,9 +1,4 @@
-import {
-  CONTEST_STATUS,
-  USER_ROLES,
-  CONTEST_TYPES,
-  PUBLIC_URL,
-} from '../../../constants';
+import CONSTANTS from '../../../constants';
 // =============================================
 import LogoContestSpecialInfo from './LogoContestSpecialInfo';
 import NameContestSpecialInfo from './NameContestSpecialInfo';
@@ -36,15 +31,16 @@ const ContestInfo = (props) => {
             <span className={styles.label}>Contest Type</span>
             <span className={styles.data}>{contestType}</span>
           </div>
-          {User.id === userId && status !== CONTEST_STATUS.FINISHED && (
-            <div
-              onClick={() => changeEditContest(true)}
-              className={styles.editBtn}
-            >
-              Edit
-            </div>
-          )}
-          {role !== USER_ROLES.CUSTOMER && (
+          {User.id === userId &&
+            status !== CONSTANTS.CONTEST_STATUS.FINISHED && (
+              <div
+                onClick={() => changeEditContest(true)}
+                className={styles.editBtn}
+              >
+                Edit
+              </div>
+            )}
+          {role !== CONSTANTS.USER_ROLES.CUSTOMER && (
             <i onClick={goChat} className="fas fa-comments" />
           )}
         </div>
@@ -52,12 +48,12 @@ const ContestInfo = (props) => {
           <span className={styles.label}>Title of the Project</span>
           <span className={styles.data}>{title}</span>
         </div>
-        {contestType === CONTEST_TYPES.NAME ? (
+        {contestType === CONSTANTS.CONTEST_TYPES.NAME ? (
           <NameContestSpecialInfo
             typeOfName={typeOfName}
             styleName={styleName}
           />
-        ) : contestType === CONTEST_TYPES.TAGLINE ? (
+        ) : contestType === CONSTANTS.CONTEST_TYPES.TAGLINE ? (
           <TaglineContestSpecialInfo
             typeOfTagline={typeOfTagline}
             nameVenture={contestData.nameVenture}
@@ -90,7 +86,7 @@ const ContestInfo = (props) => {
             <a
               target="_blank"
               className={styles.file}
-              href={`${PUBLIC_URL}${fileName}`}
+              href={`${CONSTANTS.PUBLIC_URL}${fileName}`}
               download={originalFileName}
               rel="noreferrer"
             >
