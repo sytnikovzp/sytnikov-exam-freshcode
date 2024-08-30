@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { cashOut, clearPaymentStore } from '../../store/slices/paymentSlice';
 import { changeProfileViewMode } from '../../store/slices/userProfileSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import UserInfo from '../../components/UserInfo/UserInfo';
 import PayForm from '../../components/PayForm/PayForm';
@@ -40,22 +40,22 @@ const UserProfile = (props) => {
             <div
               className={classNames(styles.optionContainer, {
                 [styles.currentOption]:
-                  profileViewMode === CONSTANTS.UI_MODES.USER_INFO,
+                  profileViewMode === constants.UI_MODES.USER_INFO,
               })}
               onClick={() =>
-                changeProfileViewMode(CONSTANTS.UI_MODES.USER_INFO)
+                changeProfileViewMode(constants.UI_MODES.USER_INFO)
               }
             >
               UserInfo
             </div>
-            {role === CONSTANTS.USER_ROLES.CREATOR && (
+            {role === constants.USER_ROLES.CREATOR && (
               <div
                 className={classNames(styles.optionContainer, {
                   [styles.currentOption]:
-                    profileViewMode === CONSTANTS.UI_MODES.CASHOUT,
+                    profileViewMode === constants.UI_MODES.CASHOUT,
                 })}
                 onClick={() =>
-                  changeProfileViewMode(CONSTANTS.UI_MODES.CASHOUT)
+                  changeProfileViewMode(constants.UI_MODES.CASHOUT)
                 }
               >
                 Cashout
@@ -63,7 +63,7 @@ const UserProfile = (props) => {
             )}
           </div>
         </div>
-        {profileViewMode === CONSTANTS.UI_MODES.USER_INFO ? (
+        {profileViewMode === constants.UI_MODES.USER_INFO ? (
           <UserInfo />
         ) : (
           <div className={styles.container}>

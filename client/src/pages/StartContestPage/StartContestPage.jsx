@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 // =============================================
 import { updateBundle } from '../../store/slices/bundleSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import BundleBox from '../../components/BundleBox/BundleBox';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
@@ -13,7 +13,7 @@ import styles from './StartContestPage.module.sass';
 const StartContestPage = (props) => {
   const navigate = useNavigate();
 
-  if (props.userStore.data.role !== CONSTANTS.USER_ROLES.CUSTOMER) {
+  if (props.userStore.data.role !== constants.USER_ROLES.CUSTOMER) {
     navigate('/', { replace: true });
   }
 

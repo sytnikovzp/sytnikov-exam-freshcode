@@ -1,4 +1,4 @@
-import CONSTANTS from '../../../constants';
+import constants from '../../../constants';
 // =============================================
 import LogoContestSpecialInfo from './LogoContestSpecialInfo';
 import NameContestSpecialInfo from './NameContestSpecialInfo';
@@ -32,7 +32,7 @@ const ContestInfo = (props) => {
             <span className={styles.data}>{contestType}</span>
           </div>
           {User.id === userId &&
-            status !== CONSTANTS.CONTEST_STATUS.FINISHED && (
+            status !== constants.CONTEST_STATUS.FINISHED && (
               <div
                 onClick={() => changeEditContest(true)}
                 className={styles.editBtn}
@@ -40,7 +40,7 @@ const ContestInfo = (props) => {
                 Edit
               </div>
             )}
-          {role !== CONSTANTS.USER_ROLES.CUSTOMER && (
+          {role !== constants.USER_ROLES.CUSTOMER && (
             <i onClick={goChat} className="fas fa-comments" />
           )}
         </div>
@@ -48,12 +48,12 @@ const ContestInfo = (props) => {
           <span className={styles.label}>Title of the Project</span>
           <span className={styles.data}>{title}</span>
         </div>
-        {contestType === CONSTANTS.CONTEST_TYPES.NAME ? (
+        {contestType === constants.CONTEST_TYPES.NAME ? (
           <NameContestSpecialInfo
             typeOfName={typeOfName}
             styleName={styleName}
           />
-        ) : contestType === CONSTANTS.CONTEST_TYPES.TAGLINE ? (
+        ) : contestType === constants.CONTEST_TYPES.TAGLINE ? (
           <TaglineContestSpecialInfo
             typeOfTagline={typeOfTagline}
             nameVenture={contestData.nameVenture}
@@ -86,7 +86,7 @@ const ContestInfo = (props) => {
             <a
               target="_blank"
               className={styles.file}
-              href={`${CONSTANTS.PUBLIC_URL}${fileName}`}
+              href={`${constants.PUBLIC_URL}${fileName}`}
               download={originalFileName}
               rel="noreferrer"
             >

@@ -1,6 +1,6 @@
 import moment from 'moment';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import styles from './ContestBox.module.sass';
 
@@ -16,9 +16,9 @@ const ContestBox = (props) => {
 
   const getPreferenceContest = () => {
     const { data } = props;
-    if (data.contestType === CONSTANTS.CONTEST_TYPES.NAME)
+    if (data.contestType === constants.CONTEST_TYPES.NAME)
       return data.typeOfName;
-    if (data.contestType === CONSTANTS.CONTEST_TYPES.LOGO)
+    if (data.contestType === constants.CONTEST_TYPES.LOGO)
       return data.brandStyle;
     return data.typeOfTagline;
   };
@@ -52,7 +52,7 @@ const ContestBox = (props) => {
           <div className={styles.guaranteedContainer}>
             <div>
               <img
-                src={`${CONSTANTS.IMAGE_PATHS.STATIC}smallCheck.png`}
+                src={`${constants.IMAGE_PATHS.STATIC}smallCheck.png`}
                 alt="check"
               />
             </div>
@@ -60,7 +60,7 @@ const ContestBox = (props) => {
           </div>
           <div className={styles.prize}>
             <img
-              src={`${CONSTANTS.IMAGE_PATHS.STATIC}diamond.png`}
+              src={`${constants.IMAGE_PATHS.STATIC}diamond.png`}
               alt="diamond"
             />
             <span>{`$${prize}`}</span>
@@ -71,7 +71,7 @@ const ContestBox = (props) => {
         <div className={styles.entriesContainer}>
           <div className={styles.entriesCounter}>
             <img
-              src={`${CONSTANTS.IMAGE_PATHS.STATIC}entrieImage.png`}
+              src={`${constants.IMAGE_PATHS.STATIC}entrieImage.png`}
               alt="logo"
             />
             <span>{count}</span>

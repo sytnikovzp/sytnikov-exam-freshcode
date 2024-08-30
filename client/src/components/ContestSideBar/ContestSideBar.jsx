@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import moment from 'moment';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import styles from './ContestSideBar.module.sass';
 
@@ -26,7 +26,7 @@ const ContestSideBar = (props) => {
           <div className={styles.awardAndTimeContainer}>
             <div className={styles.prizeContainer}>
               <img
-                src={`${CONSTANTS.IMAGE_PATHS.STATIC}big-diamond.png`}
+                src={`${constants.IMAGE_PATHS.STATIC}big-diamond.png`}
                 alt="diamond"
               />
               <span>{`$ ${prize}`}</span>
@@ -34,7 +34,7 @@ const ContestSideBar = (props) => {
             <div className={styles.timeContainer}>
               <div className={styles.timeDesc}>
                 <img
-                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}clock.png`}
+                  src={`${constants.IMAGE_PATHS.STATIC}clock.png`}
                   alt="clock"
                 />
                 <span>Going</span>
@@ -44,7 +44,7 @@ const ContestSideBar = (props) => {
             <div className={styles.guaranteedPrize}>
               <div>
                 <img
-                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}smallCheck.png`}
+                  src={`${constants.IMAGE_PATHS.STATIC}smallCheck.png`}
                   alt="check"
                 />
               </div>
@@ -68,8 +68,8 @@ const ContestSideBar = (props) => {
               <img
                 src={
                   User.avatar === 'anon.png'
-                    ? CONSTANTS.IMAGE_PATHS.ANONYM
-                    : `${CONSTANTS.PUBLIC_URL}${User.avatar}`
+                    ? constants.IMAGE_PATHS.ANONYM
+                    : `${constants.PUBLIC_URL}${User.avatar}`
                 }
                 alt="user"
               />

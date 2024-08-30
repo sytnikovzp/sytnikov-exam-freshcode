@@ -1,9 +1,9 @@
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import styles from './BundleBox.module.sass';
 
 const BundleBox = (props) => {
-  const defaultPathToImages = `${CONSTANTS.IMAGE_PATHS.STATIC}contestLabels/`;
+  const defaultPathToImages = `${constants.IMAGE_PATHS.STATIC}contestLabels/`;
 
   const renderImage = () => {
     const array = [];

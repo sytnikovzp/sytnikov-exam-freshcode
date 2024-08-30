@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 
 const initialState = {
   bundle: null,
@@ -13,7 +13,7 @@ const reducers = {
 };
 
 const bundleSlice = createSlice({
-  name: `${CONSTANTS.BUNDLE_SLICE_NAME}`,
+  name: `${constants.BUNDLE_SLICE_NAME}`,
   initialState,
   reducers,
 });

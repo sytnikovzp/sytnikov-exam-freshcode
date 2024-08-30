@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import restController from '../../api/rest/restController';
 // =============================================
@@ -17,9 +17,9 @@ const initialState = {
 };
 
 export const checkAuth = decorateAsyncThunk({
-  key: `${CONSTANTS.AUTH_SLICE_NAME}/checkAuth`,
+  key: `${constants.AUTH_SLICE_NAME}/checkAuth`,
   thunk: async ({ data: authInfo, navigate, authMode }) => {
-    authMode === CONSTANTS.AUTH_MODE.LOGIN
+    authMode === constants.AUTH_MODE.LOGIN
       ? await restController.loginRequest(authInfo)
       : await restController.registerRequest(authInfo);
     navigate('/', { replace: true });
@@ -40,7 +40,7 @@ const extraReducers = (builder) => {
 };
 
 const authSlice = createSlice({
-  name: `${CONSTANTS.AUTH_SLICE_NAME}`,
+  name: `${constants.AUTH_SLICE_NAME}`,
   initialState,
   reducers,
   extraReducers,

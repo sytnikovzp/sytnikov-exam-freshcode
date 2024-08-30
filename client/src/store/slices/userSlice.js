@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import restController from '../../api/rest/restController';
 import { controller } from '../../api/ws/socketController';
@@ -16,7 +16,7 @@ const initialState = {
 };
 
 export const getUser = createAsyncThunk(
-  `${CONSTANTS.USER_SLICE_NAME}/getUser`,
+  `${constants.USER_SLICE_NAME}/getUser`,
   async (navigate, { rejectWithValue }) => {
     try {
       const { data } = await restController.getUser();
@@ -35,7 +35,7 @@ export const getUser = createAsyncThunk(
 );
 
 export const updateUser = createAsyncThunk(
-  `${CONSTANTS.USER_SLICE_NAME}/updateUser`,
+  `${constants.USER_SLICE_NAME}/updateUser`,
   async (payload, { rejectWithValue, dispatch }) => {
     try {
       const { data } = await restController.updateUser(payload);
@@ -82,7 +82,7 @@ const extraReducers = (builder) => {
 };
 
 const userSlice = createSlice({
-  name: CONSTANTS.USER_SLICE_NAME,
+  name: constants.USER_SLICE_NAME,
   initialState,
   reducers,
   extraReducers,

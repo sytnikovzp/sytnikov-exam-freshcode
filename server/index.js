@@ -42,8 +42,8 @@ mongoose
 
 // ================ Create server with HTTP module ===============
 
-const HOST = process.env.SH_SERVER_HOST;
-const PORT = process.env.SH_SERVER_PORT || 3000;
+const HOST = process.env.SERVER_HOST;
+const PORT = process.env.SERVER_PORT || 3000;
 
 const server = createServer(app);
 

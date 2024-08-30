@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // =============================================
 import { clearUserStore, getUser } from '../../store/slices/userSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import withRouter from '../../hocs/withRouter';
 // =============================================
@@ -35,14 +35,14 @@ class Header extends React.Component {
             <img
               src={
                 this.props.data.avatar === 'anon.png'
-                  ? CONSTANTS.IMAGE_PATHS.ANONYM
-                  : `${CONSTANTS.PUBLIC_URL}${this.props.data.avatar}`
+                  ? constants.IMAGE_PATHS.ANONYM
+                  : `${constants.PUBLIC_URL}${this.props.data.avatar}`
               }
               alt="user"
             />
             <span>{`Hi, ${this.props.data.displayName}`}</span>
             <img
-              src={`${CONSTANTS.IMAGE_PATHS.STATIC}menu-down.png`}
+              src={`${constants.IMAGE_PATHS.STATIC}menu-down.png`}
               alt="menu"
             />
             <ul>
@@ -72,7 +72,7 @@ class Header extends React.Component {
             </ul>
           </div>
           <img
-            src={`${CONSTANTS.IMAGE_PATHS.STATIC}email.png`}
+            src={`${constants.IMAGE_PATHS.STATIC}email.png`}
             className={styles.emailIcon}
             alt="email"
           />
@@ -106,7 +106,7 @@ class Header extends React.Component {
         </div>
         <div className={styles.loginSignnUpHeaders}>
           <div className={styles.numberContainer}>
-            <img src={`${CONSTANTS.IMAGE_PATHS.STATIC}phone.png`} alt="phone" />
+            <img src={`${constants.IMAGE_PATHS.STATIC}phone.png`} alt="phone" />
             <span>(877)&nbsp;355-3585</span>
           </div>
           <div className={styles.userButtonsContainer}>
@@ -115,7 +115,7 @@ class Header extends React.Component {
         </div>
         <div className={styles.navContainer}>
           <img
-            src={`${CONSTANTS.IMAGE_PATHS.STATIC}blue-logo.png`}
+            src={`${constants.IMAGE_PATHS.STATIC}blue-logo.png`}
             className={styles.logo}
             alt="blue_logo"
           />
@@ -125,7 +125,7 @@ class Header extends React.Component {
                 <li>
                   <span>NAME IDEAS</span>
                   <img
-                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}menu-down.png`}
+                    src={`${constants.IMAGE_PATHS.STATIC}menu-down.png`}
                     alt="menu"
                   />
                   <ul>
@@ -158,7 +158,7 @@ class Header extends React.Component {
                 <li>
                   <span>CONTESTS</span>
                   <img
-                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}menu-down.png`}
+                    src={`${constants.IMAGE_PATHS.STATIC}menu-down.png`}
                     alt="menu"
                   />
                   <ul>
@@ -188,7 +188,7 @@ class Header extends React.Component {
                 <li>
                   <span>Our Work</span>
                   <img
-                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}menu-down.png`}
+                    src={`${constants.IMAGE_PATHS.STATIC}menu-down.png`}
                     alt="menu"
                   />
                   <ul>
@@ -209,7 +209,7 @@ class Header extends React.Component {
                 <li>
                   <span>Names For Sale</span>
                   <img
-                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}menu-down.png`}
+                    src={`${constants.IMAGE_PATHS.STATIC}menu-down.png`}
                     alt="menu"
                   />
                   <ul>
@@ -236,7 +236,7 @@ class Header extends React.Component {
                 <li>
                   <span>Blog</span>
                   <img
-                    src={`${CONSTANTS.IMAGE_PATHS.STATIC}menu-down.png`}
+                    src={`${constants.IMAGE_PATHS.STATIC}menu-down.png`}
                     alt="menu"
                   />
                   <ul>
@@ -257,7 +257,7 @@ class Header extends React.Component {
               </ul>
             </div>
             {this.props.data &&
-              this.props.data.role !== CONSTANTS.USER_ROLES.CREATOR && (
+              this.props.data.role !== constants.USER_ROLES.CREATOR && (
                 <div
                   className={styles.startContestBtn}
                   onClick={this.startContests}

@@ -1,9 +1,9 @@
 const env = import.meta.env.MODE || 'development';
 
 const SERVER_CONFIG = {
-  HOST: import.meta.env.SH_SERVER_HOST,
+  HOST: import.meta.env.SERVER_HOST,
   PORT:
-    env === 'production' ? 80 : parseInt(import.meta.env.SH_SERVER_PORT, 10),
+    env === 'production' ? 80 : parseInt(import.meta.env.SERVER_PORT, 10),
 };
 
 const BASE_URL = `http://${SERVER_CONFIG.HOST}:${SERVER_CONFIG.PORT}/api/`;
@@ -59,7 +59,7 @@ const FEEDBACK_SLIDER_IMAGES = getSliderImages('feedback_slider', [
   'Unbenannt1-avatar.jpg',
 ]);
 
-const CONFIG = {
+export default {
   SERVER_CONFIG,
   BASE_URL,
   PUBLIC_URL,
@@ -76,9 +76,9 @@ const CONFIG = {
   USER_PROFILE_SLICE_NAME: 'userProfile',
   USER_SLICE_NAME: 'user',
 
-  TOKEN_CONFIG: {
-    ACCESS_TOKEN: import.meta.env.SH_ACCESS_TOKEN,
-    REFRESH_TOKEN: import.meta.env.SH_REFRESH_TOKEN,
+  AUTH: {
+    ACCESS_TOKEN: import.meta.env.ACCESS_TOKEN,
+    REFRESH_TOKEN: import.meta.env.REFRESH_TOKEN,
   },
 
   USER_ROLES: {
@@ -269,5 +269,3 @@ const CONFIG = {
     'CityScroll.com',
   ],
 };
-
-export default CONFIG;

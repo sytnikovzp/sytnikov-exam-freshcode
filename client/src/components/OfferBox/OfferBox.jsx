@@ -11,7 +11,7 @@ import {
   changeShowImage,
 } from '../../store/slices/contestByIdSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import withRouter from '../../hocs/withRouter';
 // =============================================
@@ -85,14 +85,14 @@ const OfferBox = (props) => {
 
   const offerStatus = () => {
     const { status } = props.data;
-    if (status === CONSTANTS.OFFER_STATUS.REJECTED) {
+    if (status === constants.OFFER_STATUS.REJECTED) {
       return (
         <i
           className={classNames('fas fa-times-circle reject', styles.reject)}
         />
       );
     }
-    if (status === CONSTANTS.OFFER_STATUS.WON) {
+    if (status === constants.OFFER_STATUS.WON) {
       return (
         <i
           className={classNames('fas fa-check-circle resolve', styles.resolve)}
@@ -120,8 +120,8 @@ const OfferBox = (props) => {
             <img
               src={
                 avatar === 'anon.png'
-                  ? CONSTANTS.IMAGE_PATHS.ANONYM
-                  : `${CONSTANTS.PUBLIC_URL}${avatar}`
+                  ? constants.IMAGE_PATHS.ANONYM
+                  : `${constants.PUBLIC_URL}${avatar}`
               }
               alt="user"
             />
@@ -137,19 +137,19 @@ const OfferBox = (props) => {
               fractions={2}
               fullSymbol={
                 <img
-                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star.png`}
+                  src={`${constants.IMAGE_PATHS.STATIC}star.png`}
                   alt="star"
                 />
               }
               placeholderSymbol={
                 <img
-                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star.png`}
+                  src={`${constants.IMAGE_PATHS.STATIC}star.png`}
                   alt="star"
                 />
               }
               emptySymbol={
                 <img
-                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star-outline.png`}
+                  src={`${constants.IMAGE_PATHS.STATIC}star-outline.png`}
                   alt="star-outline"
                 />
               }
@@ -158,7 +158,7 @@ const OfferBox = (props) => {
           </div>
         </div>
         <div className={styles.responseConainer}>
-          {contestType === CONSTANTS.CONTEST_TYPES.LOGO ? (
+          {contestType === constants.CONTEST_TYPES.LOGO ? (
             <img
               onClick={() =>
                 props.changeShowImage({
@@ -167,7 +167,7 @@ const OfferBox = (props) => {
                 })
               }
               className={styles.responseLogo}
-              src={`${CONSTANTS.PUBLIC_URL}${data.fileName}`}
+              src={`${constants.PUBLIC_URL}${data.fileName}`}
               alt="logo"
             />
           ) : (
@@ -178,19 +178,19 @@ const OfferBox = (props) => {
               fractions={2}
               fullSymbol={
                 <img
-                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star.png`}
+                  src={`${constants.IMAGE_PATHS.STATIC}star.png`}
                   alt="star"
                 />
               }
               placeholderSymbol={
                 <img
-                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star.png`}
+                  src={`${constants.IMAGE_PATHS.STATIC}star.png`}
                   alt="star"
                 />
               }
               emptySymbol={
                 <img
-                  src={`${CONSTANTS.IMAGE_PATHS.STATIC}star-outline.png`}
+                  src={`${constants.IMAGE_PATHS.STATIC}star-outline.png`}
                   alt="star"
                 />
               }
@@ -199,7 +199,7 @@ const OfferBox = (props) => {
             />
           )}
         </div>
-        {role !== CONSTANTS.USER_ROLES.CREATOR && (
+        {role !== constants.USER_ROLES.CREATOR && (
           <i onClick={goChat} className="fas fa-comments" />
         )}
       </div>

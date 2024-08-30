@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import restController from '../../api/rest/restController';
 // =============================================
@@ -27,7 +27,7 @@ const initialState = {
 
 //---------- getContestById
 export const getContestById = decorateAsyncThunk({
-  key: `${CONSTANTS.CONTEST_BY_ID_SLICE_NAME}/getContest`,
+  key: `${constants.CONTEST_BY_ID_SLICE_NAME}/getContest`,
   thunk: async (payload) => {
     const { data } = await restController.getContestById(payload);
     const { Offers } = data;
@@ -55,7 +55,7 @@ const getContestByIdExtraReducers = createExtraReducers({
 
 //---------- addOffer
 export const addOffer = decorateAsyncThunk({
-  key: `${CONSTANTS.CONTEST_BY_ID_SLICE_NAME}/addOffer`,
+  key: `${constants.CONTEST_BY_ID_SLICE_NAME}/addOffer`,
   thunk: async (payload) => {
     const { data } = await restController.setNewOffer(payload);
     return data;
@@ -75,7 +75,7 @@ const addOfferExtraReducers = createExtraReducers({
 
 //---------- setOfferStatus
 export const setOfferStatus = decorateAsyncThunk({
-  key: `${CONSTANTS.CONTEST_BY_ID_SLICE_NAME}/setOfferStatus`,
+  key: `${constants.CONTEST_BY_ID_SLICE_NAME}/setOfferStatus`,
   thunk: async (payload) => {
     const { data } = await restController.setOfferStatus(payload);
     return data;
@@ -86,13 +86,13 @@ const setOfferStatusExtraReducers = createExtraReducers({
   thunk: setOfferStatus,
   fulfilledReducer: (state, { payload }) => {
     state.offers.forEach((offer) => {
-      if (payload.status === CONSTANTS.OFFER_STATUS.WON) {
+      if (payload.status === constants.OFFER_STATUS.WON) {
         offer.status =
           payload.id === offer.id
-            ? CONSTANTS.OFFER_STATUS.WON
-            : CONSTANTS.OFFER_STATUS.REJECTED;
+            ? constants.OFFER_STATUS.WON
+            : constants.OFFER_STATUS.REJECTED;
       } else if (payload.id === offer.id) {
-        offer.status = CONSTANTS.OFFER_STATUS.REJECTED;
+        offer.status = constants.OFFER_STATUS.REJECTED;
       }
     });
     state.error = null;
@@ -104,7 +104,7 @@ const setOfferStatusExtraReducers = createExtraReducers({
 
 //---------- changeMark
 export const changeMark = decorateAsyncThunk({
-  key: `${CONSTANTS.CONTEST_BY_ID_SLICE_NAME}/changeMark`,
+  key: `${constants.CONTEST_BY_ID_SLICE_NAME}/changeMark`,
   thunk: async (payload) => {
     const { data } = await restController.changeMark(payload);
     return { data, offerId: payload.offerId, mark: payload.mark };
@@ -167,7 +167,7 @@ const extraReducers = (builder) => {
 };
 
 const contestByIdSlice = createSlice({
-  name: CONSTANTS.CONTEST_BY_ID_SLICE_NAME,
+  name: constants.CONTEST_BY_ID_SLICE_NAME,
   initialState,
   reducers,
   extraReducers,

@@ -2,15 +2,15 @@ const dbPostgres = require('../db/dbPostgres/models');
 const UserNotFoundError = require('../errors/UserNotFoundError');
 const RightsError = require('../errors/RightsError');
 const ServerError = require('../errors/ServerError');
-const CONSTANTS = require('../constants');
+const constants = require('../constants');
 
 module.exports.parseBody = (req, res, next) => {
   req.body.contests = JSON.parse(req.body.contests);
   for (let i = 0; i < req.body.contests.length; i++) {
-    if (req.body.contests[ i ].haveFile) {
+    if (req.body.contests[i].haveFile) {
       const file = req.files.splice(0, 1);
-      req.body.contests[ i ].fileName = file[ 0 ].filename;
-      req.body.contests[ i ].originalFileName = file[ 0 ].originalname;
+      req.body.contests[i].fileName = file[0].filename;
+      req.body.contests[i].originalFileName = file[0].originalname;
     }
   }
   next();
@@ -19,18 +19,18 @@ module.exports.parseBody = (req, res, next) => {
 module.exports.canGetContest = async (req, res, next) => {
   let result = null;
   try {
-    if (req.tokenData.role === CONSTANTS.CUSTOMER) {
+    if (req.tokenData.role === constants.USER_ROLES.CUSTOMER) {
       result = await dbPostgres.Contests.findOne({
         where: { id: req.headers.contestid, userId: req.tokenData.userId },
       });
-    } else if (req.tokenData.role === CONSTANTS.CREATOR) {
+    } else if (req.tokenData.role === constants.USER_ROLES.CREATOR) {
       result = await dbPostgres.Contests.findOne({
         where: {
           id: req.headers.contestid,
           status: {
-            [ dbPostgres.Sequelize.Op.or ]: [
-              CONSTANTS.CONTEST_STATUS_ACTIVE,
-              CONSTANTS.CONTEST_STATUS_FINISHED,
+            [dbPostgres.Sequelize.Op.or]: [
+              constants.CONTEST_STATUS.ACTIVE,
+              constants.CONTEST_STATUS.FINISHED,
             ],
           },
         },
@@ -43,16 +43,15 @@ module.exports.canGetContest = async (req, res, next) => {
 };
 
 module.exports.onlyForCreative = (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CUSTOMER) {
+  if (req.tokenData.role === constants.USER_ROLES.CUSTOMER) {
     next(new RightsError());
   } else {
     next();
   }
-
 };
 
 module.exports.onlyForCustomer = (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CREATOR) {
+  if (req.tokenData.role === constants.USER_ROLES.CREATOR) {
     return next(new RightsError('this page only for customers'));
   } else {
     next();
@@ -60,7 +59,7 @@ module.exports.onlyForCustomer = (req, res, next) => {
 };
 
 module.exports.canSendOffer = async (req, res, next) => {
-  if (req.tokenData.role === CONSTANTS.CUSTOMER) {
+  if (req.tokenData.role === constants.USER_ROLES.CUSTOMER) {
     return next(new RightsError());
   }
   try {
@@ -70,8 +69,9 @@ module.exports.canSendOffer = async (req, res, next) => {
       },
       attributes: ['status'],
     });
-    if (result.get({ plain: true }).status ===
-      CONSTANTS.CONTEST_STATUS_ACTIVE) {
+    if (
+      result.get({ plain: true }).status === constants.CONTEST_STATUS.ACTIVE
+    ) {
       next();
     } else {
       return next(new RightsError());
@@ -79,7 +79,6 @@ module.exports.canSendOffer = async (req, res, next) => {
   } catch (e) {
     next(new ServerError());
   }
-
 };
 
 module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
@@ -88,7 +87,7 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
       where: {
         userId: req.tokenData.userId,
         id: req.body.contestId,
-        status: CONSTANTS.CONTEST_STATUS_ACTIVE,
+        status: constants.CONTEST_STATUS.ACTIVE,
       },
     });
     if (!result) {
@@ -106,7 +105,9 @@ module.exports.canUpdateContest = async (req, res, next) => {
       where: {
         userId: req.tokenData.userId,
         id: req.body.contestId,
-        status: { [ dbPostgres.Sequelize.Op.not ]: CONSTANTS.CONTEST_STATUS_FINISHED },
+        status: {
+          [dbPostgres.Sequelize.Op.not]: constants.CONTEST_STATUS.FINISHED,
+        },
       },
     });
     if (!result) {
@@ -117,4 +118,3 @@ module.exports.canUpdateContest = async (req, res, next) => {
     next(new ServerError());
   }
 };
-

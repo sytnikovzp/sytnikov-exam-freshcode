@@ -19,8 +19,8 @@ services:
       context: ./server
     environment:
       - NODE_ENV=development
-      - SH_SERVER_HOST=${SH_SERVER_HOST}
-      - SH_SERVER_PORT=${SH_SERVER_PORT}
+      - SERVER_HOST=${SERVER_HOST}
+      - SERVER_PORT=${SERVER_PORT}
       - WAIT_HOSTS=db-dev:5432,mongo-dev:27017
       - WAIT_HOSTS_TIMEOUT=30
     ports:

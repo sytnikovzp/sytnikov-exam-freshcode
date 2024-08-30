@@ -5,7 +5,7 @@ import {
   changeBlockStatusInStore,
 } from '../../../store/slices/chatSlice';
 // =============================================
-import CONSTANTS from '../../../constants';
+import constants from '../../../constants';
 // =============================================
 import WebSocket from './WebSocket';
 
@@ -20,7 +20,7 @@ class ChatSocket extends WebSocket {
   };
 
   onChangeBlockStatus = () => {
-    this.socket.on(CONSTANTS.CHAT_ACTION_TYPES.CHANGE_BLOCK_STATUS, (data) => {
+    this.socket.on(constants.CHAT_ACTION_TYPES.CHANGE_BLOCK_STATUS, (data) => {
       this.dispatch(changeBlockStatusInStore(data.message));
     });
   };

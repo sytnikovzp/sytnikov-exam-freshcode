@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import restController from '../../api/rest/restController';
 // =============================================
@@ -19,7 +19,7 @@ const initialState = {
 };
 
 export const updateContest = decorateAsyncThunk({
-  key: CONSTANTS.CONTEST_UPDATION_SLICE_NAME,
+  key: constants.CONTEST_UPDATION_SLICE_NAME,
   thunk: async (payload, { dispatch }) => {
     const { data } = await restController.updateContest(payload);
     dispatch(updateStoreAfterUpdateContest(data));
@@ -37,7 +37,7 @@ const extraReducers = (builder) => {
 };
 
 const contestUpdationSlice = createSlice({
-  name: CONSTANTS.CONTEST_UPDATION_SLICE_NAME,
+  name: constants.CONTEST_UPDATION_SLICE_NAME,
   initialState,
   reducers,
   extraReducers,

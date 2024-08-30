@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 
 const initialState = {
-  profileViewMode: CONSTANTS.UI_MODES.USER_INFO,
+  profileViewMode: constants.UI_MODES.USER_INFO,
   isEdit: false,
 };
 
@@ -17,7 +17,7 @@ const reducers = {
 };
 
 const userProfileSlice = createSlice({
-  name: CONSTANTS.USER_PROFILE_SLICE_NAME,
+  name: constants.USER_PROFILE_SLICE_NAME,
   initialState,
   reducers,
 });

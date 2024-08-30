@@ -1,19 +1,17 @@
 import axios from 'axios';
 // =============================================
-import CONSTANTS from '../constants';
+import constants from '../constants';
 // =============================================
 import history from '../browserHistory';
 
 const instance = axios.create({
-  baseURL: CONSTANTS.BASE_URL,
+  baseURL: constants.BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
 instance.interceptors.request.use(
   (config) => {
-    const token = window.localStorage.getItem(
-      CONSTANTS.TOKEN_CONFIG.ACCESS_TOKEN
-    );
+    const token = window.localStorage.getItem(constants.AUTH.ACCESS_TOKEN);
     if (token) {
       config.headers = { ...config.headers, Authorization: token };
     }
@@ -26,7 +24,7 @@ instance.interceptors.response.use(
   (response) => {
     if (response.data.token) {
       window.localStorage.setItem(
-        CONSTANTS.TOKEN_CONFIG.ACCESS_TOKEN,
+        constants.AUTH.ACCESS_TOKEN,
         response.data.token
       );
     }

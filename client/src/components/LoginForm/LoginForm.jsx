@@ -4,7 +4,7 @@ import { Form, Formik } from 'formik';
 // =============================================
 import { checkAuth, clearAuth } from '../../store/slices/authSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import Schems from '../../utils/validators/validationSchems';
 // =============================================
@@ -89,7 +89,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   loginRequest: ({ data, navigate }) =>
     dispatch(
-      checkAuth({ data, navigate, authMode: CONSTANTS.AUTH_MODE.LOGIN })
+      checkAuth({ data, navigate, authMode: constants.AUTH_MODE.LOGIN })
     ),
   authClear: () => dispatch(clearAuth()),
 });

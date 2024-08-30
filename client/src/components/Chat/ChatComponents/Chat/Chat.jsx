@@ -12,7 +12,7 @@ import {
 // =============================================
 import { chatController } from '../../../../api/ws/socketController';
 // =============================================
-import CONSTANTS from '../../../../constants';
+import constants from '../../../../constants';
 // =============================================
 import CatalogListContainer from '../../CatalogComponents/CatalogListContainer/CatalogListContainer';
 import CatalogCreation from '../../CatalogComponents/CatalogCreation/CatalogCreation';
@@ -43,7 +43,7 @@ class Chat extends React.Component {
         {isShowChatsInCatalog && <CatalogListHeader />}
         {!isShowChatsInCatalog && (
           <div className={styles.chatHeader}>
-            <img src={`${CONSTANTS.IMAGE_PATHS.STATIC}logo.png`} alt="logo" />
+            <img src={`${constants.IMAGE_PATHS.STATIC}logo.png`} alt="logo" />
           </div>
         )}
         {!isShowChatsInCatalog && (
@@ -51,12 +51,12 @@ class Chat extends React.Component {
             <span
               onClick={() =>
                 setChatPreviewMode(
-                  CONSTANTS.CHAT_MODES.NORMAL_PREVIEW_CHAT_MODE
+                  constants.CHAT_MODES.NORMAL_PREVIEW_CHAT_MODE
                 )
               }
               className={classNames(styles.button, {
                 [styles.activeButton]:
-                  chatMode === CONSTANTS.CHAT_MODES.NORMAL_PREVIEW_CHAT_MODE,
+                  chatMode === constants.CHAT_MODES.NORMAL_PREVIEW_CHAT_MODE,
               })}
             >
               Normal
@@ -64,12 +64,12 @@ class Chat extends React.Component {
             <span
               onClick={() =>
                 setChatPreviewMode(
-                  CONSTANTS.CHAT_MODES.FAVORITE_PREVIEW_CHAT_MODE
+                  constants.CHAT_MODES.FAVORITE_PREVIEW_CHAT_MODE
                 )
               }
               className={classNames(styles.button, {
                 [styles.activeButton]:
-                  chatMode === CONSTANTS.CHAT_MODES.FAVORITE_PREVIEW_CHAT_MODE,
+                  chatMode === constants.CHAT_MODES.FAVORITE_PREVIEW_CHAT_MODE,
               })}
             >
               Favorite
@@ -77,12 +77,12 @@ class Chat extends React.Component {
             <span
               onClick={() =>
                 setChatPreviewMode(
-                  CONSTANTS.CHAT_MODES.BLOCKED_PREVIEW_CHAT_MODE
+                  constants.CHAT_MODES.BLOCKED_PREVIEW_CHAT_MODE
                 )
               }
               className={classNames(styles.button, {
                 [styles.activeButton]:
-                  chatMode === CONSTANTS.CHAT_MODES.BLOCKED_PREVIEW_CHAT_MODE,
+                  chatMode === constants.CHAT_MODES.BLOCKED_PREVIEW_CHAT_MODE,
               })}
             >
               Blocked
@@ -90,19 +90,19 @@ class Chat extends React.Component {
             <span
               onClick={() =>
                 setChatPreviewMode(
-                  CONSTANTS.CHAT_MODES.CATALOG_PREVIEW_CHAT_MODE
+                  constants.CHAT_MODES.CATALOG_PREVIEW_CHAT_MODE
                 )
               }
               className={classNames(styles.button, {
                 [styles.activeButton]:
-                  chatMode === CONSTANTS.CHAT_MODES.CATALOG_PREVIEW_CHAT_MODE,
+                  chatMode === constants.CHAT_MODES.CATALOG_PREVIEW_CHAT_MODE,
               })}
             >
               Catalog
             </span>
           </div>
         )}
-        {chatMode === CONSTANTS.CHAT_MODES.CATALOG_PREVIEW_CHAT_MODE ? (
+        {chatMode === constants.CHAT_MODES.CATALOG_PREVIEW_CHAT_MODE ? (
           <CatalogListContainer />
         ) : (
           <DialogListContainer userId={id} />

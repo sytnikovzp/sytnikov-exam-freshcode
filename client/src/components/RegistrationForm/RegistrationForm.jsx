@@ -4,7 +4,7 @@ import { Field, Form, Formik } from 'formik';
 // =============================================
 import { checkAuth, clearAuth } from '../../store/slices/authSlice';
 // =============================================
-import CONSTANTS from '../../constants';
+import constants from '../../constants';
 // =============================================
 import Schems from '../../utils/validators/validationSchems';
 // =============================================
@@ -65,7 +65,7 @@ class RegistrationForm extends React.Component {
             email: '',
             password: '',
             confirmPassword: '',
-            role: CONSTANTS.USER_ROLES.CUSTOMER,
+            role: constants.USER_ROLES.CUSTOMER,
             agreeOfTerms: false,
           }}
           onSubmit={this.clicked}
@@ -118,20 +118,20 @@ class RegistrationForm extends React.Component {
               <Field
                 name="role"
                 type="radio"
-                value={CONSTANTS.USER_ROLES.CUSTOMER}
+                value={constants.USER_ROLES.CUSTOMER}
                 strRole="Join As a Buyer"
                 infoRole="I am looking for a Name, Logo or Tagline for my business, brand or product."
                 component={RoleInput}
-                id={CONSTANTS.USER_ROLES.CUSTOMER}
+                id={constants.USER_ROLES.CUSTOMER}
               />
               <Field
                 name="role"
                 type="radio"
-                value={CONSTANTS.USER_ROLES.CREATOR}
+                value={constants.USER_ROLES.CREATOR}
                 strRole="Join As a Creative"
                 infoRole="I plan to submit name ideas, Logo designs or sell names in Domain Marketplace."
                 component={RoleInput}
-                id={CONSTANTS.USER_ROLES.CREATOR}
+                id={constants.USER_ROLES.CREATOR}
               />
             </div>
             <div className={styles.termsOfService}>
@@ -162,14 +162,14 @@ class RegistrationForm extends React.Component {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   initialValues: {
-    role: CONSTANTS.USER_ROLES.CUSTOMER,
+    role: constants.USER_ROLES.CUSTOMER,
   },
 });
 
 const mapDispatchToProps = (dispatch) => ({
   register: ({ data, navigate }) =>
     dispatch(
-      checkAuth({ data, navigate, authMode: CONSTANTS.AUTH_MODE.REGISTER })
+      checkAuth({ data, navigate, authMode: constants.AUTH_MODE.REGISTER })
     ),
   authClear: () => dispatch(clearAuth()),
 });
