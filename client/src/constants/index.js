@@ -1,9 +1,8 @@
 const env = import.meta.env.MODE || 'development';
 
 const SERVER_CONFIG = {
-  HOST: import.meta.env.SERVER_HOST,
-  PORT:
-    env === 'production' ? 80 : parseInt(import.meta.env.SERVER_PORT, 10),
+  HOST: import.meta.env.SH_SERVER_HOST,
+  PORT: env === 'production' ? 80 : parseInt(import.meta.env.SH_SERVER_PORT),
 };
 
 const BASE_URL = `http://${SERVER_CONFIG.HOST}:${SERVER_CONFIG.PORT}/api/`;

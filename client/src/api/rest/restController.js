@@ -16,15 +16,17 @@ const restController = {
       headers: { status: contestStatus },
     }),
   getActiveContests: (query) => api.get('getAllContests', { params: query }),
-  getContestById: (contestId) =>
-    api.get('getContestById', {
-      headers: { contestId },
-    }),
+  getContestById: (contestId) => api.get(`getContestById/${contestId}`),
   dataForContest: (params) => api.get('dataForContest', { params }),
   changeMark: (data) => api.put('changeMark', data),
 
   // Offer-related requests
-  setNewOffer: (data) => api.post('setNewOffer', data),
+  setNewOffer: (data) =>
+    api.post('setNewOffer', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }),
   setOfferStatus: (data) => api.put('setOfferStatus', data),
 
   // Chat-related requests
@@ -36,7 +38,7 @@ const restController = {
   getCatalogList: () => api.get('getCatalogs'),
   addChatToCatalog: (data) => api.post('addNewChatToCatalog', data),
   createCatalog: (data) => api.post('createCatalog', data),
-  deleteCatalog: (data) => api.delete('deleteCatalog', { data }),
+  deleteCatalog: (catalogId) => api.delete('deleteCatalog', { catalogId }),
   removeChatFromCatalog: (data) =>
     api.delete('removeChatFromCatalog', { data }),
   changeCatalogName: (data) => api.put('updateNameCatalog', data),
