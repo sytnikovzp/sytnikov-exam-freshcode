@@ -2,7 +2,7 @@ require('dotenv').config({ path: '../.env' });
 
 module.exports = {
   development: {
-    database: process.env.MONGO_DB,
+    database: process.env.MONGO_DB_NAME,
     host: process.env.MONGO_HOST,
     port: process.env.MONGO_PORT,
   },

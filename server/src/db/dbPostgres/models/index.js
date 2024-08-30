@@ -7,7 +7,7 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const configPath = require(path.resolve('.sequelizerc')).config;
 const config = require(configPath)[env];
-const db = {};
+const dbPostgres = {};
 
 let sequelize;
 if (config.use_env_variable) {
@@ -35,42 +35,42 @@ fs.readdirSync(__dirname)
       sequelize,
       Sequelize.DataTypes
     );
-    db[model.name] = model;
+    dbPostgres[model.name] = model;
   });
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+// Object.keys(db).forEach((modelName) => {
+//   if (db[modelName].associate) {
+//     db[modelName].associate(db);
+//   }
+// });
 
-db['Contests'].belongsTo(db['Users'], {
+dbPostgres['Contests'].belongsTo(dbPostgres['Users'], {
   foreignKey: 'userId',
   sourceKey: 'id',
 });
-db['Contests'].hasMany(db['Offers'], {
+dbPostgres['Contests'].hasMany(dbPostgres['Offers'], {
   foreignKey: 'contestId',
   targetKey: 'id',
 });
 
-db['Users'].hasMany(db['Offers'], { foreignKey: 'userId', targetKey: 'id' });
-db['Users'].hasMany(db['Contests'], { foreignKey: 'userId', targetKey: 'id' });
-db['Users'].hasMany(db['Ratings'], { foreignKey: 'userId', targetKey: 'id' });
+dbPostgres['Users'].hasMany(dbPostgres['Offers'], { foreignKey: 'userId', targetKey: 'id' });
+dbPostgres['Users'].hasMany(dbPostgres['Contests'], { foreignKey: 'userId', targetKey: 'id' });
+dbPostgres['Users'].hasMany(dbPostgres['Ratings'], { foreignKey: 'userId', targetKey: 'id' });
 
-db['Offers'].belongsTo(db['Users'], { foreignKey: 'userId', sourceKey: 'id' });
-db['Offers'].belongsTo(db['Contests'], {
+dbPostgres['Offers'].belongsTo(dbPostgres['Users'], { foreignKey: 'userId', sourceKey: 'id' });
+dbPostgres['Offers'].belongsTo(dbPostgres['Contests'], {
   foreignKey: 'contestId',
   sourceKey: 'id',
 });
-db['Offers'].hasOne(db['Ratings'], { foreignKey: 'offerId', targetKey: 'id' });
+dbPostgres['Offers'].hasOne(dbPostgres['Ratings'], { foreignKey: 'offerId', targetKey: 'id' });
 
-db['Ratings'].belongsTo(db['Users'], { foreignKey: 'userId', targetKey: 'id' });
-db['Ratings'].belongsTo(db['Offers'], {
+dbPostgres['Ratings'].belongsTo(dbPostgres['Users'], { foreignKey: 'userId', targetKey: 'id' });
+dbPostgres['Ratings'].belongsTo(dbPostgres['Offers'], {
   foreignKey: 'offerId',
   targetKey: 'id',
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+dbPostgres.sequelize = sequelize;
+dbPostgres.Sequelize = Sequelize;
 
-module.exports = db;
+module.exports = dbPostgres;

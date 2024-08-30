@@ -1,8 +1,8 @@
-const Conversation = require('../models/mongoModels/conversation');
-const Message = require('../models/mongoModels/Message');
-const Catalog = require('../models/mongoModels/Catalog');
+const Conversation = require('../db/dbMongo/models/Conversation');
+const Message = require('../db/dbMongo/models/Message');
+const Catalog = require('../db/dbMongo/models/Catalog');
 const moment = require('moment');
-const db = require('../models');
+const dbPostgres = require('../db/dbPostgres/models');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const _ = require('lodash');
@@ -155,7 +155,7 @@ module.exports.getPreview = async (req, res, next) => {
       interlocutors.push(conversation.participants.find(
         (participant) => participant !== req.tokenData.userId));
     });
-    const senders = await db.Users.findAll({
+    const senders = await dbPostgres.Users.findAll({
       where: {
         id: interlocutors,
       },
