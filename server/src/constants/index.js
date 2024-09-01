@@ -3,8 +3,8 @@ require('dotenv').config({ path: '../.env' });
 module.exports = {
   AUTH: {
     JWT_SECRET: process.env.JWT_SECRET,
-    ACCESS_TOKEN_TIME: process.env.ACCESS_TOKEN_TIME,
-    SALT_ROUNDS: process.env.SALT_ROUNDS,
+    ACCESS_TOKEN_TIME: 60 * 60,
+    SALT_ROUNDS: parseInt(process.env.SALT_ROUNDS),
   },
 
   SQUADHELP_BANK: {
