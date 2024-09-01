@@ -1,53 +1,62 @@
 import api from '../interceptor';
 
 const restController = {
-  // User-related requests
+  // Authentication
   registerRequest: (data) => api.post('registration', data),
   loginRequest: (data) => api.post('login', data),
   getUser: () => api.get('getUser'),
+
+  // User management
   updateUser: (data) => api.put('updateUser', data),
-  cashOut: (data) => api.post('cashout', data),
+  changeMark: (data) => api.post('changeMark', data),
 
-  // Contest-related requests
+  // Contest management
   updateContest: (data) => api.put('updateContest', data),
-  getCustomersContests: ({ limit, offset, contestStatus }) =>
-    api.get('getCustomersContests', {
-      params: { limit, offset },
-      headers: { status: contestStatus },
-    }),
+  setNewOffer: (data) => api.post('setNewOffer', data),
+  setOfferStatus: (data) => api.post('setOfferStatus', data),
+  downloadContestFile: (data) => api.get(`downloadFile/${data.fileName}`),
+  dataForContest: (data) => api.post('dataForContest', data),
   getActiveContests: (query) => api.get('getAllContests', { params: query }),
-  getContestById: (contestId) => api.get(`getContestById/${contestId}`),
-  dataForContest: (params) => api.get('dataForContest', { params }),
-  changeMark: (data) => api.put('changeMark', data),
-
-  // Offer-related requests
-  setNewOffer: (data) =>
-    api.post('setNewOffer', data, {
+  getContestById: (data) =>
+    api.get('getContestById', {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        contestId: data.contestId,
       },
     }),
-  setOfferStatus: (data) => api.put('setOfferStatus', data),
 
-  // Chat-related requests
+  // Payments
+  payMent: (data) => api.post('pay', data.formData),
+  cashOut: (data) => api.post('cashout', data),
+
+  // Chat management
   getPreviewChat: () => api.get('getPreview'),
-  getDialog: (params) => api.get('getChat', { params }),
+  getDialog: (data) => api.get('getChat', data),
   newMessage: (data) => api.post('newMessage', data),
-  changeChatFavorite: (data) => api.put('favorite', data),
-  changeChatBlock: (data) => api.put('blackList', data),
-  getCatalogList: () => api.get('getCatalogs'),
-  addChatToCatalog: (data) => api.post('addNewChatToCatalog', data),
+  changeChatFavorite: (data) => api.patch('favorite', data),
+  changeChatBlock: (data) => api.patch('blackList', data),
+
+  // Catalog chat management
+  getCatalogList: (data) => api.get('getCatalogs', data),
+  addChatToCatalog: (data) => api.put('addNewChatToCatalog', data),
   createCatalog: (data) => api.post('createCatalog', data),
-  deleteCatalog: (catalogId) => api.delete('deleteCatalog', { catalogId }),
-  removeChatFromCatalog: (data) =>
-    api.delete('removeChatFromCatalog', { data }),
+  deleteCatalog: (data) => api.delete('deleteCatalog', data),
+  removeChatFromCatalog: (data) => api.patch('removeChatFromCatalog', data),
   changeCatalogName: (data) => api.put('updateNameCatalog', data),
 
-  // File-related requests
-  downloadContestFile: (fileName) => api.get(`downloadFile/${fileName}`),
-
-  // Payment-related requests
-  payMent: (data) => api.post('pay', data.formData),
+  // Customer contests
+  getCustomersContests: (data) =>
+    api.get(
+      'getCustomersContests',
+      {
+        limit: data.limit,
+        offset: data.offset,
+      },
+      {
+        headers: {
+          status: data.contestStatus,
+        },
+      }
+    ),
 };
 
 export default restController;
