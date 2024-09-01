@@ -45,7 +45,7 @@ router.get(
 );
 
 router.get(
-  '/getContestById',
+  '/getContestById/:contestId',
   checkToken.checkToken,
   basicMiddlewares.canGetContest,
   contestController.getContestById,
@@ -69,7 +69,7 @@ router.get(
   contestController.downloadFile,
 );
 
-router.put(
+router.patch(
   '/updateContest',
   checkToken.checkToken,
   upload.updateContestFile,
@@ -91,7 +91,7 @@ router.post(
   contestController.setOfferStatus,
 );
 
-router.post(
+router.patch(
   '/changeMark',
   checkToken.checkToken,
   basicMiddlewares.onlyForCustomer,
@@ -148,13 +148,13 @@ router.post(
   chatController.createCatalog,
 );
 
-router.put(
+router.patch(
   '/updateNameCatalog',
   checkToken.checkToken,
   chatController.updateNameCatalog,
 );
 
-router.put(
+router.patch(
   '/addNewChatToCatalog',
   checkToken.checkToken,
   chatController.addNewChatToCatalog,

@@ -43,7 +43,7 @@ module.exports.dataForContest = async (req, res, next) => {
 module.exports.getContestById = async (req, res, next) => {
   try {
     let contestInfo = await dbPostgres.Contests.findOne({
-      where: { id: req.headers.contestid },
+      where: { id: req.headers.contestId },
       order: [[dbPostgres.Offers, 'id', 'asc']],
       include: [
         {

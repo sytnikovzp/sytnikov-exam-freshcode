@@ -8,15 +8,15 @@ const restController = {
 
   // User management
   updateUser: (data) => api.put('updateUser', data),
-  changeMark: (data) => api.post('changeMark', data),
+  changeMark: (data) => api.patch('changeMark', data),
 
   // Contest management
-  updateContest: (data) => api.put('updateContest', data),
+  updateContest: (data) => api.patch('updateContest', data),
   setNewOffer: (data) => api.post('setNewOffer', data),
   setOfferStatus: (data) => api.post('setOfferStatus', data),
   downloadContestFile: (data) => api.get(`downloadFile/${data.fileName}`),
   dataForContest: (data) => api.post('dataForContest', data),
-  getActiveContests: (query) => api.get('getAllContests', { params: query }),
+  getActiveContests: (params) => api.get('getAllContests', { params }),
   getContestById: (data) =>
     api.get('getContestById', {
       headers: {
@@ -30,33 +30,35 @@ const restController = {
 
   // Chat management
   getPreviewChat: () => api.get('getPreview'),
-  getDialog: (data) => api.get('getChat', data),
+  getDialog: (data) =>
+    api.get('getChat', {
+      params: {
+        interlocutorId: data.interlocutorId,
+      },
+    }),
   newMessage: (data) => api.post('newMessage', data),
   changeChatFavorite: (data) => api.patch('favorite', data),
   changeChatBlock: (data) => api.patch('blackList', data),
 
   // Catalog chat management
-  getCatalogList: (data) => api.get('getCatalogs', data),
-  addChatToCatalog: (data) => api.put('addNewChatToCatalog', data),
+  getCatalogList: () => api.get('getCatalogs'),
+  addChatToCatalog: (data) => api.patch('addNewChatToCatalog', data),
   createCatalog: (data) => api.post('createCatalog', data),
   deleteCatalog: (data) => api.delete('deleteCatalog', data),
   removeChatFromCatalog: (data) => api.patch('removeChatFromCatalog', data),
-  changeCatalogName: (data) => api.put('updateNameCatalog', data),
+  changeCatalogName: (data) => api.patch('updateNameCatalog', data),
 
   // Customer contests
   getCustomersContests: (data) =>
-    api.get(
-      'getCustomersContests',
-      {
+    api.get('getCustomersContests', {
+      params: {
         limit: data.limit,
         offset: data.offset,
       },
-      {
-        headers: {
-          status: data.contestStatus,
-        },
-      }
-    ),
+      headers: {
+        status: data.contestStatus,
+      },
+    }),
 };
 
 export default restController;
