@@ -2,29 +2,30 @@ import api from '../interceptor';
 
 const restController = {
   // Authentication
-  registerRequest: (data) => api.post('registration', data),
-  loginRequest: (data) => api.post('login', data),
-  getUser: () => api.get('getUser'),
+  registerRequest: (data) => api.post('auth/registration', data),
+  loginRequest: (data) => api.post('auth/login', data),
+  getUser: () => api.get('auth/getUser'),
 
   // User management
-  updateUser: (data) => api.put('updateUser', data),
-  changeMark: (data) => api.patch('changeMark', data),
+  updateUser: (data) => api.put('user/updateUser', data),
+  changeMark: (data) => api.patch('user/changeMark', data),
 
   // Contest management
-  updateContest: (data) => api.patch('updateContest', data),
-  setNewOffer: (data) => api.post('setNewOffer', data),
-  setOfferStatus: (data) => api.post('setOfferStatus', data),
-  downloadContestFile: (data) => api.get(`downloadFile/${data.fileName}`),
-  dataForContest: (data) => api.post('dataForContest', data),
-  getActiveContests: (params) => api.get('getAllContests', { params }),
+  updateContest: (data) => api.patch('contest/updateContest', data),
+  setNewOffer: (data) => api.post('contest/setNewOffer', data),
+  setOfferStatus: (data) => api.post('contest/setOfferStatus', data),
+  downloadContestFile: (data) =>
+    api.get(`contest/downloadFile/${data.fileName}`),
+  dataForContest: (data) => api.post('contest/dataForContest', data),
+  getActiveContests: (params) => api.get('contest/getAllContests', { params }),
   getContestById: (data) =>
-    api.get('getContestById', {
+    api.get('contest/getContestById', {
       headers: {
         contestId: data.contestId,
       },
     }),
   getCustomersContests: (data) =>
-    api.get('getCustomersContests', {
+    api.get('contest/getCustomersContests', {
       params: {
         limit: data.limit,
         offset: data.offset,
@@ -35,28 +36,29 @@ const restController = {
     }),
 
   // Payments
-  payMent: (data) => api.post('pay', data.formData),
-  cashOut: (data) => api.post('cashout', data),
+  payMent: (data) => api.post('payment/pay', data.formData),
+  cashOut: (data) => api.post('payment/cashout', data),
 
   // Chat management
-  getPreviewChat: () => api.get('getPreview'),
+  getPreviewChat: () => api.get('chat/getPreview'),
   getDialog: (data) =>
-    api.get('getChat', {
+    api.get('chat/getChat', {
       params: {
         interlocutorId: data.interlocutorId,
       },
     }),
-  newMessage: (data) => api.post('newMessage', data),
-  changeChatFavorite: (data) => api.patch('favorite', data),
-  changeChatBlock: (data) => api.patch('blackList', data),
+  newMessage: (data) => api.post('chat/newMessage', data),
+  changeChatFavorite: (data) => api.patch('chat/favorite', data),
+  changeChatBlock: (data) => api.patch('chat/blackList', data),
 
   // Catalog chat management
-  getCatalogList: () => api.get('getCatalogs'),
-  addChatToCatalog: (data) => api.patch('addNewChatToCatalog', data),
-  createCatalog: (data) => api.post('createCatalog', data),
-  deleteCatalog: (data) => api.delete('deleteCatalog', data),
-  removeChatFromCatalog: (data) => api.patch('removeChatFromCatalog', data),
-  changeCatalogName: (data) => api.patch('updateNameCatalog', data),
+  getCatalogList: () => api.get('chat/getCatalogs'),
+  addChatToCatalog: (data) => api.patch('chat/addNewChatToCatalog', data),
+  createCatalog: (data) => api.post('chat/createCatalog', data),
+  deleteCatalog: (data) => api.delete('chat/deleteCatalog', data),
+  removeChatFromCatalog: (data) =>
+    api.patch('chat/removeChatFromCatalog', data),
+  changeCatalogName: (data) => api.patch('chat/updateNameCatalog', data),
 };
 
 export default restController;
