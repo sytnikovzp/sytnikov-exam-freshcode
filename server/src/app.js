@@ -12,7 +12,7 @@ const {
 
 const handlerError = require('./handlerError/handler');
 // ============================
-const router = require('./router');
+const router = require('./routers');
 
 const app = express();
 
