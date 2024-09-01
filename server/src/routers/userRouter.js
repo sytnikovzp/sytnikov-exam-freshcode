@@ -9,6 +9,11 @@ const upload = require('../utils/fileUpload');
 
 const router = new Router();
 
+router.get(
+  '/getUser',
+  checkToken.checkAuth
+);
+
 router.put(
   '/updateUser',
   checkToken.checkToken,

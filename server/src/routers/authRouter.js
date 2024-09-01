@@ -2,7 +2,6 @@ const { Router } = require('express');
 // ============================
 const userController = require('../controllers/userController');
 // ============================
-const checkToken = require('../middlewares/checkToken');
 const hashPass = require('../middlewares/hashPassMiddle');
 const validators = require('../middlewares/validators');
 
@@ -15,8 +14,10 @@ router.post(
   userController.registration
 );
 
-router.post('/login', validators.validateLogin, userController.login);
-
-router.get('/getUser', checkToken.checkAuth);
+router.post(
+  '/login',
+  validators.validateLogin,
+  userController.login
+);
 
 module.exports = router;

@@ -4,9 +4,9 @@ const restController = {
   // Authentication
   registerRequest: (data) => api.post('auth/registration', data),
   loginRequest: (data) => api.post('auth/login', data),
-  getUser: () => api.get('auth/getUser'),
-
+  
   // User management
+  getUser: () => api.get('user/getUser'),
   updateUser: (data) => api.put('user/updateUser', data),
   changeMark: (data) => api.patch('user/changeMark', data),
 
