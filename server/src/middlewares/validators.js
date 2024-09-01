@@ -1,9 +1,13 @@
-const schemes = require('../validationSchemes/schemes');
-const ServerError = require('../errors/ServerError');
+const {
+  registrationSchema,
+  loginSchema,
+  contestSchema,
+} = require('../utils/validationSchemes');
+// const ServerError = require('../errors/ServerError');
 const BadRequestError = require('../errors/BadRequestError');
 
 module.exports.validateRegistrationData = async (req, res, next) => {
-  const validationResult = await schemes.registrationSchem.isValid(req.body);
+  const validationResult = await registrationSchema.isValid(req.body);
   if (!validationResult) {
     return next(new BadRequestError('Invalid data for registration'));
   } else {
@@ -12,7 +16,7 @@ module.exports.validateRegistrationData = async (req, res, next) => {
 };
 
 module.exports.validateLogin = async (req, res, next) => {
-  const validationResult = await schemes.loginSchem.isValid(req.body);
+  const validationResult = await loginSchema.isValid(req.body);
   if (validationResult) {
     next();
   } else {
@@ -22,19 +26,19 @@ module.exports.validateLogin = async (req, res, next) => {
 
 module.exports.validateContestCreation = (req, res, next) => {
   const promiseArray = [];
-  req.body.contests.forEach(el => {
-    promiseArray.push(schemes.contestSchem.isValid(el));
+  req.body.contests.forEach((el) => {
+    promiseArray.push(contestSchema.isValid(el));
   });
   return Promise.all(promiseArray)
-    .then(results => {
-      results.forEach(result => {
+    .then((results) => {
+      results.forEach((result) => {
         if (!result) {
           return next(new BadRequestError());
         }
       });
       next();
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 };
