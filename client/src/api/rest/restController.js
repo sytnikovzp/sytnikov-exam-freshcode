@@ -23,6 +23,16 @@ const restController = {
         contestId: data.contestId,
       },
     }),
+  getCustomersContests: (data) =>
+    api.get('getCustomersContests', {
+      params: {
+        limit: data.limit,
+        offset: data.offset,
+      },
+      headers: {
+        status: data.contestStatus,
+      },
+    }),
 
   // Payments
   payMent: (data) => api.post('pay', data.formData),
@@ -47,18 +57,6 @@ const restController = {
   deleteCatalog: (data) => api.delete('deleteCatalog', data),
   removeChatFromCatalog: (data) => api.patch('removeChatFromCatalog', data),
   changeCatalogName: (data) => api.patch('updateNameCatalog', data),
-
-  // Customer contests
-  getCustomersContests: (data) =>
-    api.get('getCustomersContests', {
-      params: {
-        limit: data.limit,
-        offset: data.offset,
-      },
-      headers: {
-        status: data.contestStatus,
-      },
-    }),
 };
 
 export default restController;

@@ -9,6 +9,7 @@ const chatController = require('../controllers/chatController');
 const upload = require('../utils/fileUpload');
 const router = express.Router();
 
+// Authentication
 router.post(
   '/registration',
   validators.validateRegistrationData,
@@ -22,53 +23,27 @@ router.post(
   userController.login,
 );
 
-router.post(
-  '/dataForContest',
-  checkToken.checkToken,
-  contestController.dataForContest,
-);
-
-router.post(
-  '/pay',
-  checkToken.checkToken,
-  basicMiddlewares.onlyForCustomer,
-  upload.uploadContestFiles,
-  basicMiddlewares.parseBody,
-  validators.validateContestCreation,
-  userController.payment,
-);
-
-router.get(
-  '/getCustomersContests',
-  checkToken.checkToken,
-  contestController.getCustomersContests,
-);
-
-router.get(
-  '/getContestById/:contestId',
-  checkToken.checkToken,
-  basicMiddlewares.canGetContest,
-  contestController.getContestById,
-);
-
-router.get(
-  '/getAllContests',
-  checkToken.checkToken,
-  basicMiddlewares.onlyForCreative,
-  contestController.getContests,
-);
-
 router.get(
   '/getUser',
   checkToken.checkAuth,
 );
 
-router.get(
-  '/downloadFile/:fileName',
+// User management
+router.put(
+  '/updateUser',
   checkToken.checkToken,
-  contestController.downloadFile,
+  upload.uploadAvatar,
+  userController.updateUser,
 );
 
+router.patch(
+  '/changeMark',
+  checkToken.checkToken,
+  basicMiddlewares.onlyForCustomer,
+  userController.changeMark,
+);
+
+// Contest management
 router.patch(
   '/updateContest',
   checkToken.checkToken,
@@ -91,18 +66,47 @@ router.post(
   contestController.setOfferStatus,
 );
 
-router.patch(
-  '/changeMark',
+router.get(
+  '/downloadFile/:fileName',
   checkToken.checkToken,
-  basicMiddlewares.onlyForCustomer,
-  userController.changeMark,
+  contestController.downloadFile,
 );
 
-router.put(
-  '/updateUser',
+router.post(
+  '/dataForContest',
   checkToken.checkToken,
-  upload.uploadAvatar,
-  userController.updateUser,
+  contestController.dataForContest,
+);
+
+router.get(
+  '/getAllContests',
+  checkToken.checkToken,
+  basicMiddlewares.onlyForCreative,
+  contestController.getContests,
+);
+
+router.get(
+  '/getContestById/:contestId',
+  checkToken.checkToken,
+  basicMiddlewares.canGetContest,
+  contestController.getContestById,
+);
+
+router.get(
+  '/getCustomersContests',
+  checkToken.checkToken,
+  contestController.getCustomersContests,
+);
+
+// Payments
+router.post(
+  '/pay',
+  checkToken.checkToken,
+  basicMiddlewares.onlyForCustomer,
+  upload.uploadContestFiles,
+  basicMiddlewares.parseBody,
+  validators.validateContestCreation,
+  userController.payment,
 );
 
 router.post(
@@ -112,10 +116,11 @@ router.post(
   userController.cashout,
 );
 
-router.post(
-  '/newMessage',
+// Chat management
+router.get(
+  '/getPreview',
   checkToken.checkToken,
-  chatController.addMessage,
+  chatController.getPreview,
 );
 
 router.get(
@@ -124,16 +129,10 @@ router.get(
   chatController.getChat,
 );
 
-router.get(
-  '/getPreview',
+router.post(
+  '/newMessage',
   checkToken.checkToken,
-  chatController.getPreview,
-);
-
-router.patch(
-  '/blackList',
-  checkToken.checkToken,
-  chatController.blackList,
+  chatController.addMessage,
 );
 
 router.patch(
@@ -142,16 +141,17 @@ router.patch(
   chatController.favoriteChat,
 );
 
-router.post(
-  '/createCatalog',
+router.patch(
+  '/blackList',
   checkToken.checkToken,
-  chatController.createCatalog,
+  chatController.blackList,
 );
 
-router.patch(
-  '/updateNameCatalog',
+// Catalog chat management
+router.get(
+  '/getCatalogs',
   checkToken.checkToken,
-  chatController.updateNameCatalog,
+  chatController.getCatalogs,
 );
 
 router.patch(
@@ -160,10 +160,10 @@ router.patch(
   chatController.addNewChatToCatalog,
 );
 
-router.patch(
-  '/removeChatFromCatalog',
+router.post(
+  '/createCatalog',
   checkToken.checkToken,
-  chatController.removeChatFromCatalog,
+  chatController.createCatalog,
 );
 
 router.delete(
@@ -172,10 +172,16 @@ router.delete(
   chatController.deleteCatalog,
 );
 
-router.get(
-  '/getCatalogs',
+router.patch(
+  '/removeChatFromCatalog',
   checkToken.checkToken,
-  chatController.getCatalogs,
+  chatController.removeChatFromCatalog,
+);
+
+router.patch(
+  '/updateNameCatalog',
+  checkToken.checkToken,
+  chatController.updateNameCatalog,
 );
 
 module.exports = router;
