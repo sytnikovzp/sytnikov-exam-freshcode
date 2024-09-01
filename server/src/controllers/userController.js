@@ -34,6 +34,7 @@ module.exports.login = async (req, res, next) => {
     next(err);
   }
 };
+
 module.exports.registration = async (req, res, next) => {
   try {
     const newUser = await userQueries.userCreation(
