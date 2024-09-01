@@ -6,9 +6,9 @@ const logger = require('morgan');
 //   errorHandlers: { notEnoughMoney, errorHandler },
 // } = require('./middlewares');
 
-// const {
-//   time: { getTime, showTime },
-// } = require('./middlewares');
+const {
+  time: { getTime, showTime },
+} = require('./middlewares');
 
 const handlerError = require('./handlerError/handler');
 // ============================
@@ -21,6 +21,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/public', express.static('public'));
+
+app.use(getTime, showTime);
 
 app.use(logger('dev'));
 
