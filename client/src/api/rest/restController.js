@@ -17,7 +17,7 @@ const restController = {
   downloadContestFile: (data) =>
     api.get(`contest/downloadFile/${data.fileName}`),
   dataForContest: (data) => api.post('contest/dataForContest', data),
-  getActiveContests: (params) => api.get('contest/getAllContests', { params }),
+  getAllContests: (params) => api.get('contest/getAllContests', { params }),
   getContestById: (data) =>
     api.get('contest/getContestById', {
       headers: {
@@ -41,7 +41,7 @@ const restController = {
 
   // Chat management
   getPreviewChat: () => api.get('chat/getPreview'),
-  getDialog: (data) =>
+  getDialogMessages: (data) =>
     api.get('chat/getChat', {
       params: {
         interlocutorId: data.interlocutorId,

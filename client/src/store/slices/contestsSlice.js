@@ -4,7 +4,7 @@ import constants from '../../constants';
 // =============================================
 import restController from '../../api/rest/restController';
 // =============================================
-import { decorateAsyncThunk, pendingReducer } from '../../utils/store';
+import { decorateAsyncThunk, pendingReducer } from '../reduxUtils';
 
 const initialState = {
   isFetching: true,
@@ -21,13 +21,14 @@ const initialState = {
   haveMore: true,
 };
 
+//---------- getContests
 export const getContests = decorateAsyncThunk({
   key: `${constants.CONTESTS_SLICE_NAME}/getContests`,
   thunk: async ({ requestData, role }) => {
     const { data } =
       role === constants.USER_ROLES.CUSTOMER
         ? await restController.getCustomersContests(requestData)
-        : await restController.getActiveContests(requestData);
+        : await restController.getAllContests(requestData);
     return data;
   },
 });

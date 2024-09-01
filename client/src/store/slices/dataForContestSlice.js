@@ -4,7 +4,7 @@ import constants from '../../constants';
 // =============================================
 import restController from '../../api/rest/restController';
 // =============================================
-import { decorateAsyncThunk, rejectedReducer } from '../../utils/store';
+import { decorateAsyncThunk, rejectedReducer } from '../reduxUtils';
 
 const initialState = {
   isFetching: true,
@@ -12,6 +12,7 @@ const initialState = {
   error: null,
 };
 
+//---------- getDataForContest
 export const getDataForContest = decorateAsyncThunk({
   key: `${constants.DATA_FOR_CONTEST_SLICE_NAME}/getDataForContest`,
   thunk: async (payload) => {

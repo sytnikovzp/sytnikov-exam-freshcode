@@ -7,7 +7,7 @@ import { controller } from '../../api/ws/socketController';
 // =============================================
 import { changeEditModeOnUserProfile } from './userProfileSlice';
 // =============================================
-import { rejectedReducer } from '../../utils/store';
+import { rejectedReducer } from '../reduxUtils';
 
 const initialState = {
   isFetching: true,

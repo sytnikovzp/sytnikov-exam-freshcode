@@ -15,7 +15,7 @@ import styles from './Dialog.module.sass';
 
 class Dialog extends React.Component {
   componentDidMount() {
-    this.props.getDialog({ interlocutorId: this.props.interlocutor.id });
+    this.props.getDialogMessages({ interlocutorId: this.props.interlocutor.id });
     this.scrollToBottom();
   }
 
@@ -27,7 +27,7 @@ class Dialog extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.interlocutor.id !== this.props.interlocutor.id)
-      this.props.getDialog({ interlocutorId: nextProps.interlocutor.id });
+      this.props.getDialogMessages({ interlocutorId: nextProps.interlocutor.id });
   }
 
   componentWillUnmount() {
@@ -102,7 +102,7 @@ class Dialog extends React.Component {
 const mapStateToProps = (state) => state.chatStore;
 
 const mapDispatchToProps = (dispatch) => ({
-  getDialog: (data) => dispatch(getDialogMessages(data)),
+  getDialogMessages: (data) => dispatch(getDialogMessages(data)),
   clearMessageList: () => dispatch(clearMessageList()),
 });
 

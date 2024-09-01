@@ -9,7 +9,7 @@ import {
   pendingReducer,
   fulfilledReducer,
   rejectedReducer,
-} from '../../utils/store';
+} from '../reduxUtils';
 
 const initialState = {
   isFetching: false,
@@ -19,9 +19,11 @@ const initialState = {
 export const checkAuth = decorateAsyncThunk({
   key: `${constants.AUTH_SLICE_NAME}/checkAuth`,
   thunk: async ({ data: authInfo, navigate, authMode }) => {
-    authMode === constants.AUTH_MODE.LOGIN
-      ? await restController.loginRequest(authInfo)
-      : await restController.registerRequest(authInfo);
+    if (authMode === constants.AUTH_MODE.LOGIN) {
+      await restController.loginRequest(authInfo);
+    } else {
+      await restController.registerRequest(authInfo);
+    }
     navigate('/', { replace: true });
   },
 });

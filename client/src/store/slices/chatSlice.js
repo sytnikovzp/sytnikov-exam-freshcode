@@ -9,7 +9,7 @@ import {
   decorateAsyncThunk,
   createExtraReducers,
   rejectedReducer,
-} from '../../utils/store';
+} from '../reduxUtils';
 
 const initialState = {
   isFetching: true,
@@ -55,7 +55,7 @@ const getPreviewChatExtraReducers = createExtraReducers({
 export const getDialogMessages = decorateAsyncThunk({
   key: `${constants.CHAT_SLICE_NAME}/getDialogMessages`,
   thunk: async (payload) => {
-    const { data } = await restController.getDialog(payload);
+    const { data } = await restController.getDialogMessages(payload);
     return data;
   },
 });
@@ -166,8 +166,8 @@ const changeChatBlockExtraReducers = createExtraReducers({
 //---------- getCatalogList
 export const getCatalogList = decorateAsyncThunk({
   key: `${constants.CHAT_SLICE_NAME}/getCatalogList`,
-  thunk: async (payload) => {
-    const { data } = await restController.getCatalogList(payload);
+  thunk: async () => {
+    const { data } = await restController.getCatalogList();
     return data;
   },
 });
@@ -308,7 +308,6 @@ const changeCatalogNameExtraReducers = createExtraReducers({
     state.isRenameCatalog = false;
   },
 });
-//-------------------------------------------------------
 
 const reducers = {
   changeBlockStatusInStore: (state, { payload }) => {

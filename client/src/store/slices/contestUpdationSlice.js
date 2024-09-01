@@ -11,13 +11,14 @@ import {
   pendingReducer,
   fulfilledReducer,
   rejectedReducer,
-} from '../../utils/store';
+} from '../reduxUtils';
 
 const initialState = {
   isFetching: true,
   error: null,
 };
 
+//---------- updateContest
 export const updateContest = decorateAsyncThunk({
   key: constants.CONTEST_UPDATION_SLICE_NAME,
   thunk: async (payload, { dispatch }) => {

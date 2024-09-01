@@ -12,7 +12,7 @@ import {
   decorateAsyncThunk,
   pendingReducer,
   rejectedReducer,
-} from '../../utils/store';
+} from '../reduxUtils';
 
 const initialState = {
   isFetching: false,
@@ -20,6 +20,7 @@ const initialState = {
   focusOnElement: 'number',
 };
 
+//---------- pay
 export const pay = decorateAsyncThunk({
   key: `${constants.PAYMENT_SLICE_NAME}/pay`,
   thunk: async ({ data, navigate }, { dispatch }) => {
@@ -29,6 +30,7 @@ export const pay = decorateAsyncThunk({
   },
 });
 
+//---------- cashOut
 export const cashOut = decorateAsyncThunk({
   key: `${constants.PAYMENT_SLICE_NAME}/cashOut`,
   thunk: async (payload, { dispatch }) => {

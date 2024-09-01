@@ -10,7 +10,7 @@ const reducers = {
   saveContestToStore: (state, { payload: { type, info } }) => {
     state.contests = {
       ...state.contests,
-      ...{ [type]: info },
+      [type]: info,
     };
   },
   clearContestStore: () => initialState,

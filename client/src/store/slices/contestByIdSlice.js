@@ -8,7 +8,7 @@ import {
   decorateAsyncThunk,
   rejectedReducer,
   createExtraReducers,
-} from '../../utils/store';
+} from '../reduxUtils';
 
 const initialState = {
   isFetching: true,
@@ -31,7 +31,7 @@ export const getContestById = decorateAsyncThunk({
   thunk: async (payload) => {
     const { data } = await restController.getContestById(payload);
     const { Offers } = data;
-    delete data.Offers;
+    // delete data.Offers;
     return { contestData: data, offers: Offers };
   },
 });
