@@ -1,36 +1,44 @@
+import { useCallback } from 'react';
 import moment from 'moment';
 // =============================================
 import constants from '../../constants';
 // =============================================
 import styles from './ContestBox.module.sass';
 
-const ContestBox = (props) => {
-  const getTimeStr = () => {
-    const diff = moment.duration(moment().diff(moment(props.data.createdAt)));
+function ContestBox({ data, goToExtended }) {
+  const getTimeStr = useCallback(() => {
+    const createdAt = moment(data.createdAt);
+    const now = moment();
+    const diffInHours = now.diff(createdAt, 'hours');
+    const diffInDays = Math.floor(diffInHours / 24);
+
     let str = '';
-    if (diff._data.days !== 0) str = `${diff._data.days}d `;
-    if (diff._data.hours !== 0) str += `${diff._data.hours}h`;
+    if (diffInDays !== 0) str = `${diffInDays}d `;
+    const remainingHours = diffInHours % 24;
+    if (remainingHours !== 0) str += `${remainingHours}h`;
     if (str.length === 0) str = 'less than one hour';
     return str;
-  };
+  }, [data.createdAt]);
 
-  const getPreferenceContest = () => {
-    const { data } = props;
+  const getPreferenceContest = useCallback(() => {
     if (data.contestType === constants.CONTEST_TYPES.NAME)
       return data.typeOfName;
     if (data.contestType === constants.CONTEST_TYPES.LOGO)
       return data.brandStyle;
     return data.typeOfTagline;
-  };
+  }, [data]);
 
-  const ucFirstLetter = (string) =>
-    string.charAt(0).toUpperCase() + string.slice(1);
+  const ucFirstLetter = useCallback(
+    (string) => string.charAt(0).toUpperCase() + string.slice(1),
+    []
+  );
 
-  const { id, title, contestType, prize, count } = props.data;
+  const { id, title, contestType, prize, count } = data;
+
   return (
     <div
       className={styles.contestBoxContainer}
-      onClick={() => props.goToExtended(id)}
+      onClick={() => goToExtended(id)}
     >
       <div className={styles.mainContestInfo}>
         <div className={styles.titleAndIdContainer}>
@@ -85,6 +93,6 @@ const ContestBox = (props) => {
       </div>
     </div>
   );
-};
+}
 
 export default ContestBox;
