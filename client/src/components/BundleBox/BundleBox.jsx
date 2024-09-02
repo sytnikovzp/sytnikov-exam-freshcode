@@ -2,10 +2,10 @@ import constants from '../../constants';
 // =============================================
 import styles from './BundleBox.module.sass';
 
-const BundleBox = (props) => {
+function BundleBox(props) {
   const defaultPathToImages = `${constants.IMAGE_PATHS.STATIC}contestLabels/`;
 
-  const renderImage = () => {
+  function renderImage() {
     const array = [];
     for (let i = 0; i < props.path.length; i++) {
       array.push(
@@ -18,28 +18,30 @@ const BundleBox = (props) => {
       );
     }
     return array;
-  };
+  }
 
-  const mouseOverHandler = () => {
+  function mouseOverHandler() {
     const element = document.getElementById(props.header);
     for (let i = 0; i < element.children[0].children.length; i++) {
       element.children[0].children[
         i
       ].src = `${defaultPathToImages}blue_${props.path[i]}`;
     }
-  };
+  }
 
-  const mouseOutHandler = () => {
+  function mouseOutHandler() {
     const element = document.getElementById(props.header);
     for (let i = 0; i < element.children[0].children.length; i++) {
       element.children[0].children[i].src = defaultPathToImages + props.path[i];
     }
-  };
+  }
 
-  const getBackClass = () =>
-    props.path.length === 1 ? ' ' : ` ${styles.combinedBundle}`;
+  function getBackClass() {
+    return props.path.length === 1 ? ' ' : ` ${styles.combinedBundle}`;
+  }
 
   const { setBundle, header, describe } = props;
+
   return (
     <div
       onMouseOver={mouseOverHandler}
@@ -56,6 +58,6 @@ const BundleBox = (props) => {
       </div>
     </div>
   );
-};
+}
 
 export default BundleBox;

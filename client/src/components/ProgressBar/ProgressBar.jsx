@@ -1,15 +1,15 @@
 import styles from './ProgressBar.module.sass';
 
-const ProgressBar = (props) => {
-  const renderProgress = () => {
+function ProgressBar(props) {
+  function renderProgress() {
     const array = [];
     for (let i = 1; i <= 3; i++) {
       array.push(renderBar(i));
     }
     return array;
-  };
+  }
 
-  const renderBar = (count) => {
+  function renderBar(count) {
     const { currentStep } = props;
     let classOuter = styles.outerNotActive;
     let classInner = styles.innerNotActive;
@@ -33,8 +33,9 @@ const ProgressBar = (props) => {
         </div>
       </div>
     );
-  };
+  }
 
   return <div className={styles.progressBarContainer}>{renderProgress()}</div>;
-};
+}
+
 export default ProgressBar;
