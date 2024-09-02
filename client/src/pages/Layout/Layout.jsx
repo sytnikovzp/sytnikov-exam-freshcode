@@ -7,7 +7,7 @@ import AuthHeader from '../../components/Layout/AuthHeader/AuthHeader';
 // =============================================
 import styles from './Layout.module.sass';
 
-const Layout = () => {
+function Layout() {
   const { pathname } = useLocation();
 
   const isRegisterPathname = pathname === '/registration';
@@ -24,6 +24,6 @@ const Layout = () => {
       {isRegisterPathname && <RegistrationFooter />}
     </div>
   );
-};
+}
 
 export default Layout;
