@@ -7,9 +7,10 @@ import RegistrationForm from '../../components/RegistrationForm/RegistrationForm
 // =============================================
 import styles from './RegistrationPage.module.sass';
 
-const RegistrationPage = () => {
+function RegistrationPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   dispatch(clearAuthError());
 
   return (
@@ -19,6 +20,6 @@ const RegistrationPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default RegistrationPage;
