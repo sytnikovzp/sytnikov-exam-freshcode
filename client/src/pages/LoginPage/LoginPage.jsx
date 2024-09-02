@@ -4,7 +4,7 @@ import LoginForm from '../../components/LoginForm/LoginForm';
 // =============================================
 import styles from './LoginPage.module.sass';
 
-const LoginPage = () => {
+function LoginPage() {
   const navigate = useNavigate();
 
   return (
@@ -16,6 +16,6 @@ const LoginPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default LoginPage;
