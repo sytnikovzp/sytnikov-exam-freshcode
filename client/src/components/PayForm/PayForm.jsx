@@ -1,6 +1,6 @@
-import Cards from 'react-credit-cards-2';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
-import { connect } from 'react-redux';
+import Cards from 'react-credit-cards-2';
 // =============================================
 import Schems from '../../utils/validators/validationSchems';
 // =============================================
@@ -11,16 +11,18 @@ import PayInput from '../InputComponents/PayInput/PayInput';
 import styles from './PayForm.module.sass';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 
-const PayForm = (props) => {
-  const changeFocusOnCard = (name) => {
-    props.changeFocusOnCard(name);
-  };
+function PayForm({ sendRequest, isPayForOrder, back }) {
+  const dispatch = useDispatch();
+  const focusOnElement = useSelector((state) => state.payment.focusOnElement);
 
-  const pay = (values) => {
-    props.sendRequest(values);
-  };
+  function handleChangeFocusOnCard(name) {
+    dispatch(changeFocusOnCard(name));
+  }
 
-  const { focusOnElement, isPayForOrder } = props;
+  function handlePay(values) {
+    sendRequest(values);
+  }
+
   return (
     <div className={styles.payFormContainer}>
       <span className={styles.headerInfo}>Payment Information</span>
@@ -32,7 +34,7 @@ const PayForm = (props) => {
           cvc: '',
           expiry: '',
         }}
-        onSubmit={pay}
+        onSubmit={handlePay}
         validationSchema={Schems.PaymentSchema}
       >
         {({ values }) => {
@@ -62,7 +64,7 @@ const PayForm = (props) => {
                     }}
                     type="text"
                     label="name"
-                    changeFocus={changeFocusOnCard}
+                    changeFocus={handleChangeFocusOnCard}
                   />
                 </div>
                 {!isPayForOrder && (
@@ -95,7 +97,7 @@ const PayForm = (props) => {
                     }}
                     type="text"
                     label="card number"
-                    changeFocus={changeFocusOnCard}
+                    changeFocus={handleChangeFocusOnCard}
                   />
                 </div>
                 <div className={styles.smallInputContainer}>
@@ -113,7 +115,7 @@ const PayForm = (props) => {
                       }}
                       type="text"
                       label="expiry"
-                      changeFocus={changeFocusOnCard}
+                      changeFocus={handleChangeFocusOnCard}
                     />
                   </div>
                   <div className={styles.smallInput}>
@@ -130,7 +132,7 @@ const PayForm = (props) => {
                       }}
                       type="text"
                       label="cvc"
-                      changeFocus={changeFocusOnCard}
+                      changeFocus={handleChangeFocusOnCard}
                     />
                   </div>
                 </div>
@@ -149,17 +151,13 @@ const PayForm = (props) => {
           <span>{isPayForOrder ? 'Pay Now' : 'CashOut'}</span>
         </button>
         {isPayForOrder && (
-          <div onClick={() => props.back()} className={styles.backButton}>
+          <div onClick={back} className={styles.backButton}>
             <span>Back</span>
           </div>
         )}
       </div>
     </div>
   );
-};
+}
 
-const mapDispatchToProps = (dispatch) => ({
-  changeFocusOnCard: (data) => dispatch(changeFocusOnCard(data)),
-});
-
-export default connect(null, mapDispatchToProps)(PayForm);
+export default PayForm;

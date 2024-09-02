@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import InputMask from 'react-input-mask';
 import { useField } from 'formik';
 
-const PayInput = (props) => {
+function PayInput(props) {
   const { label, changeFocus, classes, isInputMask, mask } = props;
   const [field, meta] = useField(props.name);
   const { touched, error } = meta;
@@ -23,6 +23,7 @@ const PayInput = (props) => {
       </div>
     );
   }
+
   if (isInputMask) {
     return (
       <div className={classes.container}>
@@ -42,6 +43,7 @@ const PayInput = (props) => {
       </div>
     );
   }
+
   return (
     <div className={classes.container}>
       <input
@@ -57,6 +59,6 @@ const PayInput = (props) => {
       )}
     </div>
   );
-};
+}
 
 export default PayInput;
