@@ -13,15 +13,23 @@ function Layout() {
   const isRegisterPathname = pathname === '/registration';
   const isAuthPathname = pathname === '/login' || isRegisterPathname;
 
+  const renderHeader = () => {
+    return isAuthPathname ? <AuthHeader /> : <Header />;
+  };
+
+  const renderFooter = () => {
+    if (isRegisterPathname) return <RegistrationFooter />;
+    if (!isAuthPathname) return <Footer />;
+    return null;
+  };
+
   return (
     <div className={styles.container}>
-      {isAuthPathname && <AuthHeader />}
-      {!isAuthPathname && <Header />}
+      {renderHeader()}
       <div className={styles.content}>
         <Outlet />
       </div>
-      {!isAuthPathname && <Footer />}
-      {isRegisterPathname && <RegistrationFooter />}
+      {renderFooter()}
     </div>
   );
 }

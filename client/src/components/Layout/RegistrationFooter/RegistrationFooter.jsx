@@ -1,6 +1,6 @@
 import styles from './RegistrationFooter.module.sass';
 
-const RegistrationFooter = () => {
+function RegistrationFooter() {
   return (
     <div className={styles.footer}>
       <div className={styles.articlesMainContainer}>
@@ -58,7 +58,7 @@ const RegistrationFooter = () => {
           <div className={styles.article}>
             Our naming competitions start at $199, and our logo design
             competitions start at $299. Also, there are three additional contest
-            level that each offer more features and benefits. See our Pricing
+            levels that each offer more features and benefits. See our Pricing
             Page for details.
           </div>
           <div className={styles.headerArticle}>
@@ -94,6 +94,6 @@ const RegistrationFooter = () => {
       </div>
     </div>
   );
-};
+}
 
 export default RegistrationFooter;
