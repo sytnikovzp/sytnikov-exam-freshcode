@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 // =============================================
 import Spinner from '../../Spinner/Spinner';
 
-const PrivateRoute = () => {
+function PrivateRoute() {
   const { data, isFetching } = useSelector((state) => state.userStore);
 
   if (isFetching) {
@@ -11,6 +11,6 @@ const PrivateRoute = () => {
   }
 
   return data ? <Outlet /> : <Navigate to="/login" />;
-};
+}
 
 export default PrivateRoute;

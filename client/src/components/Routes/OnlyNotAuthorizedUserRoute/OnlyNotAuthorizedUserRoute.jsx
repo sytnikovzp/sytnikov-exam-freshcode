@@ -6,7 +6,7 @@ import { getUser } from '../../../store/slices/userSlice';
 // =============================================
 import Spinner from '../../Spinner/Spinner';
 
-const OnlyNotAuthorizedUserRoute = () => {
+function OnlyNotAuthorizedUserRoute() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data, isFetching } = useSelector((state) => state.userStore);
@@ -19,7 +19,12 @@ const OnlyNotAuthorizedUserRoute = () => {
     return <Spinner />;
   }
 
-  return data ? navigate('/') : <Outlet />;
-};
+  if (data) {
+    navigate('/');
+    return null;
+  }
+
+  return <Outlet />;
+}
 
 export default OnlyNotAuthorizedUserRoute;
