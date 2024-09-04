@@ -14,7 +14,6 @@ import styles from './StartContestPage.module.sass';
 function StartContestPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const userStore = useSelector((state) => state.userStore);
 
   useEffect(() => {
@@ -25,39 +24,41 @@ function StartContestPage() {
 
   function handleSetBundle(bundleStr) {
     const array = bundleStr.toLowerCase().split('+');
-    const bundleList = {};
-    bundleList.first = array[0];
-    for (let i = 0; i < array.length; i++) {
-      bundleList[array[i]] = i === array.length - 1 ? 'payment' : array[i + 1];
-    }
+    const bundleList = { first: array[0] };
+
+    array.forEach((item, index) => {
+      bundleList[item] =
+        index === array.length - 1 ? 'payment' : array[index + 1];
+    });
+
     dispatch(updateBundle(bundleList));
     navigate(`/startContest/${bundleList.first}Contest`);
   }
 
   return (
     <div>
-      <div className={styles.startContestHeader}>
+      <header className={styles.startContestHeader}>
         <div className={styles.startContestInfo}>
           <h2>START A CONTEST</h2>
-          <span>
+          <p>
             Launching a contest on Squadhelp is very simple. Select the type of
             contest you would like to launch from the list below. Provide a
             detailed brief and select a pricing package. Begin receiving
             submissions instantly!
-          </span>
+          </p>
         </div>
         <ProgressBar currentStep={1} />
-      </div>
-      <div className={styles.baseBundleContainer}>
+      </header>
+      <section className={styles.baseBundleContainer}>
         <div className={styles.infoBaseBundles}>
           <span className={styles.headerInfo}>
             Our Most Popular
-            <span>Categories</span>
+            <span> Categories</span>
           </span>
-          <span className={styles.info}>
+          <p className={styles.info}>
             Pick from our most popular categories, launch a contest and begin
             receiving submissions right away
-          </span>
+          </p>
           <hr />
         </div>
         <div className={styles.baseBundles}>
@@ -80,15 +81,15 @@ function StartContestPage() {
             setBundle={handleSetBundle}
           />
         </div>
-      </div>
-      <div className={styles.combinedBundles}>
+      </section>
+      <section className={styles.combinedBundles}>
         <div className={styles.infoCombinedBundles}>
           <span className={styles.headerInfo}>
             Save With Our Bundle Packages
           </span>
-          <span className={styles.info}>
+          <p className={styles.info}>
             Launch multiple contests and pay a discounted bundle price
-          </span>
+          </p>
           <hr />
         </div>
         <div className={styles.baseBundles}>
@@ -117,7 +118,7 @@ function StartContestPage() {
             setBundle={handleSetBundle}
           />
         </div>
-      </div>
+      </section>
     </div>
   );
 }

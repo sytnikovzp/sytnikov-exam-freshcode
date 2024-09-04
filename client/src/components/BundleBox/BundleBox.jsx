@@ -2,53 +2,45 @@ import constants from '../../constants';
 // =============================================
 import styles from './BundleBox.module.sass';
 
-function BundleBox(props) {
+function BundleBox({ path, header, describe, setBundle }) {
   const defaultPathToImages = `${constants.IMAGE_PATHS.STATIC}contestLabels/`;
 
   function renderImage() {
-    const array = [];
-    for (let i = 0; i < props.path.length; i++) {
-      array.push(
-        <img
-          src={defaultPathToImages + props.path[i]}
-          key={i}
-          className={styles.imgContainer}
-          alt={props.path[i].replace(/.png/g, 'Contest')}
-        />
-      );
-    }
-    return array;
+    return path.map((image, index) => (
+      <img
+        src={`${defaultPathToImages}${image}`}
+        key={index}
+        className={styles.imgContainer}
+        alt={image.replace(/.png/g, 'Contest')}
+      />
+    ));
   }
 
-  function mouseOverHandler() {
-    const element = document.getElementById(props.header);
-    for (let i = 0; i < element.children[0].children.length; i++) {
-      element.children[0].children[
-        i
-      ].src = `${defaultPathToImages}blue_${props.path[i]}`;
-    }
+  function handleMouseOver() {
+    const element = document.getElementById(header);
+    const images = element?.querySelectorAll('img');
+    images.forEach((img, index) => {
+      img.src = `${defaultPathToImages}blue_${path[index]}`;
+    });
   }
 
-  function mouseOutHandler() {
-    const element = document.getElementById(props.header);
-    for (let i = 0; i < element.children[0].children.length; i++) {
-      element.children[0].children[i].src = defaultPathToImages + props.path[i];
-    }
+  function handleMouseOut() {
+    const element = document.getElementById(header);
+    const images = element?.querySelectorAll('img');
+    images.forEach((img, index) => {
+      img.src = `${defaultPathToImages}${path[index]}`;
+    });
   }
 
-  function getBackClass() {
-    return props.path.length === 1 ? ' ' : ` ${styles.combinedBundle}`;
-  }
-
-  const { setBundle, header, describe } = props;
+  const backClass = path.length === 1 ? '' : ` ${styles.combinedBundle}`;
 
   return (
     <div
-      onMouseOver={mouseOverHandler}
-      onMouseOut={mouseOutHandler}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
       onClick={() => setBundle(header)}
       id={header}
-      className={styles.bundleContainer + getBackClass()}
+      className={`${styles.bundleContainer}${backClass}`}
     >
       <div>{renderImage()}</div>
       <div className={styles.infoContainer}>

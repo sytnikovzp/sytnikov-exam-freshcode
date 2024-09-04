@@ -1,28 +1,24 @@
 import styles from './ProgressBar.module.sass';
 
-function ProgressBar(props) {
+function ProgressBar({ currentStep }) {
   function renderProgress() {
-    const array = [];
-    for (let i = 1; i <= 3; i++) {
-      array.push(renderBar(i));
-    }
-    return array;
+    return [1, 2, 3].map((count) => renderBar(count));
   }
 
   function renderBar(count) {
-    const { currentStep } = props;
     let classOuter = styles.outerNotActive;
     let classInner = styles.innerNotActive;
     let classProgress = '';
+
     if (count === currentStep) {
       classOuter = styles.outerActive;
       classInner = styles.innerActive;
       classProgress = styles.progressContainer;
-    }
-    if (count < currentStep) {
+    } else if (count < currentStep) {
       classOuter = styles.outerComplete;
       classInner = styles.innerComplete;
     }
+
     return (
       <div className={classProgress} key={count}>
         <div className={styles.progressBarContainer}>
