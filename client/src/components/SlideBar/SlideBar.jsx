@@ -5,7 +5,7 @@ import constants from '../../constants';
 import style from './SlideBar.module.sass';
 import './flickity.css';
 
-const SliderBar = (props) => {
+function SliderBar(props) {
   const options = {
     draggable: true,
     wrapAround: true,
@@ -16,7 +16,7 @@ const SliderBar = (props) => {
     lazyLoad: true,
   };
 
-  const getStyleName = () => {
+  function getStyleName() {
     const { carouselType } = props;
     switch (carouselType) {
       case constants.SLIDER_TYPES.MAIN:
@@ -25,46 +25,48 @@ const SliderBar = (props) => {
         return style.exampleCarousel;
       case constants.SLIDER_TYPES.FEEDBACK:
         return style.feedbackCarousel;
+      default:
+        return '';
     }
-  };
+  }
 
-  const renderSlides = () => {
-    const { carouselType } = props;
+  function renderSlides() {
+    const { carouselType, images } = props;
     switch (carouselType) {
-      case constants.SLIDER_TYPES.MAIN: {
-        return Object.keys(props.images).map((key, index) => (
+      case constants.SLIDER_TYPES.MAIN:
+        return Object.keys(images).map((key, index) => (
           <img
-            src={props.images[key]}
+            src={images[key]}
             alt="slide"
             key={index}
             className={style['carousel-cell']}
           />
         ));
-      }
-      case constants.SLIDER_TYPES.EXAMPLE: {
-        return Object.keys(props.images).map((key, index) => (
+      case constants.SLIDER_TYPES.EXAMPLE:
+        return Object.keys(images).map((key, index) => (
           <div className={style['example-cell']} key={index}>
-            <img src={props.images[key]} alt="slide" />
+            <img src={images[key]} alt="slide" />
             <p>{constants.EXAMPLE_SLIDER_TEXT[index]}</p>
           </div>
         ));
-      }
-      case constants.SLIDER_TYPES.FEEDBACK: {
-        return Object.keys(props.images).map((key, index) => (
+      case constants.SLIDER_TYPES.FEEDBACK:
+        return Object.keys(images).map((key, index) => (
           <div className={style['feedback-cell']} key={index}>
-            <img src={props.images[key]} alt="slide" />
+            <img src={images[key]} alt="slide" />
             <p>{constants.FEEDBACK_SLIDER_TEXT[index].feedback}</p>
             <span>{constants.FEEDBACK_SLIDER_TEXT[index].name}</span>
           </div>
         ));
-      }
+      default:
+        return null;
     }
-  };
+  }
+
   return (
     <Flickity className={getStyleName()} elementType="div" options={options}>
       {renderSlides()}
     </Flickity>
   );
-};
+}
 
 export default SliderBar;
