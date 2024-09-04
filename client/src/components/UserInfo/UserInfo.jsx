@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // =============================================
 import { updateUser } from '../../store/slices/userSlice';
 import { changeEditModeOnUserProfile } from '../../store/slices/userProfileSlice';
@@ -9,19 +9,30 @@ import UpdateUserInfoForm from '../UpdateUserInfoForm/UpdateUserInfoForm';
 // =============================================
 import styles from './UserInfo.module.sass';
 
-const UserInfo = (props) => {
+function UserInfo() {
+  const dispatch = useDispatch();
+
+  const { data, isEdit } = useSelector((state) => ({
+    data: state.userStore.data,
+    isEdit: state.userProfile.isEdit,
+  }));
+
   const updateUserData = (values) => {
     const formData = new FormData();
     formData.append('file', values.file);
     formData.append('firstName', values.firstName);
     formData.append('lastName', values.lastName);
     formData.append('displayName', values.displayName);
-    props.updateUser(formData);
+    dispatch(updateUser(formData));
   };
 
-  const { isEdit, changeEditMode, data } = props;
+  const handleEditModeChange = () => {
+    dispatch(changeEditModeOnUserProfile(!isEdit));
+  };
+
   const { avatar, firstName, lastName, displayName, email, role, balance } =
     data;
+
   return (
     <div className={styles.mainContainer}>
       {isEdit ? (
@@ -67,25 +78,11 @@ const UserInfo = (props) => {
           </div>
         </div>
       )}
-      <div
-        onClick={() => changeEditMode(!isEdit)}
-        className={styles.buttonEdit}
-      >
+      <div onClick={handleEditModeChange} className={styles.buttonEdit}>
         {isEdit ? 'Cancel' : 'Edit'}
       </div>
     </div>
   );
-};
+}
 
-const mapStateToProps = (state) => {
-  const { data } = state.userStore;
-  const { isEdit } = state.userProfile;
-  return { data, isEdit };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  updateUser: (data) => dispatch(updateUser(data)),
-  changeEditMode: (data) => dispatch(changeEditModeOnUserProfile(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
+export default UserInfo;

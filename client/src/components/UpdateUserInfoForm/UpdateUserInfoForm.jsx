@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // =============================================
 import { clearUserError } from '../../store/slices/userSlice';
 // =============================================
@@ -11,12 +11,26 @@ import Error from '../Error/Error';
 // =============================================
 import styles from './UpdateUserInfoForm.module.sass';
 
-const UpdateUserInfoForm = (props) => {
-  const { onSubmit, submitting, error, clearUserError } = props;
+function UpdateUserInfoForm({ onSubmit, submitting }) {
+  const dispatch = useDispatch();
+
+  const { data, error } = useSelector((state) => ({
+    data: state.userStore.data,
+    error: state.userStore.error,
+  }));
+
+  const handleClearUserError = () => {
+    dispatch(clearUserError());
+  };
+
   return (
     <Formik
       onSubmit={onSubmit}
-      initialValues={props.initialValues}
+      initialValues={{
+        firstName: data.firstName,
+        lastName: data.lastName,
+        displayName: data.displayName,
+      }}
       validationSchema={Schems.UpdateUserSchema}
     >
       <Form className={styles.updateContainer}>
@@ -24,7 +38,7 @@ const UpdateUserInfoForm = (props) => {
           <Error
             data={error.data}
             status={error.status}
-            clearError={clearUserError}
+            clearError={handleClearUserError}
           />
         )}
         <div className={styles.container}>
@@ -46,7 +60,7 @@ const UpdateUserInfoForm = (props) => {
           <FormInput
             name="lastName"
             type="text"
-            label="LastName"
+            label="Last Name"
             classes={{
               container: styles.inputContainer,
               input: styles.input,
@@ -83,22 +97,6 @@ const UpdateUserInfoForm = (props) => {
       </Form>
     </Formik>
   );
-};
+}
 
-const mapStateToProps = (state) => {
-  const { data, error } = state.userStore;
-  return {
-    error,
-    initialValues: {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      displayName: data.displayName,
-    },
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  clearUserError: () => dispatch(clearUserError()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateUserInfoForm);
+export default UpdateUserInfoForm;

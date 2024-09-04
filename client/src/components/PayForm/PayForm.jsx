@@ -15,13 +15,13 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
   const dispatch = useDispatch();
   const focusOnElement = useSelector((state) => state.payment.focusOnElement);
 
-  function handleChangeFocusOnCard(name) {
+  const handleChangeFocusOnCard = (name) => {
     dispatch(changeFocusOnCard(name));
-  }
+  };
 
-  function handlePay(values) {
+  const handlePay = (values) => {
     sendRequest(values);
-  }
+  };
 
   return (
     <div className={styles.payFormContainer}>
@@ -33,6 +33,7 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
           number: '',
           cvc: '',
           expiry: '',
+          sum: '',
         }}
         onSubmit={handlePay}
         validationSchema={Schems.PaymentSchema}
@@ -51,7 +52,7 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
                   focused={focusOnElement}
                 />
               </div>
-              <Form id="myForm" className={styles.formContainer}>
+              <Form id="paymentForm" className={styles.formContainer}>
                 <div className={styles.bigInput}>
                   <span>Name</span>
                   <PayInput
@@ -63,7 +64,7 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
                       error: styles.error,
                     }}
                     type="text"
-                    label="name"
+                    label="Name"
                     changeFocus={handleChangeFocusOnCard}
                   />
                 </div>
@@ -79,7 +80,7 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
                         error: styles.error,
                       }}
                       type="text"
-                      label="sum"
+                      label="Sum"
                     />
                   </div>
                 )}
@@ -87,7 +88,7 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
                   <span>Card Number</span>
                   <PayInput
                     isInputMask
-                    mask="9999 9999 9999 9999 999"
+                    mask="9999 9999 9999 9999"
                     name="number"
                     classes={{
                       container: styles.inputContainer,
@@ -96,7 +97,7 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
                       error: styles.error,
                     }}
                     type="text"
-                    label="card number"
+                    label="Card Number"
                     changeFocus={handleChangeFocusOnCard}
                   />
                 </div>
@@ -114,7 +115,7 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
                         error: styles.error,
                       }}
                       type="text"
-                      label="expiry"
+                      label="Expiry"
                       changeFocus={handleChangeFocusOnCard}
                     />
                   </div>
@@ -122,7 +123,7 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
                     <span>* Security Code</span>
                     <PayInput
                       isInputMask
-                      mask="9999"
+                      mask="999"
                       name="cvc"
                       classes={{
                         container: styles.inputContainer,
@@ -131,7 +132,7 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
                         error: styles.error,
                       }}
                       type="text"
-                      label="cvc"
+                      label="CVC"
                       changeFocus={handleChangeFocusOnCard}
                     />
                   </div>
@@ -147,8 +148,8 @@ function PayForm({ sendRequest, isPayForOrder, back }) {
         </div>
       )}
       <div className={styles.buttonsContainer}>
-        <button form="myForm" className={styles.payButton} type="submit">
-          <span>{isPayForOrder ? 'Pay Now' : 'CashOut'}</span>
+        <button form="paymentForm" className={styles.payButton} type="submit">
+          <span>{isPayForOrder ? 'Pay Now' : 'Cash Out'}</span>
         </button>
         {isPayForOrder && (
           <div onClick={back} className={styles.backButton}>

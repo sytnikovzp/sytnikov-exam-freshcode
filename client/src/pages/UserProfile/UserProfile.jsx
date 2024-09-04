@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 // =============================================
 import { cashOut, clearPaymentStore } from '../../store/slices/paymentSlice';
@@ -12,25 +12,29 @@ import Error from '../../components/Error/Error';
 // =============================================
 import styles from './UserProfile.module.sass';
 
-const UserProfile = (props) => {
+function UserProfile() {
+  const dispatch = useDispatch();
+
+  const { balance, role, profileViewMode, error } = useSelector((state) => ({
+    balance: state.userStore.data.balance,
+    role: state.userStore.data.role,
+    profileViewMode: state.userProfile.profileViewMode,
+    error: state.payment.error,
+  }));
+
   const pay = (values) => {
     const { number, expiry, cvc, sum } = values;
-    props.cashOut({
-      number,
-      expiry,
-      cvc,
-      sum,
-    });
+    dispatch(cashOut({ number, expiry, cvc, sum }));
   };
 
-  const {
-    balance,
-    role,
-    profileViewMode,
-    changeProfileViewMode,
-    error,
-    clearPaymentStore,
-  } = props;
+  const handleProfileViewModeChange = (mode) => {
+    dispatch(changeProfileViewMode(mode));
+  };
+
+  const clearError = () => {
+    dispatch(clearPaymentStore());
+  };
+
   return (
     <div>
       <div className={styles.mainContainer}>
@@ -43,7 +47,7 @@ const UserProfile = (props) => {
                   profileViewMode === constants.UI_MODES.USER_INFO,
               })}
               onClick={() =>
-                changeProfileViewMode(constants.UI_MODES.USER_INFO)
+                handleProfileViewModeChange(constants.UI_MODES.USER_INFO)
               }
             >
               UserInfo
@@ -55,7 +59,7 @@ const UserProfile = (props) => {
                     profileViewMode === constants.UI_MODES.CASHOUT,
                 })}
                 onClick={() =>
-                  changeProfileViewMode(constants.UI_MODES.CASHOUT)
+                  handleProfileViewModeChange(constants.UI_MODES.CASHOUT)
                 }
               >
                 Cashout
@@ -77,7 +81,7 @@ const UserProfile = (props) => {
                   <Error
                     data={error.data}
                     status={error.status}
-                    clearError={clearPaymentStore}
+                    clearError={clearError}
                   />
                 )}
                 <PayForm sendRequest={pay} />
@@ -88,24 +92,6 @@ const UserProfile = (props) => {
       </div>
     </div>
   );
-};
+}
 
-const mapStateToProps = (state) => {
-  const { balance, role } = state.userStore.data;
-  const { profileViewMode } = state.userProfile;
-  const { error } = state.payment;
-  return {
-    balance,
-    role,
-    profileViewMode,
-    error,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  cashOut: (data) => dispatch(cashOut(data)),
-  changeProfileViewMode: (data) => dispatch(changeProfileViewMode(data)),
-  clearPaymentStore: () => dispatch(clearPaymentStore()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default UserProfile;
