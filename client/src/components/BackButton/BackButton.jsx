@@ -1,10 +1,12 @@
-import withRouter from '../../hocs/withRouter';
+import { useNavigate } from 'react-router-dom';
 // =============================================
 import styles from './BackButton.module.sass';
 
-const BackButton = (props) => {
+function BackButton() {
+  const navigate = useNavigate();
+
   function clickHandler() {
-    props.navigate(-1);
+    navigate(-1);
   }
 
   return (
@@ -12,6 +14,6 @@ const BackButton = (props) => {
       <span>Back</span>
     </div>
   );
-};
+}
 
-export default withRouter(BackButton);
+export default BackButton;

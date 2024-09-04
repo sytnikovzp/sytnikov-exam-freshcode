@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { connect } from 'react-redux';
+import { useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 // =============================================
 import { saveContestToStore } from '../../store/slices/contestCreationSlice';
@@ -11,20 +11,26 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 // =============================================
 import styles from './ContestCreationPage.module.sass';
 
-const ContestCreationPage = (props) => {
+function ContestCreationPage({ contestType, title }) {
   const formRef = useRef();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const contestData = props.contestCreationStore.contests[props.contestType]
-    ? props.contestCreationStore.contests[props.contestType]
-    : { contestType: props.contestType };
+  const contestCreationStore = useSelector(
+    (state) => state.contestCreationStore
+  );
+  const bundleStore = useSelector((state) => state.bundleStore);
+
+  const contestData = contestCreationStore.contests[contestType]
+    ? contestCreationStore.contests[contestType]
+    : { contestType };
 
   const handleSubmit = (values) => {
-    props.saveContest({ type: props.contestType, info: values });
+    dispatch(saveContestToStore({ type: contestType, info: values }));
     const route =
-      props.bundleStore.bundle[props.contestType] === 'payment'
+      bundleStore.bundle[contestType] === 'payment'
         ? '/payment'
-        : `/startContest/${props.bundleStore.bundle[props.contestType]}Contest`;
+        : `/startContest/${bundleStore.bundle[contestType]}Contest`;
     navigate(route);
   };
 
@@ -34,13 +40,17 @@ const ContestCreationPage = (props) => {
     }
   };
 
-  !props.bundleStore.bundle && navigate('/startContest', { replace: true });
+  useEffect(() => {
+    if (!bundleStore.bundle) {
+      navigate('/startContest', { replace: true });
+    }
+  }, [bundleStore, navigate]);
 
   return (
     <div>
       <div className={styles.startContestHeader}>
         <div className={styles.startContestInfo}>
-          <h2>{props.title}</h2>
+          <h2>{title}</h2>
           <span>
             Tell us a bit more about your business as well as your preferences
             so that creatives get a better idea about what you are looking for
@@ -51,7 +61,7 @@ const ContestCreationPage = (props) => {
       <div className={styles.container}>
         <div className={styles.formContainer}>
           <ContestForm
-            contestType={props.contestType}
+            contestType={contestType}
             handleSubmit={handleSubmit}
             formRef={formRef}
             defaultData={contestData}
@@ -68,18 +78,6 @@ const ContestCreationPage = (props) => {
       </div>
     </div>
   );
-};
+}
 
-const mapStateToProps = (state) => {
-  const { contestCreationStore, bundleStore } = state;
-  return { contestCreationStore, bundleStore };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  saveContest: (data) => dispatch(saveContestToStore(data)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ContestCreationPage);
+export default ContestCreationPage;
