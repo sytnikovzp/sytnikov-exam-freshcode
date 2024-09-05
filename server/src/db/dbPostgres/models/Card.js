@@ -1,4 +1,5 @@
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Card extends Model {}
   Card.init(
@@ -24,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL,
         allowNull: false,
         defaultValue: 0,
+        validate: {
+          min: 0,
+        },
       },
     },
     {

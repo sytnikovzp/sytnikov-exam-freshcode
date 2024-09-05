@@ -157,7 +157,7 @@ const rejectOffer = async (offerId, creatorId, contestId) => {
 const resolveOffer = async (
   contestId,
   creatorId,
-  orderId,
+  order_id,
   offerId,
   priority,
   transaction
@@ -165,17 +165,17 @@ const resolveOffer = async (
   const finishedContest = await contestQueries.updateContestStatus(
     {
       status: dbPostgres.sequelize.literal(`   CASE
-            WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${
+            WHEN "id"=${contestId}  AND "order_id"='${order_id}' THEN '${
         constants.CONTEST_STATUS.FINISHED
       }'
-            WHEN "orderId"='${orderId}' AND "priority"=${priority + 1}  THEN '${
+            WHEN "order_id"='${order_id}' AND "priority"=${priority + 1}  THEN '${
         constants.CONTEST_STATUS.ACTIVE
       }'
             ELSE '${constants.CONTEST_STATUS.PENDING}'
             END
     `),
     },
-    { orderId },
+    { order_id },
     transaction
   );
   await userQueries.updateUser(
@@ -242,7 +242,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
       const winningOffer = await resolveOffer(
         req.body.contestId,
         req.body.creatorId,
-        req.body.orderId,
+        req.body.order_id,
         req.body.offerId,
         req.body.priority,
         transaction

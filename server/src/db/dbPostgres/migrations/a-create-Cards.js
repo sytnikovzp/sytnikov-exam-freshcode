@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('cards', {
-      cardNumber: {
+      card_number: {
         type: Sequelize.STRING,
         allowNull: false,
         primaryKey: true,

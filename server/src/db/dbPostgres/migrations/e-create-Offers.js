@@ -3,36 +3,40 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('offers', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      userId: {
+      user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'users',
           key: 'id',
         },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
       },
-      contestId: {
+      contest_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'contests',
           key: 'id',
         },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
       },
       text: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      fileName: {
+      file_name: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      originalFileName: {
+      original_file_name: {
         type: Sequelize.STRING,
         allowNull: true,
       },

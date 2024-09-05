@@ -1,24 +1,18 @@
-const { Model } = require('sequelize');
+const { Model, Sequelize } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Offer extends Model {
     static associate(models) {
       Offer.belongsTo(models.User, {
         foreignKey: 'userId',
-        sourceKey: 'id',
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
       });
 
       Offer.belongsTo(models.Contest, {
         foreignKey: 'contestId',
-        sourceKey: 'id',
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
       });
 
       Offer.hasOne(models.Rating, {
         foreignKey: 'offerId',
-        targetKey: 'id',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       });
@@ -51,12 +45,21 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         defaultValue: 'pending',
       },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+      },
     },
     {
       sequelize,
       modelName: 'Offer',
       tableName: 'offers',
-      timestamps: false,
       underscored: true,
     }
   );

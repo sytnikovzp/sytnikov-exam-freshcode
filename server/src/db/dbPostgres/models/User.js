@@ -1,45 +1,40 @@
-const { Model } = require('sequelize');
+const { Model, Sequelize } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.hasMany(models.Order, {
-        foreignKey: 'userId',
-        targetKey: 'id',
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
-      });
+      // User.hasMany(models.Order, {
+      //   foreignKey: 'userId',
+      //   onDelete: 'SET NULL',
+      //   onUpdate: 'CASCADE',
+      // });
 
-      User.hasMany(models.Participant, {
-        foreignKey: 'userId',
-        targetKey: 'id',
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
-      });
+      // User.hasMany(models.Participant, {
+      //   foreignKey: 'userId',
+      //   onDelete: 'SET NULL',
+      //   onUpdate: 'CASCADE',
+      // });
 
       User.hasMany(models.Offer, {
         foreignKey: 'userId',
-        targetKey: 'id',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       });
 
-      User.hasMany(models.RefreshToken, {
-        foreignKey: 'userId',
-        targetKey: 'id',
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
-      });
+      // User.hasMany(models.RefreshToken, {
+      //   foreignKey: 'userId',
+      //   onDelete: 'SET NULL',
+      //   onUpdate: 'CASCADE',
+      // });
 
       User.hasMany(models.Contest, {
         foreignKey: 'userId',
-        targetKey: 'id',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       });
 
       User.hasMany(models.Rating, {
         foreignKey: 'userId',
-        targetKey: 'id',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       });
@@ -59,14 +54,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      accessToken: {
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
       avatar: {
         type: DataTypes.STRING,
@@ -85,21 +84,26 @@ module.exports = (sequelize, DataTypes) => {
           min: 0,
         },
       },
-      accessToken: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
       rating: {
         type: DataTypes.FLOAT,
         allowNull: false,
         defaultValue: 0,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
       },
     },
     {
       sequelize,
       modelName: 'User',
       tableName: 'users',
-      timestamps: false,
       underscored: true,
     }
   );

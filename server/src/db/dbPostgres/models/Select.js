@@ -1,17 +1,16 @@
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Select extends Model {}
   Select.init(
     {
       type: {
-        allowNull: false,
-        primaryKey: true,
         type: DataTypes.STRING,
+        allowNull: false,
       },
       describe: {
-        allowNull: false,
-        primaryKey: true,
         type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {

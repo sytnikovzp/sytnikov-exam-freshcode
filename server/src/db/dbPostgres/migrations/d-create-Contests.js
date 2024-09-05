@@ -3,82 +3,84 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('contests', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER,
-      },
-      contestType: {
         allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      contest_type: {
         type: Sequelize.ENUM('name', 'tagline', 'logo'),
-      },
-      fileName: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      originalFileName: {
-        allowNull: true,
-        type: Sequelize.STRING,
+        allowNull: false,
       },
       title: {
-        allowNull: true,
         type: Sequelize.STRING,
+        allowNull: true,
       },
-      typeOfName: {
-        allowNull: true,
+      type_of_name: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       industry: {
-        allowNull: true,
         type: Sequelize.STRING,
-      },
-      focusOfWork: {
         allowNull: true,
+      },
+      focus_of_work: {
         type: Sequelize.TEXT,
-      },
-      targetCustomer: {
         allowNull: true,
+      },
+      target_customer: {
         type: Sequelize.TEXT,
-      },
-      styleName: {
         allowNull: true,
-        type: Sequelize.STRING,
       },
-      nameVenture: {
-        allowNull: true,
+      style_name: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
-      typeOfTagline: {
-        allowNull: true,
+      name_venture: {
         type: Sequelize.STRING,
+        allowNull: true,
+      },
+      type_of_tagline: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       status: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.STRING,
       },
-      brandStyle: {
-        allowNull: true,
+      brand_style: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       prize: {
-        allowNull: false,
         type: Sequelize.DECIMAL,
+        allowNull: false,
       },
       priority: {
-        allowNull: false,
         type: Sequelize.INTEGER,
-      },
-      orderId: {
         allowNull: false,
+      },
+      order_id: {
         type: Sequelize.STRING,
-      },
-      userId: {
         allowNull: false,
+      },
+      user_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'users',
           key: 'id',
         },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+      },
+      file_name: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      original_file_name: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,

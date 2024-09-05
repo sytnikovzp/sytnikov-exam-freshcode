@@ -1,17 +1,14 @@
-const { Model } = require('sequelize');
+const { Model, Sequelize } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Contest extends Model {
     static associate(models) {
       Contest.belongsTo(models.User, {
         foreignKey: 'userId',
-        sourceKey: 'id',
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
       });
 
       Contest.hasMany(models.Offer, {
         foreignKey: 'contestId',
-        targetKey: 'id',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       });
@@ -19,88 +16,89 @@ module.exports = (sequelize, DataTypes) => {
   }
   Contest.init(
     {
-      orderId: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      userId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-      },
       contestType: {
-        allowNull: false,
         type: DataTypes.ENUM('name', 'tagline', 'logo'),
-      },
-      fileName: {
-        allowNull: true,
-        type: DataTypes.STRING,
-      },
-      originalFileName: {
-        allowNull: true,
-        type: DataTypes.STRING,
+        allowNull: false,
       },
       title: {
-        allowNull: true,
         type: DataTypes.STRING,
+        allowNull: true,
       },
       typeOfName: {
-        allowNull: true,
         type: DataTypes.STRING,
+        allowNull: true,
       },
       industry: {
-        allowNull: true,
         type: DataTypes.STRING,
+        allowNull: true,
       },
       focusOfWork: {
-        allowNull: true,
         type: DataTypes.TEXT,
+        allowNull: true,
       },
       targetCustomer: {
-        allowNull: true,
         type: DataTypes.TEXT,
+        allowNull: true,
       },
       styleName: {
-        allowNull: true,
         type: DataTypes.STRING,
+        allowNull: true,
       },
       nameVenture: {
-        allowNull: true,
         type: DataTypes.STRING,
+        allowNull: true,
       },
       typeOfTagline: {
-        allowNull: true,
         type: DataTypes.STRING,
-      },
-      brandStyle: {
         allowNull: true,
-        type: DataTypes.STRING,
-      },
-      createdAt: {
-        allowNull: true,
-        type: DataTypes.STRING,
       },
       status: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      brandStyle: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       prize: {
-        allowNull: false,
         type: DataTypes.DECIMAL,
+        allowNull: false,
       },
       priority: {
-        allowNull: false,
         type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      orderId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      fileName: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      originalFileName: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
       },
     },
     {
       sequelize,
       modelName: 'Contest',
       tableName: 'contests',
-      timestamps: false,
       underscored: true,
     }
   );

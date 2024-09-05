@@ -1,23 +1,26 @@
+/* eslint-disable camelcase */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('ratings', {
-      offerId: {
-        allowNull: false,
-        primaryKey: true,
+      offer_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'offers',
           key: 'id',
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
-      userId: {
+      user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
         references: {
           model: 'users',
           key: 'id',
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       mark: {
         type: Sequelize.FLOAT,
@@ -29,8 +32,30 @@ module.exports = {
         },
       },
     });
+
+    await queryInterface.addConstraint('ratings', {
+      fields: ['offer_id', 'user_id'],
+      type: 'primary key',
+      name: 'ratings_pkey',
+    });
+
+    await queryInterface.addConstraint('ratings', {
+      name: 'check_mark_between_0_and_5',
+      type: 'check',
+      fields: ['mark'],
+      where: {
+        mark: {
+          [Sequelize.Op.between]: [0, 5],
+        },
+      },
+    });
   },
   async down(queryInterface) {
+    await queryInterface.removeConstraint(
+      'ratings',
+      'check_mark_between_0_and_5'
+    );
+
     await queryInterface.dropTable('ratings');
   },
 };

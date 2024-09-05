@@ -2,15 +2,19 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('selects', {
       type: {
-        allowNull: false,
-        primaryKey: true,
         type: Sequelize.STRING,
+        allowNull: false,
       },
       describe: {
-        allowNull: false,
-        primaryKey: true,
         type: Sequelize.STRING,
+        allowNull: false,
       },
+    });
+
+    await queryInterface.addConstraint('selects', {
+      fields: ['type', 'describe'],
+      type: 'primary key',
+      name: 'selects_pkey',
     });
   },
   async down(queryInterface) {

@@ -127,19 +127,19 @@ module.exports.payment = async (req, res, next) => {
       {
         balance: dbPostgres.sequelize.literal(`
                 CASE
-            WHEN "cardNumber"='${req.body.number.replace(
+            WHEN "card_number"='${req.body.number.replace(
               / /g,
               ''
             )}' AND "cvc"='${req.body.cvc}' AND "expiry"='${req.body.expiry}'
                 THEN "balance"-${req.body.price}
-            WHEN "cardNumber"='${constants.SQUADHELP_BANK.NUMBER}' AND "cvc"='${
+            WHEN "card_number"='${constants.SQUADHELP_BANK.NUMBER}' AND "cvc"='${
           constants.SQUADHELP_BANK.CVC
         }' AND "expiry"='${constants.SQUADHELP_BANK.EXPIRY}'
                 THEN "balance"+${req.body.price} END
         `),
       },
       {
-        cardNumber: {
+        card_number: {
           [dbPostgres.Sequelize.Op.in]: [
             constants.SQUADHELP_BANK.NUMBER,
             req.body.number.replace(/ /g, ''),
@@ -148,7 +148,7 @@ module.exports.payment = async (req, res, next) => {
       },
       transaction
     );
-    const orderId = uuid();
+    const order_id = uuid();
     req.body.contests.forEach((contest, index) => {
       const prize =
         index === req.body.contests.length - 1
@@ -158,7 +158,7 @@ module.exports.payment = async (req, res, next) => {
         status: index === 0 ? 'active' : 'pending',
         userId: req.tokenData.userId,
         priority: index + 1,
-        orderId,
+        order_id,
         createdAt: moment().format('YYYY-MM-DD HH:mm'),
         prize,
       });
@@ -208,14 +208,14 @@ module.exports.cashout = async (req, res, next) => {
     await bankQueries.updateBankBalance(
       {
         balance: dbPostgres.sequelize.literal(`CASE 
-                WHEN "cardNumber"='${req.body.number.replace(
+                WHEN "card_number"='${req.body.number.replace(
                   / /g,
                   ''
                 )}' AND "expiry"='${req.body.expiry}' AND "cvc"='${
           req.body.cvc
         }'
                     THEN "balance"+${req.body.sum}
-                WHEN "cardNumber"='${
+                WHEN "card_number"='${
                   constants.SQUADHELP_BANK.NUMBER
                 }' AND "expiry"='${
           constants.SQUADHELP_BANK.EXPIRY
@@ -225,7 +225,7 @@ module.exports.cashout = async (req, res, next) => {
                 `),
       },
       {
-        cardNumber: {
+        card_number: {
           [dbPostgres.Sequelize.Op.in]: [
             constants.SQUADHELP_BANK.NUMBER,
             req.body.number.replace(/ /g, ''),

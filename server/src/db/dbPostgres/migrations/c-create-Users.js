@@ -3,24 +3,20 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('users', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      firstName: {
+      first_name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      lastName: {
+      last_name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      displayName: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      password: {
+      display_name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -28,6 +24,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      access_token: {
+        type: Sequelize.TEXT,
+        allowNull: true,
       },
       avatar: {
         type: Sequelize.STRING,
@@ -45,10 +49,6 @@ module.exports = {
         validate: {
           min: 0,
         },
-      },
-      accessToken: {
-        type: Sequelize.TEXT,
-        allowNull: true,
       },
       rating: {
         type: Sequelize.FLOAT,

@@ -6,7 +6,7 @@
     "start": "nodemon ./index.js",
     "lint": "eslint .",
     "test": "jest",
-    "initialdb": "npm run seeduna && npm run miguna && npm run dbdrop && npm run dbcreate && npm run mig && npm run seedall",
+    "dbinit": "npm run seeduna && npm run miguna && npm run dbdrop && npm run dbcreate && npm run mig && npm run seedall",
     "dbcreate": "npx sequelize db:create",
     "dbdrop": "npx sequelize db:drop",
     "mig": "npx sequelize db:migrate",
