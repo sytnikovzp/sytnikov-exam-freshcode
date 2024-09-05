@@ -1,7 +1,7 @@
-
+/* eslint-disable camelcase */
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users', {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -42,6 +42,9 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false,
         defaultValue: 0,
+        validate: {
+          min: 0,
+        },
       },
       accessToken: {
         type: Sequelize.TEXT,
@@ -52,18 +55,21 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
       },
-    })
-      .then(() => queryInterface.addConstraint('Users',  {
-        type: 'check',
-        fields: ['balance'],
-        where: {
-          balance: {
-            [ Sequelize.Op.gte ]: 0,
-          },
-        },
-      }));
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+        //   defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+        //   defaultValue: Sequelize.NOW,
+      },
+    });
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Users');
+  async down(queryInterface) {
+    await queryInterface.dropTable('users');
   },
 };

@@ -1,7 +1,7 @@
-
+/* eslint-disable camelcase */
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Offers', {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('offers', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Contests',
+          model: 'contests',
           key: 'id',
         },
       },
@@ -41,9 +41,21 @@ module.exports = {
         allowNull: true,
         defaultValue: 'pending',
       },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+        //   defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+        //   defaultValue: Sequelize.NOW,
+      },
     });
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Offers');
+  async down(queryInterface) {
+    await queryInterface.dropTable('offers');
   },
 };

@@ -1,7 +1,7 @@
-
+/* eslint-disable camelcase */
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Contests', {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('contests', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -64,11 +64,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DECIMAL,
       },
-      createdAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
       priority: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -81,13 +76,25 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+        //   defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+        //   defaultValue: Sequelize.NOW,
+      },
     });
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Contests');
+  async down(queryInterface) {
+    await queryInterface.dropTable('contests');
   },
 };
