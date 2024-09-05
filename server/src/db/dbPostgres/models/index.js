@@ -38,36 +38,10 @@ fs.readdirSync(__dirname)
     dbPostgres[model.name] = model;
   });
 
-// Object.keys(db).forEach((modelName) => {
-//   if (db[modelName].associate) {
-//     db[modelName].associate(db);
-//   }
-// });
-
-dbPostgres['Contests'].belongsTo(dbPostgres['Users'], {
-  foreignKey: 'userId',
-  sourceKey: 'id',
-});
-dbPostgres['Contests'].hasMany(dbPostgres['Offers'], {
-  foreignKey: 'contestId',
-  targetKey: 'id',
-});
-
-dbPostgres['Users'].hasMany(dbPostgres['Offers'], { foreignKey: 'userId', targetKey: 'id' });
-dbPostgres['Users'].hasMany(dbPostgres['Contests'], { foreignKey: 'userId', targetKey: 'id' });
-dbPostgres['Users'].hasMany(dbPostgres['Ratings'], { foreignKey: 'userId', targetKey: 'id' });
-
-dbPostgres['Offers'].belongsTo(dbPostgres['Users'], { foreignKey: 'userId', sourceKey: 'id' });
-dbPostgres['Offers'].belongsTo(dbPostgres['Contests'], {
-  foreignKey: 'contestId',
-  sourceKey: 'id',
-});
-dbPostgres['Offers'].hasOne(dbPostgres['Ratings'], { foreignKey: 'offerId', targetKey: 'id' });
-
-dbPostgres['Ratings'].belongsTo(dbPostgres['Users'], { foreignKey: 'userId', targetKey: 'id' });
-dbPostgres['Ratings'].belongsTo(dbPostgres['Offers'], {
-  foreignKey: 'offerId',
-  targetKey: 'id',
+Object.keys(dbPostgres).forEach((modelName) => {
+  if (dbPostgres[modelName].associate) {
+    dbPostgres[modelName].associate(dbPostgres);
+  }
 });
 
 dbPostgres.sequelize = sequelize;
