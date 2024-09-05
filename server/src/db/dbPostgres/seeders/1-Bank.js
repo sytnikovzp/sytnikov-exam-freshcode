@@ -1,7 +1,7 @@
 module.exports = {
   async up(queryInterface) {
     await queryInterface.bulkInsert(
-      'banks',
+      'cards',
       [
         {
           cardNumber: '4564654564564564',
@@ -23,6 +23,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.bulkDelete('banks', null, {});
+    await queryInterface.bulkDelete('cards', null, {});
   },
 };

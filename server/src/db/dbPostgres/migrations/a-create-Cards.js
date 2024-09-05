@@ -1,6 +1,6 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('banks', {
+    await queryInterface.createTable('cards', {
       cardNumber: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -27,9 +27,22 @@ module.exports = {
         },
       },
     });
+
+    await queryInterface.addConstraint('cards', {
+      name: 'cards_balance_check',
+      type: 'check',
+      fields: ['balance'],
+      where: {
+        balance: {
+          [Sequelize.Op.gte]: 0,
+        },
+      },
+    });
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('banks');
+    await queryInterface.removeConstraint('cards', 'cards_balance_check');
+
+    await queryInterface.dropTable('cards');
   },
 };

@@ -1,7 +1,7 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Bank extends Model {}
-  Bank.init(
+  class Card extends Model {}
+  Card.init(
     {
       cardNumber: {
         type: DataTypes.STRING,
@@ -28,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Bank',
-      tableName: 'banks',
+      modelName: 'Card',
+      tableName: 'cards',
       timestamps: false,
       underscored: true,
     }
   );
-  return Bank;
+  return Card;
 };

@@ -59,17 +59,29 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('NOW()'),
-        //   defaultValue: Sequelize.NOW,
       },
       updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('NOW()'),
-        //   defaultValue: Sequelize.NOW,
+      },
+    });
+
+    await queryInterface.addConstraint('users', {
+      name: 'users_balance_check',
+      type: 'check',
+      fields: ['balance'],
+      where: {
+        balance: {
+          [Sequelize.Op.gte]: 0,
+        },
       },
     });
   },
+
   async down(queryInterface) {
+    await queryInterface.removeConstraint('users', 'users_balance_check');
+
     await queryInterface.dropTable('users');
   },
 };
