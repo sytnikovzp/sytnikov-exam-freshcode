@@ -14,29 +14,37 @@ const pathToConfig = path.resolve('src', 'config', 'mongoConfig');
 const config = require(pathToConfig)[env];
 
 // ==================== POSTGRES DB CHECK =======================
-const dbCheck = async () => {
+
+const postgresConnect = async () => {
   try {
     await dbPostgres.sequelize.authenticate();
     console.log(
       `Connection to DB <<< ${process.env.POSTGRES_DB_NAME} >>> successfully!`
     );
-    console.log();
   } catch (error) {
-    console.log('Can not connect to DB: ', error.message);
+    console.log('Can not connect to postgres DB: ', error.message);
   }
 };
 
-dbCheck();
+postgresConnect();
 
 // ===================== MONGO DB CHECK ==========================
-mongoose
-  .connect(`mongodb://${config.host}:${config.port}/${config.database}`)
-  .then(() =>
-    console.log(`Connection to DB <<< ${config.database} >>> successfully!`)
-  )
-  .catch((error) => console.log(error.message));
+
+const mongoConnect = async () => {
+  try {
+    await mongoose.connect(
+      `mongodb://${config.host}:${config.port}/${config.database}`
+    );
+    console.log(`Connection to DB <<< ${config.database} >>> successfully!`);
+  } catch (error) {
+    console.log('Can not connect to mongo DB: ', error.message);
+  }
+};
+
+mongoConnect();
 
 // ===================== SYNC`s model(s) =========================
+
 // syncModel(dbPostgres.model_name);
 // syncModels();
 
@@ -55,5 +63,6 @@ server.listen(PORT, HOST, () =>
 
 controller.createConnection(server);
 
-console.log('=== Server is started successfully! ===');
+console.log();
+console.log('===== Server is started successfully! =====');
 console.log();
