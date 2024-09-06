@@ -1,6 +1,6 @@
 const { Router } = require('express');
 // ============================
-const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
 // ============================
 const hashPass = require('../middlewares/hashPassMiddle');
 const validators = require('../middlewares/validators');
@@ -11,13 +11,13 @@ router.post(
   '/registration',
   validators.validateRegistrationData,
   hashPass,
-  userController.registration
+  authController.registration
 );
 
 router.post(
   '/login',
   validators.validateLogin,
-  userController.login
+  authController.login
 );
 
 module.exports = router;
