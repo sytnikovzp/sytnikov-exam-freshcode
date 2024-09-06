@@ -1,6 +1,6 @@
 const { Router } = require('express');
 // ============================
-const userController = require('../controllers/userController');
+const paymentController = require('../controllers/paymentController');
 // ============================
 const basicMiddlewares = require('../middlewares/basicMiddlewares');
 const checkToken = require('../middlewares/checkToken');
@@ -17,14 +17,14 @@ router.post(
   upload.uploadContestFiles,
   basicMiddlewares.parseBody,
   validators.validateContestCreation,
-  userController.payment
+  paymentController.payment
 );
 
 router.post(
   '/cashout',
   checkToken.checkToken,
   basicMiddlewares.onlyForCreative,
-  userController.cashout
+  paymentController.cashout
 );
 
 module.exports = router;
