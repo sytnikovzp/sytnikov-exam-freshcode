@@ -2,7 +2,7 @@ const dbPostgres = require('../../db/dbPostgres/models');
 const ServerError = require('../../errors/ServerError');
 
 module.exports.updateRating = async (data, predicate, transaction) => {
-  const [updatedCount, [updatedRating]] = await dbPostgres.Ratings.update(data,
+  const [updatedCount, [updatedRating]] = await dbPostgres.Rating.update(data,
     { where: predicate, returning: true, transaction });
   if (updatedCount !== 1) {
     throw new ServerError('cannot update mark on this offer');
@@ -11,7 +11,7 @@ module.exports.updateRating = async (data, predicate, transaction) => {
 };
 
 module.exports.createRating = async (data, transaction) => {
-  const result = await dbPostgres.Ratings.create(data, { transaction });
+  const result = await dbPostgres.Rating.create(data, { transaction });
   if (!result) {
     throw new ServerError('cannot mark offer');
   } else {

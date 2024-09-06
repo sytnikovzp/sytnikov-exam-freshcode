@@ -4,7 +4,7 @@ const ServerError = require('../../errors/ServerError');
 const bcrypt = require('bcrypt');
 
 module.exports.updateUser = async (data, userId, transaction) => {
-  const [updatedCount, [updatedUser]] = await dbPostgres.Users.update(data, {
+  const [updatedCount, [updatedUser]] = await dbPostgres.User.update(data, {
     where: { id: userId },
     returning: true,
     transaction,
@@ -16,7 +16,7 @@ module.exports.updateUser = async (data, userId, transaction) => {
 };
 
 module.exports.findUser = async (predicate, transaction) => {
-  const result = await dbPostgres.Users.findOne({
+  const result = await dbPostgres.User.findOne({
     where: predicate,
     transaction,
   });
@@ -28,7 +28,7 @@ module.exports.findUser = async (predicate, transaction) => {
 };
 
 module.exports.userCreation = async (data) => {
-  const newUser = await dbPostgres.Users.create(data);
+  const newUser = await dbPostgres.User.create(data);
   if (!newUser) {
     throw new ServerError('server error on user creation');
   } else {

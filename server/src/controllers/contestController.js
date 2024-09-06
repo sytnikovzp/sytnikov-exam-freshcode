@@ -17,7 +17,7 @@ module.exports.dataForContest = async (req, res, next) => {
       Boolean
     );
 
-    const characteristics = await dbPostgres.Selects.findAll({
+    const characteristics = await dbPostgres.Select.findAll({
       where: {
         type: {
           [dbPostgres.Sequelize.Op.or]: types,
@@ -42,19 +42,19 @@ module.exports.dataForContest = async (req, res, next) => {
 
 module.exports.getContestById = async (req, res, next) => {
   try {
-    let contestInfo = await dbPostgres.Contests.findOne({
+    let contestInfo = await dbPostgres.Contest.findOne({
       where: { id: req.headers.contestId },
-      order: [[dbPostgres.Offers, 'id', 'asc']],
+      order: [[dbPostgres.Offer, 'id', 'asc']],
       include: [
         {
-          model: dbPostgres.Users,
+          model: dbPostgres.User,
           required: true,
           attributes: {
             exclude: ['password', 'role', 'balance', 'accessToken'],
           },
         },
         {
-          model: dbPostgres.Offers,
+          model: dbPostgres.Offer,
           required: false,
           where:
             req.tokenData.role === constants.USER_ROLES.CREATOR
@@ -63,14 +63,14 @@ module.exports.getContestById = async (req, res, next) => {
           attributes: { exclude: ['userId', 'contestId'] },
           include: [
             {
-              model: dbPostgres.Users,
+              model: dbPostgres.User,
               required: true,
               attributes: {
                 exclude: ['password', 'role', 'balance', 'accessToken'],
               },
             },
             {
-              model: dbPostgres.Ratings,
+              model: dbPostgres.Rating,
               required: false,
               where: { userId: req.tokenData.userId },
               attributes: { exclude: ['userId', 'offerId'] },
@@ -261,14 +261,14 @@ module.exports.setOfferStatus = async (req, res, next) => {
 };
 
 module.exports.getCustomersContests = (req, res, next) => {
-  dbPostgres.Contests.findAll({
+  dbPostgres.Contest.findAll({
     where: { status: req.headers.status, userId: req.tokenData.userId },
     limit: req.body.limit,
     offset: req.body.offset ? req.body.offset : 0,
     order: [['id', 'DESC']],
     include: [
       {
-        model: dbPostgres.Offers,
+        model: dbPostgres.Offer,
         required: false,
         attributes: ['id'],
       },
@@ -295,14 +295,14 @@ module.exports.getContests = (req, res, next) => {
     req.body.industry,
     req.body.awardSort
   );
-  dbPostgres.Contests.findAll({
+  dbPostgres.Contest.findAll({
     where: predicates.where,
     order: predicates.order,
     limit: req.body.limit,
     offset: req.body.offset ? req.body.offset : 0,
     include: [
       {
-        model: dbPostgres.Offers,
+        model: dbPostgres.Offer,
         required: req.body.ownEntries,
         where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
         attributes: ['id'],

@@ -19,11 +19,11 @@ module.exports.canGetContest = async (req, res, next) => {
   let result = null;
   try {
     if (req.tokenData.role === constants.USER_ROLES.CUSTOMER) {
-      result = await dbPostgres.Contests.findOne({
+      result = await dbPostgres.Contest.findOne({
         where: { id: req.headers.contestId, userId: req.tokenData.userId },
       });
     } else if (req.tokenData.role === constants.USER_ROLES.CREATOR) {
-      result = await dbPostgres.Contests.findOne({
+      result = await dbPostgres.Contest.findOne({
         where: {
           id: req.headers.contestId,
           status: {
@@ -63,7 +63,7 @@ module.exports.canSendOffer = async (req, res, next) => {
     return next(new RightsError());
   }
   try {
-    const result = await dbPostgres.Contests.findOne({
+    const result = await dbPostgres.Contest.findOne({
       where: {
         id: req.body.contestId,
       },
@@ -84,7 +84,7 @@ module.exports.canSendOffer = async (req, res, next) => {
 
 module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
   try {
-    const result = await dbPostgres.Contests.findOne({
+    const result = await dbPostgres.Contest.findOne({
       where: {
         userId: req.tokenData.userId,
         id: req.body.contestId,
@@ -103,7 +103,7 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
 
 module.exports.canUpdateContest = async (req, res, next) => {
   try {
-    const result = dbPostgres.Contests.findOne({
+    const result = dbPostgres.Contest.findOne({
       where: {
         userId: req.tokenData.userId,
         id: req.body.contestId,

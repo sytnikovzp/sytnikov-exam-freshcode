@@ -165,7 +165,7 @@ module.exports.getPreview = async (req, res, next) => {
         )
       );
     });
-    const senders = await dbPostgres.Users.findAll({
+    const senders = await dbPostgres.User.findAll({
       where: {
         id: interlocutors,
       },
