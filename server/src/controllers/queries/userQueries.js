@@ -1,7 +1,6 @@
-const dbPostgres = require('../../db/dbPostgres/models');
-const NotFound = require('../../errors/UserNotFoundError');
-const ServerError = require('../../errors/ServerError');
 const bcrypt = require('bcrypt');
+const createError = require('http-errors');
+const dbPostgres = require('../../db/dbPostgres/models');
 
 module.exports.updateUser = async (data, userId, transaction) => {
   const [updatedCount, [updatedUser]] = await dbPostgres.User.update(data, {
@@ -9,9 +8,11 @@ module.exports.updateUser = async (data, userId, transaction) => {
     returning: true,
     transaction,
   });
+
   if (updatedCount !== 1) {
-    throw new ServerError('cannot update user');
+    throw createError(500, 'cannot update user');
   }
+
   return updatedUser.dataValues;
 };
 
@@ -20,8 +21,9 @@ module.exports.findUser = async (predicate, transaction) => {
     where: predicate,
     transaction,
   });
+
   if (!result) {
-    throw new NotFound('user with this data didn`t exist');
+    throw createError(404, 'user with this data didn`t exist');
   } else {
     return result.get({ plain: true });
   }
@@ -29,8 +31,9 @@ module.exports.findUser = async (predicate, transaction) => {
 
 module.exports.userCreation = async (data) => {
   const newUser = await dbPostgres.User.create(data);
+
   if (!newUser) {
-    throw new ServerError('server error on user creation');
+    throw createError(500, 'server error on user creation');
   } else {
     return newUser.get({ plain: true });
   }
@@ -38,7 +41,8 @@ module.exports.userCreation = async (data) => {
 
 module.exports.passwordCompare = async (pass1, pass2) => {
   const passwordCompare = await bcrypt.compare(pass1, pass2);
+
   if (!passwordCompare) {
-    throw new NotFound('Wrong password');
+    throw createError(404, 'Wrong password');
   }
 };
