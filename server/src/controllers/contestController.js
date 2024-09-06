@@ -1,5 +1,5 @@
+const createError = require('http-errors');
 const dbPostgres = require('../db/dbPostgres/models');
-const ServerError = require('../errors/ServerError');
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
@@ -25,7 +25,7 @@ module.exports.dataForContest = async (req, res, next) => {
       },
     });
     if (!characteristics) {
-      return next(new ServerError());
+      next(createError(500, 'no characteristics'));
     }
     characteristics.forEach((characteristic) => {
       if (!response[characteristic.type]) {
@@ -36,7 +36,7 @@ module.exports.dataForContest = async (req, res, next) => {
     res.send(response);
   } catch (error) {
     console.log(error.message);
-    next(new ServerError('cannot get contest preferences'));
+    next(createError(500, 'cannot get contest preferences'));
   }
 };
 
@@ -89,7 +89,7 @@ module.exports.getContestById = async (req, res, next) => {
     res.send(contestInfo);
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -113,7 +113,7 @@ module.exports.updateContest = async (req, res, next) => {
     res.send(updatedContest);
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -138,7 +138,7 @@ module.exports.setNewOffer = async (req, res, next) => {
     res.send(Object.assign({}, result, { User }));
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -238,7 +238,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
       res.send(offer);
     } catch (error) {
       console.log(error.message);
-      next(new ServerError(error));
+      next(createError(500, error));
     }
   } else if (req.body.command === 'resolve') {
     try {
@@ -255,7 +255,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
     } catch (error) {
       transaction.rollback();
       console.log(error.message);
-      next(new ServerError(error));
+      next(createError(500, error));
     }
   }
 };
@@ -285,7 +285,7 @@ module.exports.getCustomersContests = (req, res, next) => {
       }
       res.send({ contests, haveMore });
     })
-    .catch((error) => next(new ServerError(error)));
+    .catch((error) => next(createError(500, error)));
 };
 
 module.exports.getContests = (req, res, next) => {
@@ -321,6 +321,6 @@ module.exports.getContests = (req, res, next) => {
       res.send({ contests, haveMore });
     })
     .catch((error) => {
-      next(new ServerError(error));
+      next(createError(500, error));
     });
 };

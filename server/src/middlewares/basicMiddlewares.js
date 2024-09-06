@@ -1,6 +1,5 @@
+const createError = require('http-errors');
 const dbPostgres = require('../db/dbPostgres/models');
-const RightsError = require('../errors/RightsError');
-const ServerError = require('../errors/ServerError');
 const constants = require('../constants');
 
 module.exports.parseBody = (req, res, next) => {
@@ -35,16 +34,16 @@ module.exports.canGetContest = async (req, res, next) => {
         },
       });
     }
-    result ? next() : next(new RightsError());
+    result ? next() : next(createError(423, 'not enough rights'));
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
 module.exports.onlyForCreative = (req, res, next) => {
   if (req.tokenData.role === constants.USER_ROLES.CUSTOMER) {
-    next(new RightsError());
+    next(createError(423, 'not enough rights'));
   } else {
     next();
   }
@@ -52,7 +51,7 @@ module.exports.onlyForCreative = (req, res, next) => {
 
 module.exports.onlyForCustomer = (req, res, next) => {
   if (req.tokenData.role === constants.USER_ROLES.CREATOR) {
-    return next(new RightsError('this page only for customers'));
+    next(createError(423, 'this page only for customers'));
   } else {
     next();
   }
@@ -60,7 +59,7 @@ module.exports.onlyForCustomer = (req, res, next) => {
 
 module.exports.canSendOffer = async (req, res, next) => {
   if (req.tokenData.role === constants.USER_ROLES.CUSTOMER) {
-    return next(new RightsError());
+    next(createError(423, 'not enough rights'));
   }
   try {
     const result = await dbPostgres.Contest.findOne({
@@ -74,11 +73,11 @@ module.exports.canSendOffer = async (req, res, next) => {
     ) {
       next();
     } else {
-      return next(new RightsError());
+      next(createError(423, 'not enough rights'));
     }
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -92,12 +91,12 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
       },
     });
     if (!result) {
-      return next(new RightsError());
+      next(createError(423, 'not enough rights'));
     }
     next();
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -113,11 +112,11 @@ module.exports.canUpdateContest = async (req, res, next) => {
       },
     });
     if (!result) {
-      return next(new RightsError());
+      next(createError(423, 'not enough rights'));
     }
     next();
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };

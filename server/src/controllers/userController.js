@@ -1,14 +1,13 @@
+const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const constants = require('../constants');
 const dbPostgres = require('../db/dbPostgres/models');
-const NotUniqueEmail = require('../errors/NotUniqueEmail');
 const moment = require('moment');
 const { v4: uuid } = require('uuid');
 const controller = require('../socketInit');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
-const ServerError = require('../errors/ServerError');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -32,8 +31,7 @@ module.exports.login = async (req, res, next) => {
     await userQueries.updateUser({ accessToken }, foundUser.id);
     res.send({ token: accessToken });
   } catch (error) {
-    console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -62,10 +60,10 @@ module.exports.registration = async (req, res, next) => {
     res.send({ token: accessToken });
   } catch (error) {
     if (error.name === 'SequelizeUniqueConstraintError') {
-      next(new NotUniqueEmail());
+      next(createError(409, 'this email were already exist'));
     } else {
       console.log(error.message);
-      next(new ServerError(error));
+      next(createError(500, error));
     }
   }
 };
@@ -120,7 +118,7 @@ module.exports.changeMark = async (req, res, next) => {
   } catch (error) {
     transaction.rollback();
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -174,7 +172,7 @@ module.exports.payment = async (req, res, next) => {
   } catch (error) {
     transaction.rollback();
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -199,7 +197,7 @@ module.exports.updateUser = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -246,6 +244,6 @@ module.exports.cashout = async (req, res, next) => {
   } catch (error) {
     transaction.rollback();
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };

@@ -1,10 +1,10 @@
+const createError = require('http-errors');
 const Conversation = require('../db/dbMongo/models/Conversation');
 const Message = require('../db/dbMongo/models/Message');
 const Catalog = require('../db/dbMongo/models/Catalog');
 const dbPostgres = require('../db/dbPostgres/models');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
-const ServerError = require('../errors/ServerError');
 
 module.exports.addMessage = async (req, res, next) => {
   const participants = [req.tokenData.userId, req.body.recipient];
@@ -69,7 +69,7 @@ module.exports.addMessage = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -117,7 +117,7 @@ module.exports.getChat = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -187,7 +187,7 @@ module.exports.getPreview = async (req, res, next) => {
     res.send(conversations);
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -237,7 +237,7 @@ module.exports.createCatalog = async (req, res, next) => {
     res.send(catalog);
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -254,7 +254,7 @@ module.exports.updateNameCatalog = async (req, res, next) => {
     res.send(catalog);
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -271,7 +271,7 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
     res.send(catalog);
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -288,7 +288,7 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
     res.send(catalog);
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -301,7 +301,7 @@ module.exports.deleteCatalog = async (req, res, next) => {
     res.end();
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };
 
@@ -320,6 +320,6 @@ module.exports.getCatalogs = async (req, res, next) => {
     res.send(catalogs);
   } catch (error) {
     console.log(error.message);
-    next(new ServerError(error));
+    next(createError(500, error));
   }
 };

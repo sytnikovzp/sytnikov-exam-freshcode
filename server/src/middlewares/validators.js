@@ -1,15 +1,14 @@
+const createError = require('http-errors');
 const {
   registrationSchema,
   loginSchema,
   contestSchema,
 } = require('../utils/validationSchemes');
-const ServerError = require('../errors/ServerError');
-const BadRequestError = require('../errors/BadRequestError');
 
 module.exports.validateRegistrationData = async (req, res, next) => {
   const validationResult = await registrationSchema.isValid(req.body);
   if (!validationResult) {
-    return next(new BadRequestError('Invalid data for registration'));
+    next(createError(400, 'Invalid data for registration'));
   } else {
     next();
   }
@@ -20,7 +19,7 @@ module.exports.validateLogin = async (req, res, next) => {
   if (validationResult) {
     next();
   } else {
-    return next(new BadRequestError('Invalid data for login'));
+    next(createError(400, 'Invalid data for login'));
   }
 };
 
@@ -33,12 +32,12 @@ module.exports.validateContestCreation = (req, res, next) => {
     .then((results) => {
       results.forEach((result) => {
         if (!result) {
-          return next(new BadRequestError());
+          next(createError(400, 'bad request'));
         }
       });
       next();
     })
     .catch((error) => {
-      next(new ServerError(error));
+      next(createError(500, error));
     });
 };
