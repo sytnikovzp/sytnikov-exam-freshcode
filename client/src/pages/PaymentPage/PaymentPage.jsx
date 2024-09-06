@@ -8,9 +8,9 @@ import { pay, clearPaymentStore } from '../../store/slices/paymentSlice';
 import PayForm from '../../components/PayForm/PayForm';
 import Error from '../../components/Error/Error';
 // =============================================
-import styles from './Payment.module.sass';
+import styles from './PaymentPage.module.sass';
 
-function Payment() {
+function PaymentPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -85,4 +85,4 @@ function Payment() {
   );
 }
 
-export default Payment;
+export default PaymentPage;

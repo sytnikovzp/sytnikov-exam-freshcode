@@ -10,9 +10,9 @@ import UserInfo from '../../components/UserInfo/UserInfo';
 import PayForm from '../../components/PayForm/PayForm';
 import Error from '../../components/Error/Error';
 // =============================================
-import styles from './UserProfile.module.sass';
+import styles from './UserProfilePage.module.sass';
 
-function UserProfile() {
+function UserProfilePage() {
   const dispatch = useDispatch();
 
   const { balance, role, profileViewMode, error } = useSelector((state) => ({
@@ -94,4 +94,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default UserProfilePage;

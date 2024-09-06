@@ -7,9 +7,9 @@ import constants from '../../constants';
 import SlideBar from '../../components/SlideBar/SlideBar';
 import Spinner from '../../components/Spinner/Spinner';
 // =============================================
-import styles from './Home.module.sass';
+import styles from './HomePage.module.sass';
 
-function Home() {
+function HomePage() {
   const [index, setIndex] = useState(0);
   const [styleName, setStyle] = useState(styles.headline__static);
 
@@ -260,4 +260,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;

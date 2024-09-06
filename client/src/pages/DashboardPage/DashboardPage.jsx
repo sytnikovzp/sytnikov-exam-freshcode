@@ -6,7 +6,7 @@ import constants from '../../constants';
 import CustomerDashboard from '../../components/CustomerDashboard/CustomerDashboard';
 import CreatorDashboard from '../../components/CreatorDashboard/CreatorDashboard';
 
-function Dashboard() {
+function DashboardPage() {
   const navigate = useNavigate();
   const params = useParams();
   const { role } = useSelector((state) => state.userStore.data);
@@ -18,4 +18,4 @@ function Dashboard() {
   }
 }
 
-export default Dashboard;
+export default DashboardPage;
