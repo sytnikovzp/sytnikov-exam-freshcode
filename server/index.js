@@ -22,7 +22,7 @@ const dbCheck = async () => {
     );
     console.log();
   } catch (error) {
-    console.log('Ca not connect to DB: ', error.message);
+    console.log('Can not connect to DB: ', error.message);
   }
 };
 
@@ -34,7 +34,7 @@ mongoose
   .then(() =>
     console.log(`Connection to DB <<< ${config.database} >>> successfully!`)
   )
-  .catch((err) => console.log(err));
+  .catch((error) => console.log(error.message));
 
 // ===================== SYNC`s model(s) =========================
 // syncModel(dbPostgres.model_name);

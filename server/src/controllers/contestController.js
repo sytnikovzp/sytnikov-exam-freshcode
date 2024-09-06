@@ -34,8 +34,8 @@ module.exports.dataForContest = async (req, res, next) => {
       response[characteristic.type].push(characteristic.describe);
     });
     res.send(response);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error.message);
     next(new ServerError('cannot get contest preferences'));
   }
 };
@@ -87,12 +87,13 @@ module.exports.getContestById = async (req, res, next) => {
       delete offer.Rating;
     });
     res.send(contestInfo);
-  } catch (e) {
-    next(new ServerError());
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
-module.exports.downloadFile = async (req, res, next) => {
+module.exports.downloadFile = async (req, res) => {
   const file = constants.PATHS.CONTESTS_DEFAULT_DIR + req.params.fileName;
   res.download(file);
 };
@@ -110,8 +111,9 @@ module.exports.updateContest = async (req, res, next) => {
       userId: req.tokenData.userId,
     });
     res.send(updatedContest);
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -134,8 +136,9 @@ module.exports.setNewOffer = async (req, res, next) => {
       .emitEntryCreated(req.body.customerId);
     const User = Object.assign({}, req.tokenData, { id: req.tokenData.userId });
     res.send(Object.assign({}, result, { User }));
-  } catch (e) {
-    return next(new ServerError());
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -157,7 +160,7 @@ const rejectOffer = async (offerId, creatorId, contestId) => {
 const resolveOffer = async (
   contestId,
   creatorId,
-  order_id,
+  orderId,
   offerId,
   priority,
   transaction
@@ -165,17 +168,17 @@ const resolveOffer = async (
   const finishedContest = await contestQueries.updateContestStatus(
     {
       status: dbPostgres.sequelize.literal(`   CASE
-            WHEN "id"=${contestId}  AND "order_id"='${order_id}' THEN '${
+            WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${
         constants.CONTEST_STATUS.FINISHED
       }'
-            WHEN "order_id"='${order_id}' AND "priority"=${priority + 1}  THEN '${
+            WHEN "orderId"='${orderId}' AND "priority"=${priority + 1}  THEN '${
         constants.CONTEST_STATUS.ACTIVE
       }'
             ELSE '${constants.CONTEST_STATUS.PENDING}'
             END
     `),
     },
-    { order_id },
+    { orderId },
     transaction
   );
   await userQueries.updateUser(
@@ -233,8 +236,9 @@ module.exports.setOfferStatus = async (req, res, next) => {
         req.body.contestId
       );
       res.send(offer);
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      console.log(error.message);
+      next(new ServerError(error));
     }
   } else if (req.body.command === 'resolve') {
     try {
@@ -242,15 +246,16 @@ module.exports.setOfferStatus = async (req, res, next) => {
       const winningOffer = await resolveOffer(
         req.body.contestId,
         req.body.creatorId,
-        req.body.order_id,
+        req.body.orderId,
         req.body.offerId,
         req.body.priority,
         transaction
       );
       res.send(winningOffer);
-    } catch (err) {
+    } catch (error) {
       transaction.rollback();
-      next(err);
+      console.log(error.message);
+      next(new ServerError(error));
     }
   }
 };
@@ -280,7 +285,7 @@ module.exports.getCustomersContests = (req, res, next) => {
       }
       res.send({ contests, haveMore });
     })
-    .catch((err) => next(new ServerError(err)));
+    .catch((error) => next(new ServerError(error)));
 };
 
 module.exports.getContests = (req, res, next) => {
@@ -315,7 +320,7 @@ module.exports.getContests = (req, res, next) => {
       }
       res.send({ contests, haveMore });
     })
-    .catch((err) => {
-      next(new ServerError());
+    .catch((error) => {
+      next(new ServerError(error));
     });
 };

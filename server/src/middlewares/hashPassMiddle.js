@@ -9,7 +9,8 @@ module.exports = async (req, res, next) => {
       constants.AUTH.SALT_ROUNDS
     );
     next();
-  } catch (err) {
+  } catch (error) {
+    console.log(error.message);
     next(new ServerError('Server Error on hash password'));
   }
 };

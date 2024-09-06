@@ -8,6 +8,7 @@ const controller = require('../socketInit');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
+const ServerError = require('../errors/ServerError');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -30,8 +31,9 @@ module.exports.login = async (req, res, next) => {
     );
     await userQueries.updateUser({ accessToken }, foundUser.id);
     res.send({ token: accessToken });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -40,6 +42,7 @@ module.exports.registration = async (req, res, next) => {
     const newUser = await userQueries.userCreation(
       Object.assign(req.body, { password: req.hashPass })
     );
+    console.log(newUser);
     const accessToken = jwt.sign(
       {
         firstName: newUser.firstName,
@@ -57,11 +60,12 @@ module.exports.registration = async (req, res, next) => {
     );
     await userQueries.updateUser({ accessToken }, newUser.id);
     res.send({ token: accessToken });
-  } catch (err) {
-    if (err.name === 'SequelizeUniqueConstraintError') {
+  } catch (error) {
+    if (error.name === 'SequelizeUniqueConstraintError') {
       next(new NotUniqueEmail());
     } else {
-      next(err);
+      console.log(error.message);
+      next(new ServerError(error));
     }
   }
 };
@@ -113,9 +117,10 @@ module.exports.changeMark = async (req, res, next) => {
     transaction.commit();
     controller.getNotificationController().emitChangeMark(creatorId);
     res.send({ userId: creatorId, rating: avg });
-  } catch (err) {
+  } catch (error) {
     transaction.rollback();
-    next(err);
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -127,19 +132,19 @@ module.exports.payment = async (req, res, next) => {
       {
         balance: dbPostgres.sequelize.literal(`
                 CASE
-            WHEN "card_number"='${req.body.number.replace(
+            WHEN "cardNumber"='${req.body.number.replace(
               / /g,
               ''
             )}' AND "cvc"='${req.body.cvc}' AND "expiry"='${req.body.expiry}'
                 THEN "balance"-${req.body.price}
-            WHEN "card_number"='${constants.SQUADHELP_BANK.NUMBER}' AND "cvc"='${
+            WHEN "cardNumber"='${constants.SQUADHELP_BANK.NUMBER}' AND "cvc"='${
           constants.SQUADHELP_BANK.CVC
         }' AND "expiry"='${constants.SQUADHELP_BANK.EXPIRY}'
                 THEN "balance"+${req.body.price} END
         `),
       },
       {
-        card_number: {
+        cardNumber: {
           [dbPostgres.Sequelize.Op.in]: [
             constants.SQUADHELP_BANK.NUMBER,
             req.body.number.replace(/ /g, ''),
@@ -148,7 +153,7 @@ module.exports.payment = async (req, res, next) => {
       },
       transaction
     );
-    const order_id = uuid();
+    const orderId = uuid();
     req.body.contests.forEach((contest, index) => {
       const prize =
         index === req.body.contests.length - 1
@@ -158,7 +163,7 @@ module.exports.payment = async (req, res, next) => {
         status: index === 0 ? 'active' : 'pending',
         userId: req.tokenData.userId,
         priority: index + 1,
-        order_id,
+        orderId,
         createdAt: moment().format('YYYY-MM-DD HH:mm'),
         prize,
       });
@@ -166,9 +171,10 @@ module.exports.payment = async (req, res, next) => {
     await dbPostgres.Contests.bulkCreate(req.body.contests, transaction);
     transaction.commit();
     res.send();
-  } catch (err) {
+  } catch (error) {
     transaction.rollback();
-    next(err);
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -191,8 +197,9 @@ module.exports.updateUser = async (req, res, next) => {
       role: updatedUser.role,
       id: updatedUser.id,
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -208,14 +215,14 @@ module.exports.cashout = async (req, res, next) => {
     await bankQueries.updateBankBalance(
       {
         balance: dbPostgres.sequelize.literal(`CASE 
-                WHEN "card_number"='${req.body.number.replace(
+                WHEN "cardNumber"='${req.body.number.replace(
                   / /g,
                   ''
                 )}' AND "expiry"='${req.body.expiry}' AND "cvc"='${
           req.body.cvc
         }'
                     THEN "balance"+${req.body.sum}
-                WHEN "card_number"='${
+                WHEN "cardNumber"='${
                   constants.SQUADHELP_BANK.NUMBER
                 }' AND "expiry"='${
           constants.SQUADHELP_BANK.EXPIRY
@@ -225,7 +232,7 @@ module.exports.cashout = async (req, res, next) => {
                 `),
       },
       {
-        card_number: {
+        cardNumber: {
           [dbPostgres.Sequelize.Op.in]: [
             constants.SQUADHELP_BANK.NUMBER,
             req.body.number.replace(/ /g, ''),
@@ -236,8 +243,9 @@ module.exports.cashout = async (req, res, next) => {
     );
     transaction.commit();
     res.send({ balance: updatedUser.balance });
-  } catch (err) {
+  } catch (error) {
     transaction.rollback();
-    next(err);
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };

@@ -1,11 +1,10 @@
 const Conversation = require('../db/dbMongo/models/Conversation');
 const Message = require('../db/dbMongo/models/Message');
 const Catalog = require('../db/dbMongo/models/Catalog');
-const moment = require('moment');
 const dbPostgres = require('../db/dbPostgres/models');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
-const _ = require('lodash');
+const ServerError = require('../errors/ServerError');
 
 module.exports.addMessage = async (req, res, next) => {
   const participants = [req.tokenData.userId, req.body.recipient];
@@ -68,8 +67,9 @@ module.exports.addMessage = async (req, res, next) => {
       message,
       preview: Object.assign(preview, { interlocutor: req.body.interlocutor }),
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -115,8 +115,9 @@ module.exports.getChat = async (req, res, next) => {
         avatar: interlocutor.avatar,
       },
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -184,12 +185,13 @@ module.exports.getPreview = async (req, res, next) => {
       });
     });
     res.send(conversations);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
-module.exports.blackList = async (req, res, next) => {
+module.exports.blackList = async (req, res) => {
   const predicate =
     'blackList.' + req.body.participants.indexOf(req.tokenData.userId);
   try {
@@ -203,12 +205,12 @@ module.exports.blackList = async (req, res, next) => {
       (participant) => participant !== req.tokenData.userId
     )[0];
     controller.getChatController().emitChangeBlockStatus(interlocutorId, chat);
-  } catch (err) {
-    res.send(err);
+  } catch (error) {
+    res.send(error);
   }
 };
 
-module.exports.favoriteChat = async (req, res, next) => {
+module.exports.favoriteChat = async (req, res) => {
   const predicate =
     'favoriteList.' + req.body.participants.indexOf(req.tokenData.userId);
   try {
@@ -218,8 +220,8 @@ module.exports.favoriteChat = async (req, res, next) => {
       { new: true }
     );
     res.send(chat);
-  } catch (err) {
-    res.send(err);
+  } catch (error) {
+    res.send(error);
   }
 };
 
@@ -233,8 +235,9 @@ module.exports.createCatalog = async (req, res, next) => {
   try {
     await catalog.save();
     res.send(catalog);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -249,8 +252,9 @@ module.exports.updateNameCatalog = async (req, res, next) => {
       { new: true }
     );
     res.send(catalog);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -265,8 +269,9 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
       { new: true }
     );
     res.send(catalog);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -281,8 +286,9 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
       { new: true }
     );
     res.send(catalog);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -293,8 +299,9 @@ module.exports.deleteCatalog = async (req, res, next) => {
       userId: req.tokenData.userId,
     });
     res.end();
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -311,7 +318,8 @@ module.exports.getCatalogs = async (req, res, next) => {
       },
     ]);
     res.send(catalogs);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };

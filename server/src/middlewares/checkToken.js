@@ -21,8 +21,9 @@ module.exports.checkAuth = async (req, res, next) => {
       balance: foundUser.balance,
       email: foundUser.email,
     });
-  } catch (err) {
-    next(new TokenError());
+  } catch (error) {
+    console.log(error.message);
+    next(new TokenError(error));
   }
 };
 
@@ -34,7 +35,8 @@ module.exports.checkToken = async (req, res, next) => {
   try {
     req.tokenData = jwt.verify(accessToken, constants.AUTH.JWT_SECRET);
     next();
-  } catch (err) {
-    next(new TokenError());
+  } catch (error) {
+    console.log(error.message);
+    next(new TokenError(error));
   }
 };

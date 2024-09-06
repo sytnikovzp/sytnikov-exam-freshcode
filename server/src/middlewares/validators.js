@@ -3,7 +3,7 @@ const {
   loginSchema,
   contestSchema,
 } = require('../utils/validationSchemes');
-// const ServerError = require('../errors/ServerError');
+const ServerError = require('../errors/ServerError');
 const BadRequestError = require('../errors/BadRequestError');
 
 module.exports.validateRegistrationData = async (req, res, next) => {
@@ -38,7 +38,7 @@ module.exports.validateContestCreation = (req, res, next) => {
       });
       next();
     })
-    .catch((err) => {
-      next(err);
+    .catch((error) => {
+      next(new ServerError(error));
     });
 };

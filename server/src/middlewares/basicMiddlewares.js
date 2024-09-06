@@ -1,5 +1,4 @@
 const dbPostgres = require('../db/dbPostgres/models');
-const UserNotFoundError = require('../errors/UserNotFoundError');
 const RightsError = require('../errors/RightsError');
 const ServerError = require('../errors/ServerError');
 const constants = require('../constants');
@@ -37,8 +36,9 @@ module.exports.canGetContest = async (req, res, next) => {
       });
     }
     result ? next() : next(new RightsError());
-  } catch (e) {
-    next(new ServerError(e));
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -76,8 +76,9 @@ module.exports.canSendOffer = async (req, res, next) => {
     } else {
       return next(new RightsError());
     }
-  } catch (e) {
-    next(new ServerError());
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -94,8 +95,9 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
       return next(new RightsError());
     }
     next();
-  } catch (e) {
-    next(new ServerError());
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
 
@@ -114,7 +116,8 @@ module.exports.canUpdateContest = async (req, res, next) => {
       return next(new RightsError());
     }
     next();
-  } catch (e) {
-    next(new ServerError());
+  } catch (error) {
+    console.log(error.message);
+    next(new ServerError(error));
   }
 };
