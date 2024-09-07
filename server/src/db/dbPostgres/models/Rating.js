@@ -1,4 +1,4 @@
-const { Model } = require('sequelize');
+const { Model, Sequelize } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Rating extends Model {
@@ -31,12 +31,21 @@ module.exports = (sequelize, DataTypes) => {
           max: 5,
         },
       },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('NOW()'),
+      },
     },
     {
       sequelize,
       modelName: 'Rating',
       tableName: 'ratings',
-      timestamps: false,
       underscored: true,
     }
   );
