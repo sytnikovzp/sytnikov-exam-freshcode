@@ -3,7 +3,7 @@ POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "newuser5@example.com",
+  "email": "creator@gmail.com",
   "password": "Qwerty123"
 }
 
@@ -14,8 +14,8 @@ Content-Type: application/json
 {
   "firstName": "John",
   "lastName": "Doe",
-  "email": "newuser@example.com",
-  "password": "newpassword",
   "displayName": "Johnny",
+  "email": "jdoe@gmail.com",
+  "password": "newpassword",
   "role": "customer"
 }
