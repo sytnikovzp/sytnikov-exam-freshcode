@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
+
   User.init(
     {
       firstName: {
@@ -87,7 +88,15 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'User',
       tableName: 'users',
       underscored: true,
+      hooks: {
+        beforeSave: (user) => {
+          if (user.email) {
+            user.email = user.email.toLowerCase();
+          }
+        },
+      },
     }
   );
+
   return User;
 };

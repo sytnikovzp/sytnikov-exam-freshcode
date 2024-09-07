@@ -15,7 +15,7 @@ Content-Type: application/json
   "firstName": "John",
   "lastName": "Doe",
   "displayName": "Johnny",
-  "email": "jdoe@gmail.com",
+  "email": "JDoe@gmail.com",
   "password": "newpassword",
   "role": "customer"
 }

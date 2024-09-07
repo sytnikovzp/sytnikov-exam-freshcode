@@ -9,8 +9,13 @@ module.exports.registration = async (req, res, next) => {
   const transaction = await sequelize.transaction();
 
   try {
+    const emailLowerCase = req.body.email.toLowerCase();
+
     const newUser = await userQueries.userCreation(
-      Object.assign(req.body, { password: req.hashPass }),
+      Object.assign(req.body, {
+        email: emailLowerCase,
+        password: req.hashPass,
+      }),
       transaction
     );
 
@@ -38,7 +43,7 @@ module.exports.registration = async (req, res, next) => {
     await transaction.rollback();
 
     if (error.name === 'SequelizeUniqueConstraintError') {
-      next(createError(409, 'This email were already used!'));
+      next(createError(409, 'This email was already used!'));
     } else {
       console.log(error.message);
       await transaction.rollback();

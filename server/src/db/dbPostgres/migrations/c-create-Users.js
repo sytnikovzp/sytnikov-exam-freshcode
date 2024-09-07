@@ -77,6 +77,10 @@ module.exports = {
         },
       },
     });
+
+    await queryInterface.sequelize.query(
+      'UPDATE users SET email = LOWER(email);'
+    );
   },
 
   async down(queryInterface) {
