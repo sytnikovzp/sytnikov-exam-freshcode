@@ -56,8 +56,10 @@ module.exports.login = async (req, res, next) => {
   const transaction = await sequelize.transaction();
 
   try {
+    const emailLowerCase = req.body.email.toLowerCase();
+
     const foundUser = await userQueries.findUser(
-      { email: req.body.email },
+      { email: emailLowerCase },
       transaction
     );
 
