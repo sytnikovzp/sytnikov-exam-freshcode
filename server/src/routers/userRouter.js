@@ -11,10 +11,10 @@ const router = new Router();
 
 router.get(
   '/getUser',
-  checkToken.checkAuth
+  checkToken.getUserByToken
 );
 
-router.put(
+router.patch(
   '/updateUser',
   checkToken.checkToken,
   upload.uploadAvatar,

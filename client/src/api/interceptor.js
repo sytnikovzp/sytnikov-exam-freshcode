@@ -11,9 +11,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const token = window.localStorage.getItem(constants.AUTH.ACCESS_TOKEN);
+    const token = localStorage.getItem(constants.AUTH.ACCESS_TOKEN);
     if (token) {
-      config.headers = { ...config.headers, Authorization: token };
+      config.headers = { ...config.headers, Authorization: `Bearer ${token}` };
     }
     return config;
   },
@@ -23,15 +23,13 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     if (response.data.token) {
-      window.localStorage.setItem(
-        constants.AUTH.ACCESS_TOKEN,
-        response.data.token
-      );
+      localStorage.setItem(constants.AUTH.ACCESS_TOKEN, response.data.token);
     }
     return response;
   },
   (err) => {
     if (
+      err.response &&
       err.response.status === 408 &&
       history.location.pathname !== '/login' &&
       history.location.pathname !== '/registration' &&

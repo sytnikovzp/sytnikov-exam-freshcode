@@ -3,29 +3,11 @@ const { Model, Sequelize } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // User.hasMany(models.Order, {
-      //   foreignKey: 'userId',
-      //   onDelete: 'SET NULL',
-      //   onUpdate: 'CASCADE',
-      // });
-
-      // User.hasMany(models.Participant, {
-      //   foreignKey: 'userId',
-      //   onDelete: 'SET NULL',
-      //   onUpdate: 'CASCADE',
-      // });
-
       User.hasMany(models.Offer, {
         foreignKey: 'userId',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       });
-
-      // User.hasMany(models.RefreshToken, {
-      //   foreignKey: 'userId',
-      //   onDelete: 'SET NULL',
-      //   onUpdate: 'CASCADE',
-      // });
 
       User.hasMany(models.Contest, {
         foreignKey: 'userId',

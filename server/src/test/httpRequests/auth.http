@@ -1,15 +1,15 @@
 ### Login user
 POST http://localhost:3000/api/auth/login HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 
 {
-  "email": "Creator@gmail.com",
+  "email": "newuser5@example.com",
   "password": "Qwerty123"
 }
 
 ### Register new user
 POST http://localhost:3000/api/auth/registration HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 
 {
   "firstName": "John",
@@ -17,7 +17,5 @@ content-type: application/json
   "email": "newuser@example.com",
   "password": "newpassword",
   "displayName": "Johnny",
-  "avatar": "http://example.com/avatar.jpg",
-  "balance": 0,
-  "role": "user"
+  "role": "customer"
 }

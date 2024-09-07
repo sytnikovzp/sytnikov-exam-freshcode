@@ -7,7 +7,7 @@ const restController = {
 
   // User management
   getUser: () => api.get('user/getUser'),
-  updateUser: (data) => api.put('user/updateUser', data),
+  updateUser: (data) => api.patch('user/updateUser', data),
   changeMark: (data) => api.patch('user/changeMark', data),
 
   // Contest management

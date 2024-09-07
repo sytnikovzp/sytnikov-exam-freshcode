@@ -16,14 +16,14 @@ module.exports.registration = async (req, res, next) => {
 
     const accessToken = jwt.sign(
       {
-        firstName: newUser.firstName,
         userId: newUser.id,
-        role: newUser.role,
+        firstName: newUser.firstName,
         lastName: newUser.lastName,
-        avatar: newUser.avatar,
         displayName: newUser.displayName,
-        balance: newUser.balance,
         email: newUser.email,
+        role: newUser.role,
+        avatar: newUser.avatar,
+        balance: newUser.balance,
         rating: newUser.rating,
       },
       constants.AUTH.JWT_SECRET,
@@ -33,7 +33,7 @@ module.exports.registration = async (req, res, next) => {
     await userQueries.updateUser({ accessToken }, newUser.id, transaction);
 
     await transaction.commit();
-    res.send({ token: accessToken });
+    return res.status(200).json({ token: accessToken });
   } catch (error) {
     await transaction.rollback();
 
@@ -42,7 +42,7 @@ module.exports.registration = async (req, res, next) => {
     } else {
       console.log(error.message);
       await transaction.rollback();
-      next(createError(500, error));
+      next(error);
     }
   }
 };

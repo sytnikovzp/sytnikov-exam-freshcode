@@ -16,8 +16,8 @@ const initialState = {
   error: null,
 };
 
-export const checkAuth = decorateAsyncThunk({
-  key: `${constants.AUTH_SLICE_NAME}/checkAuth`,
+export const getUserByToken = decorateAsyncThunk({
+  key: `${constants.AUTH_SLICE_NAME}/getUserByToken`,
   thunk: async ({ data: authInfo, navigate, authMode }) => {
     if (authMode === constants.AUTH_MODE.LOGIN) {
       await restController.loginRequest(authInfo);
@@ -36,9 +36,9 @@ const reducers = {
 };
 
 const extraReducers = (builder) => {
-  builder.addCase(checkAuth.pending, pendingReducer);
-  builder.addCase(checkAuth.fulfilled, fulfilledReducer);
-  builder.addCase(checkAuth.rejected, rejectedReducer);
+  builder.addCase(getUserByToken.pending, pendingReducer);
+  builder.addCase(getUserByToken.fulfilled, fulfilledReducer);
+  builder.addCase(getUserByToken.rejected, rejectedReducer);
 };
 
 const authSlice = createSlice({

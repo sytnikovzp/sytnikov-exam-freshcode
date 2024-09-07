@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
 // =============================================
-import { checkAuth, clearAuth } from '../../store/slices/authSlice';
+import { getUserByToken, clearAuth } from '../../store/slices/authSlice';
 // =============================================
 import constants from '../../constants';
 // =============================================
@@ -26,7 +26,7 @@ function LoginForm({ navigate }) {
 
   const handleSubmit = (values) => {
     dispatch(
-      checkAuth({ data: values, navigate, authMode: constants.AUTH_MODE.LOGIN })
+      getUserByToken({ data: values, navigate, authMode: constants.AUTH_MODE.LOGIN })
     );
   };
 

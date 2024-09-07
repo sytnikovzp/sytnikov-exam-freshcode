@@ -1,0 +1,29 @@
+### Get User
+GET http://localhost:3000/api/user/getUser HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJmaXJzdE5hbWUiOiJKb2huIiwibGFzdE5hbWUiOiJEb2UiLCJkaXNwbGF5TmFtZSI6IkpvaG5ueSIsImVtYWlsIjoibmV3dXNlcjVAZXhhbXBsZS5jb20iLCJyb2xlIjoiY3VzdG9tZXIiLCJhdmF0YXIiOiJhbm9uLnBuZyIsImJhbGFuY2UiOiIwIiwicmF0aW5nIjowLCJpYXQiOjE3MjU3NDQ4MzMsImV4cCI6MTcyNTc0ODQzM30.pqkodjuf9VfgbnCaK7UB7bjrZfM_s4ZkmJhcqHSI9iM
+Content-Type: application/json
+
+### Update user
+PATCH http://localhost:3000/api/user/updateUser HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJmaXJzdE5hbWUiOiJKb2huIiwibGFzdE5hbWUiOiJEb2UiLCJkaXNwbGF5TmFtZSI6IkpvaG5ueSIsImVtYWlsIjoibmV3dXNlcjVAZXhhbXBsZS5jb20iLCJyb2xlIjoiY3VzdG9tZXIiLCJhdmF0YXIiOiJhbm9uLnBuZyIsImJhbGFuY2UiOiIwIiwicmF0aW5nIjowLCJpYXQiOjE3MjU3NDQ4MzMsImV4cCI6MTcyNTc0ODQzM30.pqkodjuf9VfgbnCaK7UB7bjrZfM_s4ZkmJhcqHSI9iM
+Content-Type: application/json
+
+{
+  "firstName": "UpdatedFirstName",
+  "lastName": "UpdatedLastName",
+  "displayName": "UpdatedDisplayName",
+  "email": "updatedemail52@gmail.com",
+  "role": "customer"
+}
+
+### Change Mark !!!!!!!!!!!!!!!!!!!!
+PATCH http://localhost:3000/api/user/changeMark HTTP/1.1 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJmaXJzdE5hbWUiOiJKb2huIiwibGFzdE5hbWUiOiJEb2UiLCJkaXNwbGF5TmFtZSI6IkpvaG5ueSIsImVtYWlsIjoibmV3dXNlcjVAZXhhbXBsZS5jb20iLCJyb2xlIjoiY3VzdG9tZXIiLCJhdmF0YXIiOiJhbm9uLnBuZyIsImJhbGFuY2UiOiIwIiwicmF0aW5nIjowLCJpYXQiOjE3MjU3NDQ4MzMsImV4cCI6MTcyNTc0ODQzM30.pqkodjuf9VfgbnCaK7UB7bjrZfM_s4ZkmJhcqHSI9iM
+Content-Type: application/json
+
+{
+  "isFirst": true,
+  "offerId": 123,
+  "mark": 4.5,
+  "creatorId": 456
+}
