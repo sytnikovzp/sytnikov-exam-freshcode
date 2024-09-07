@@ -1,5 +1,4 @@
-module.exports = (err, req, res) => {
-  // console.log(err.message);
+module.exports = (err, req, res, next) => {
   if (
     err.message ===
       'new row for relation "Cards" violates check constraint "Banks_balance_ck"' ||

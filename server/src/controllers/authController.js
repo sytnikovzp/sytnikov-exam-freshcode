@@ -3,32 +3,6 @@ const jwt = require('jsonwebtoken');
 const constants = require('../constants');
 const userQueries = require('./queries/userQueries');
 
-module.exports.login = async (req, res, next) => {
-  try {
-    const foundUser = await userQueries.findUser({ email: req.body.email });
-    await userQueries.passwordCompare(req.body.password, foundUser.password);
-    const accessToken = jwt.sign(
-      {
-        firstName: foundUser.firstName,
-        userId: foundUser.id,
-        role: foundUser.role,
-        lastName: foundUser.lastName,
-        avatar: foundUser.avatar,
-        displayName: foundUser.displayName,
-        balance: foundUser.balance,
-        email: foundUser.email,
-        rating: foundUser.rating,
-      },
-      constants.AUTH.JWT_SECRET,
-      { expiresIn: constants.AUTH.ACCESS_TOKEN_TIME }
-    );
-    await userQueries.updateUser({ accessToken }, foundUser.id);
-    res.send({ token: accessToken });
-  } catch (error) {
-    next(createError(500, error));
-  }
-};
-
 module.exports.registration = async (req, res, next) => {
   try {
     const newUser = await userQueries.userCreation(
@@ -59,5 +33,42 @@ module.exports.registration = async (req, res, next) => {
       console.log(error.message);
       next(createError(500, error));
     }
+  }
+};
+
+module.exports.login = async (req, res, next) => {
+  try {
+    if (!req.body.email || !req.body.password) {
+      return next(createError(400, 'Email and password are required'));
+    }
+
+    const foundUser = await userQueries.findUser({ email: req.body.email });
+    if (!foundUser) {
+      return next(createError(404, 'User not found'));
+    }
+
+    await userQueries.passwordCompare(req.body.password, foundUser.password);
+
+    const accessToken = jwt.sign(
+      {
+        firstName: foundUser.firstName,
+        userId: foundUser.id,
+        role: foundUser.role,
+        lastName: foundUser.lastName,
+        avatar: foundUser.avatar,
+        displayName: foundUser.displayName,
+        balance: foundUser.balance,
+        email: foundUser.email,
+        rating: foundUser.rating,
+      },
+      constants.AUTH.JWT_SECRET,
+      { expiresIn: constants.AUTH.ACCESS_TOKEN_TIME }
+    );
+
+    await userQueries.updateUser({ accessToken }, foundUser.id);
+    return res.status(200).json({ token: accessToken });
+  } catch (error) {
+    console.log(error.message);
+    next(error);
   }
 };

@@ -2,10 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
 // ============================
-// const {
-//   errorHandlers: { notEnoughMoney, errorHandler },
-// } = require('./middlewares');
-
 const {
   time: { getTime, showTime },
 } = require('./middlewares');
