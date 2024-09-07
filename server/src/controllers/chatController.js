@@ -69,7 +69,7 @@ module.exports.addMessage = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -117,7 +117,7 @@ module.exports.getChat = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -187,7 +187,7 @@ module.exports.getPreview = async (req, res, next) => {
     res.send(conversations);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -237,7 +237,7 @@ module.exports.createCatalog = async (req, res, next) => {
     res.send(catalog);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -254,7 +254,7 @@ module.exports.updateNameCatalog = async (req, res, next) => {
     res.send(catalog);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -271,7 +271,7 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
     res.send(catalog);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -288,7 +288,7 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
     res.send(catalog);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -301,7 +301,7 @@ module.exports.deleteCatalog = async (req, res, next) => {
     res.end();
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -320,6 +320,6 @@ module.exports.getCatalogs = async (req, res, next) => {
     res.send(catalogs);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };

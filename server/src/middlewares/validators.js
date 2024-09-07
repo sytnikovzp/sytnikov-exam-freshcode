@@ -38,6 +38,6 @@ module.exports.validateContestCreation = (req, res, next) => {
       next();
     })
     .catch((error) => {
-      next(createError(500, error));
+      next(error);
     });
 };

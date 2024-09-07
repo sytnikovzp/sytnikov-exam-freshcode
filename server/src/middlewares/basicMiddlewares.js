@@ -1,6 +1,7 @@
 const createError = require('http-errors');
-const dbPostgres = require('../db/dbPostgres/models');
+// =============================================
 const constants = require('../constants');
+const { Sequelize, Contest } = require('../db/dbPostgres/models');
 
 module.exports.parseBody = (req, res, next) => {
   req.body.contests = JSON.parse(req.body.contests);
@@ -16,17 +17,19 @@ module.exports.parseBody = (req, res, next) => {
 
 module.exports.canGetContest = async (req, res, next) => {
   let result = null;
+
   try {
     if (req.tokenData.role === constants.USER_ROLES.CUSTOMER) {
-      result = await dbPostgres.Contest.findOne({
+      result = await Contest.findOne({
         where: { id: req.headers.contestId, userId: req.tokenData.userId },
       });
-    } else if (req.tokenData.role === constants.USER_ROLES.CREATOR) {
-      result = await dbPostgres.Contest.findOne({
+    }
+    if (req.tokenData.role === constants.USER_ROLES.CREATOR) {
+      result = await Contest.findOne({
         where: {
           id: req.headers.contestId,
           status: {
-            [dbPostgres.Sequelize.Op.or]: [
+            [Sequelize.Op.or]: [
               constants.CONTEST_STATUS.ACTIVE,
               constants.CONTEST_STATUS.FINISHED,
             ],
@@ -34,89 +37,96 @@ module.exports.canGetContest = async (req, res, next) => {
         },
       });
     }
-    result ? next() : next(createError(423, 'not enough rights'));
+
+    result ? next() : next(createError(423, 'Not enough rights!'));
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
 module.exports.onlyForCreative = (req, res, next) => {
-  if (req.tokenData.role === constants.USER_ROLES.CUSTOMER) {
-    next(createError(423, 'not enough rights'));
-  } else {
-    next();
+  if (req.tokenData.role !== constants.USER_ROLES.CREATOR) {
+    next(createError(423, 'Not enough rights!'));
   }
+
+  next();
 };
 
 module.exports.onlyForCustomer = (req, res, next) => {
-  if (req.tokenData.role === constants.USER_ROLES.CREATOR) {
-    next(createError(423, 'this page only for customers'));
-  } else {
-    next();
+  if (req.tokenData.role !== constants.USER_ROLES.CUSTOMER) {
+    next(createError(423, 'This page only for customers!'));
   }
+
+  next();
 };
 
 module.exports.canSendOffer = async (req, res, next) => {
-  if (req.tokenData.role === constants.USER_ROLES.CUSTOMER) {
-    next(createError(423, 'not enough rights'));
+  if (req.tokenData.role !== constants.USER_ROLES.CREATOR) {
+    next(createError(423, 'Not enough rights!'));
   }
+
   try {
-    const result = await dbPostgres.Contest.findOne({
+    const result = await Contest.findOne({
       where: {
         id: req.body.contestId,
       },
       attributes: ['status'],
     });
+
     if (
-      result.get({ plain: true }).status === constants.CONTEST_STATUS.ACTIVE
+      result.get({ plain: true }).status !== constants.CONTEST_STATUS.ACTIVE
     ) {
-      next();
-    } else {
-      next(createError(423, 'not enough rights'));
+      next(createError(423, 'Not enough rights!'));
     }
+
+    next();
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
 module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
   try {
-    const result = await dbPostgres.Contest.findOne({
+    const result = await Contest.findOne({
       where: {
         userId: req.tokenData.userId,
         id: req.body.contestId,
         status: constants.CONTEST_STATUS.ACTIVE,
       },
     });
+
     if (!result) {
-      next(createError(423, 'not enough rights'));
+      next(createError(423, 'Not enough rights!'));
     }
+
     next();
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
 module.exports.canUpdateContest = async (req, res, next) => {
   try {
-    const result = dbPostgres.Contest.findOne({
+    const result = Contest.findOne({
       where: {
         userId: req.tokenData.userId,
         id: req.body.contestId,
         status: {
-          [dbPostgres.Sequelize.Op.not]: constants.CONTEST_STATUS.FINISHED,
+          [Sequelize.Op.not]: constants.CONTEST_STATUS.FINISHED,
         },
       },
     });
+
     if (!result) {
-      next(createError(423, 'not enough rights'));
+      next(createError(423, 'Not enough rights!'));
     }
+
     next();
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };

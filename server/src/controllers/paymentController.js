@@ -56,7 +56,7 @@ module.exports.payment = async (req, res, next) => {
   } catch (error) {
     transaction.rollback();
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -103,6 +103,6 @@ module.exports.cashout = async (req, res, next) => {
   } catch (error) {
     transaction.rollback();
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };

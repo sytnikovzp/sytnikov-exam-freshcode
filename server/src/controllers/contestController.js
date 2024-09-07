@@ -131,7 +131,7 @@ module.exports.getAllContests = (req, res, next) => {
       res.send({ contests, haveMore });
     })
     .catch((error) => {
-      next(createError(500, error));
+      next(error);
     });
 };
 
@@ -184,7 +184,7 @@ module.exports.getContestById = async (req, res, next) => {
     res.send(contestInfo);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -231,7 +231,7 @@ module.exports.updateContest = async (req, res, next) => {
     res.send(updatedContest);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -256,7 +256,7 @@ module.exports.setNewOffer = async (req, res, next) => {
     res.send(Object.assign({}, result, { User }));
   } catch (error) {
     console.log(error.message);
-    next(createError(500, error));
+    next(error);
   }
 };
 
@@ -272,7 +272,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
       res.send(offer);
     } catch (error) {
       console.log(error.message);
-      next(createError(500, error));
+      next(error);
     }
   } else if (req.body.command === 'resolve') {
     try {
@@ -289,7 +289,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
     } catch (error) {
       transaction.rollback();
       console.log(error.message);
-      next(createError(500, error));
+      next(error);
     }
   }
 };
