@@ -12,7 +12,7 @@ function Error({ status, data, clearError }) {
       case 403:
         return 'Bank declined transaction';
       default:
-        return 'Server Error';
+        return data;
     }
   };
 

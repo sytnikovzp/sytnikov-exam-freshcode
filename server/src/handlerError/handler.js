@@ -5,12 +5,11 @@ module.exports = (err, req, res, next) => {
     err.message ===
       'new row for relation "Users" violates check constraint "Users_balance_ck"'
   ) {
-    err.message = 'Not Enough money';
-    err.code = 406;
+    return res.status(406).send('Not Enough money');
   }
-  if (!err.message || !err.code) {
-    res.status(500).send('Server Error');
-  } else {
-    res.status(err.code).send(err.message);
-  }
+
+  const statusCode = err.code || 500;
+  const message = err.message || 'Server Error';
+
+  res.status(statusCode).send(message);
 };

@@ -38,27 +38,18 @@ module.exports.registration = async (req, res, next) => {
 
 module.exports.login = async (req, res, next) => {
   try {
-    if (!req.body.email || !req.body.password) {
-      return next(createError(400, 'Email and password are required'));
-    }
-
     const foundUser = await userQueries.findUser({ email: req.body.email });
-    if (!foundUser) {
-      return next(createError(404, 'User not found'));
-    }
-
     await userQueries.passwordCompare(req.body.password, foundUser.password);
-
     const accessToken = jwt.sign(
       {
-        firstName: foundUser.firstName,
         userId: foundUser.id,
-        role: foundUser.role,
+        firstName: foundUser.firstName,
         lastName: foundUser.lastName,
-        avatar: foundUser.avatar,
         displayName: foundUser.displayName,
-        balance: foundUser.balance,
         email: foundUser.email,
+        role: foundUser.role,
+        avatar: foundUser.avatar,
+        balance: foundUser.balance,
         rating: foundUser.rating,
       },
       constants.AUTH.JWT_SECRET,
