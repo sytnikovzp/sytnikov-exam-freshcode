@@ -4,19 +4,13 @@ const restController = {
   // Authentication
   registerRequest: (data) => api.post('auth/registration', data),
   loginRequest: (data) => api.post('auth/login', data),
-  
+
   // User management
   getUser: () => api.get('user/getUser'),
   updateUser: (data) => api.put('user/updateUser', data),
   changeMark: (data) => api.patch('user/changeMark', data),
 
   // Contest management
-  updateContest: (data) => api.patch('contest/updateContest', data),
-  setNewOffer: (data) => api.post('contest/setNewOffer', data),
-  setOfferStatus: (data) => api.post('contest/setOfferStatus', data),
-  downloadContestFile: (data) =>
-    api.get(`contest/downloadFile/${data.fileName}`),
-  dataForContest: (data) => api.post('contest/dataForContest', data),
   getAllContests: (params) => api.get('contest/getAllContests', { params }),
   getContestById: (data) =>
     api.get('contest/getContestById', {
@@ -34,6 +28,11 @@ const restController = {
         status: data.contestStatus,
       },
     }),
+  updateContest: (data) => api.patch('contest/updateContest', data),
+  setNewOffer: (data) => api.post('contest/setNewOffer', data),
+  setOfferStatus: (data) => api.post('contest/setOfferStatus', data),
+  dataForContest: (data) => api.post('contest/dataForContest', data),
+  downloadFile: (data) => api.get(`contest/downloadFile/${data.fileName}`),
 
   // Payments
   payMent: (data) => api.post('payment/pay', data.formData),

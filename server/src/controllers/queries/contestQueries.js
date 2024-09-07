@@ -30,6 +30,16 @@ module.exports.updateContestStatus = async (data, predicate, transaction) => {
   return updateResult[1][0].dataValues;
 };
 
+module.exports.createOffer = async (data, transaction) => {
+  const result = await Offer.create(data, { transaction });
+
+  if (!result) {
+    throw createError(500, 'Cannot create new offer!');
+  }
+
+  return result.get({ plain: true });
+};
+
 module.exports.updateOffer = async (data, predicate, transaction) => {
   const [updatedCount, [updatedOffer]] = await Offer.update(data, {
     where: predicate,
@@ -56,14 +66,4 @@ module.exports.updateOfferStatus = async (data, predicate, transaction) => {
   }
 
   return result[1];
-};
-
-module.exports.createOffer = async (data, transaction) => {
-  const result = await Offer.create(data, { transaction });
-
-  if (!result) {
-    throw createError(500, 'Cannot create new offer!');
-  }
-
-  return result.get({ plain: true });
 };

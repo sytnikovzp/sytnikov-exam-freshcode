@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 // =============================================
 import {
-  getContests,
+  getAllContests,
   clearContestsList,
   setNewCreatorFilter,
 } from '../../store/slices/contestsSlice';
@@ -105,11 +105,11 @@ class CreatorDashboard extends React.Component {
       this.parseUrlForParams(this.props.location.search) &&
       !this.props.contests.length
     )
-      this.getContests(this.props.creatorFilter);
+      this.getAllContests(this.props.creatorFilter);
   }
 
-  getContests = (filter) => {
-    this.props.getContests({
+  getAllContests = (filter) => {
+    this.props.getAllContests({
       limit: 8,
       offset: 0,
       ...filter,
@@ -148,7 +148,7 @@ class CreatorDashboard extends React.Component {
     if (!isEqual(filter, this.props.creatorFilter)) {
       this.props.newFilter(filter);
       this.props.clearContestsList();
-      this.getContests(filter);
+      this.getAllContests(filter);
       return false;
     }
     return true;
@@ -167,7 +167,7 @@ class CreatorDashboard extends React.Component {
   };
 
   loadMore = (startFrom) => {
-    this.props.getContests({
+    this.props.getAllContests({
       limit: 8,
       offset: startFrom,
       ...this.getPredicateOfRequest(),
@@ -195,7 +195,7 @@ class CreatorDashboard extends React.Component {
 
   tryLoadAgain = () => {
     this.props.clearContestsList();
-    this.props.getContests({
+    this.props.getAllContests({
       limit: 8,
       offset: 0,
       ...this.getPredicateOfRequest(),
@@ -291,9 +291,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getContests: (data) =>
+  getAllContests: (data) =>
     dispatch(
-      getContests({ requestData: data, role: constants.USER_ROLES.CREATOR })
+      getAllContests({ requestData: data, role: constants.USER_ROLES.CREATOR })
     ),
   clearContestsList: () => dispatch(clearContestsList()),
   newFilter: (filter) => dispatch(setNewCreatorFilter(filter)),

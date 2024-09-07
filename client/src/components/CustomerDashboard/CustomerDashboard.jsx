@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 // =============================================
 import {
-  getContests,
+  getAllContests,
   clearContestsList,
   setNewCustomerFilter,
 } from '../../store/slices/contestsSlice';
@@ -26,7 +26,7 @@ function CustomerDashboard({ navigate }) {
   const loadMore = useCallback(
     (startFrom) => {
       dispatch(
-        getContests({
+        getAllContests({
           requestData: {
             limit: 8,
             offset: startFrom,
@@ -39,9 +39,9 @@ function CustomerDashboard({ navigate }) {
     [dispatch, customerFilter]
   );
 
-  const getContestsHandler = useCallback(() => {
+  const getAllContestsHandler = useCallback(() => {
     dispatch(
-      getContests({
+      getAllContests({
         requestData: {
           limit: 8,
           contestStatus: customerFilter,
@@ -52,15 +52,15 @@ function CustomerDashboard({ navigate }) {
   }, [dispatch, customerFilter]);
 
   useEffect(() => {
-    getContestsHandler();
+    getAllContestsHandler();
     return () => {
       dispatch(clearContestsList());
     };
-  }, [getContestsHandler, dispatch]);
+  }, [getAllContestsHandler, dispatch]);
 
   useEffect(() => {
-    getContestsHandler();
-  }, [customerFilter, getContestsHandler]);
+    getAllContestsHandler();
+  }, [customerFilter, getAllContestsHandler]);
 
   const goToExtended = useCallback(
     (contestId) => {
@@ -77,8 +77,8 @@ function CustomerDashboard({ navigate }) {
 
   const tryToGetContest = useCallback(() => {
     dispatch(clearContestsList());
-    getContestsHandler();
-  }, [dispatch, getContestsHandler]);
+    getAllContestsHandler();
+  }, [dispatch, getAllContestsHandler]);
 
   return (
     <div className={styles.mainContainer}>
