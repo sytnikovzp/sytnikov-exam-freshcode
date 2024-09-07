@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
 const createError = require('http-errors');
 // =============================================
-const dbPostgres = require('../../db/dbPostgres/models');
+const { User } = require('../../db/dbPostgres/models');
 
 module.exports.updateUser = async (data, userId, transaction) => {
-  const [updatedCount, [updatedUser]] = await dbPostgres.User.update(data, {
+  const [updatedCount, [updatedUser]] = await User.update(data, {
     where: { id: userId },
     returning: true,
     transaction,
@@ -18,7 +18,7 @@ module.exports.updateUser = async (data, userId, transaction) => {
 };
 
 module.exports.findUser = async (predicate, transaction) => {
-  const result = await dbPostgres.User.findOne({
+  const result = await User.findOne({
     where: predicate,
     transaction,
   });
@@ -30,8 +30,8 @@ module.exports.findUser = async (predicate, transaction) => {
   return result.get({ plain: true });
 };
 
-module.exports.userCreation = async (data) => {
-  const newUser = await dbPostgres.User.create(data);
+module.exports.userCreation = async (data, transaction) => {
+  const newUser = await User.create(data, { transaction });
 
   if (!newUser) {
     throw createError(500, 'Server error on user creation!');

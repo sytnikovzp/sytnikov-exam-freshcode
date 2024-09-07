@@ -1,14 +1,19 @@
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
+// =============================================
 const constants = require('../constants');
 const userQueries = require('./queries/userQueries');
+const { sequelize } = require('../db/dbPostgres/models');
 
 module.exports.registration = async (req, res, next) => {
+  const transaction = await sequelize.transaction();
+
   try {
     const newUser = await userQueries.userCreation(
-      Object.assign(req.body, { password: req.hashPass })
+      Object.assign(req.body, { password: req.hashPass }),
+      transaction
     );
-    console.log(newUser);
+
     const accessToken = jwt.sign(
       {
         firstName: newUser.firstName,
@@ -24,22 +29,35 @@ module.exports.registration = async (req, res, next) => {
       constants.AUTH.JWT_SECRET,
       { expiresIn: constants.AUTH.ACCESS_TOKEN_TIME }
     );
-    await userQueries.updateUser({ accessToken }, newUser.id);
+
+    await userQueries.updateUser({ accessToken }, newUser.id, transaction);
+
+    await transaction.commit();
     res.send({ token: accessToken });
   } catch (error) {
+    await transaction.rollback();
+
     if (error.name === 'SequelizeUniqueConstraintError') {
-      next(createError(409, 'this email were already exist'));
+      next(createError(409, 'This email were already used!'));
     } else {
       console.log(error.message);
+      await transaction.rollback();
       next(createError(500, error));
     }
   }
 };
 
 module.exports.login = async (req, res, next) => {
+  const transaction = await sequelize.transaction();
+
   try {
-    const foundUser = await userQueries.findUser({ email: req.body.email });
+    const foundUser = await userQueries.findUser(
+      { email: req.body.email },
+      transaction
+    );
+
     await userQueries.passwordCompare(req.body.password, foundUser.password);
+
     const accessToken = jwt.sign(
       {
         userId: foundUser.id,
@@ -56,10 +74,13 @@ module.exports.login = async (req, res, next) => {
       { expiresIn: constants.AUTH.ACCESS_TOKEN_TIME }
     );
 
-    await userQueries.updateUser({ accessToken }, foundUser.id);
+    await userQueries.updateUser({ accessToken }, foundUser.id, transaction);
+
+    await transaction.commit();
     return res.status(200).json({ token: accessToken });
   } catch (error) {
     console.log(error.message);
+    await transaction.rollback();
     next(error);
   }
 };
