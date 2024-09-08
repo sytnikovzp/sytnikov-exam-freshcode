@@ -1,5 +1,6 @@
-const createError = require('http-errors');
 const bcrypt = require('bcrypt');
+const createError = require('http-errors');
+// =============================================
 const constants = require('../constants');
 
 module.exports = async (req, res, next) => {
@@ -11,6 +12,6 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error.message);
-    next(createError(500, 'Server Error on hash password'));
+    next(createError(500, 'Server Error on hash password!'));
   }
 };

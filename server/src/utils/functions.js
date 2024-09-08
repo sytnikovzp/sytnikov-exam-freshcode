@@ -1,5 +1,5 @@
-const dbPostgres = require('../db/dbPostgres/models');
 const constants = require('../constants');
+const { Sequelize } = require('../db/dbPostgres/models');
 
 module.exports.createWhereForAllContests = (
   typeIndex,
@@ -25,7 +25,7 @@ module.exports.createWhereForAllContests = (
   }
   Object.assign(object.where, {
     status: {
-      [dbPostgres.Sequelize.Op.or]: [
+      [Sequelize.Op.or]: [
         constants.CONTEST_STATUS.FINISHED,
         constants.CONTEST_STATUS.ACTIVE,
       ],
@@ -36,7 +36,7 @@ module.exports.createWhereForAllContests = (
 };
 
 function getPredicateTypes(index) {
-  return { [dbPostgres.Sequelize.Op.or]: [types[index].split(',')] };
+  return { [Sequelize.Op.or]: [types[index].split(',')] };
 }
 
 const types = [

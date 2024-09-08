@@ -2,7 +2,7 @@ const createError = require('http-errors');
 // =============================================
 const { Rating } = require('../../db/dbPostgres/models');
 
-module.exports.updateRating = async (data, predicate, transaction) => {
+module.exports.updateExistingRating = async (data, predicate, transaction) => {
   const [updatedCount, [updatedRating]] = await Rating.update(data, {
     where: predicate,
     returning: true,
@@ -16,7 +16,7 @@ module.exports.updateRating = async (data, predicate, transaction) => {
   return updatedRating.dataValues;
 };
 
-module.exports.createRating = async (data, transaction) => {
+module.exports.createNewRating = async (data, transaction) => {
   const result = await Rating.create(data, { transaction });
 
   if (!result) {

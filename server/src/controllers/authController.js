@@ -2,7 +2,12 @@ const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 // =============================================
 const constants = require('../constants');
-const userQueries = require('./queries/userQueries');
+const {
+  createNewUser,
+  updateExistingUser,
+  findExistingUser,
+  passwordCompare,
+} = require('./queries/userQueries');
 const { sequelize } = require('../db/dbPostgres/models');
 
 module.exports.registration = async (req, res, next) => {
@@ -11,7 +16,7 @@ module.exports.registration = async (req, res, next) => {
   try {
     const emailLowerCase = req.body.email.toLowerCase();
 
-    const newUser = await userQueries.userCreation(
+    const newUser = await createNewUser(
       Object.assign(req.body, {
         email: emailLowerCase,
         password: req.hashPass,
@@ -35,7 +40,7 @@ module.exports.registration = async (req, res, next) => {
       { expiresIn: constants.AUTH.ACCESS_TOKEN_TIME }
     );
 
-    await userQueries.updateUser({ accessToken }, newUser.id, transaction);
+    await updateExistingUser({ accessToken }, newUser.id, transaction);
 
     await transaction.commit();
     return res.status(200).json({ token: accessToken });
@@ -58,12 +63,9 @@ module.exports.login = async (req, res, next) => {
   try {
     const emailLowerCase = req.body.email.toLowerCase();
 
-    const foundUser = await userQueries.findUser(
-      { email: emailLowerCase },
-      transaction
-    );
+    const foundUser = await findExistingUser({ email: emailLowerCase }, transaction);
 
-    await userQueries.passwordCompare(req.body.password, foundUser.password);
+    await passwordCompare(req.body.password, foundUser.password);
 
     const accessToken = jwt.sign(
       {
@@ -81,7 +83,7 @@ module.exports.login = async (req, res, next) => {
       { expiresIn: constants.AUTH.ACCESS_TOKEN_TIME }
     );
 
-    await userQueries.updateUser({ accessToken }, foundUser.id, transaction);
+    await updateExistingUser({ accessToken }, foundUser.id, transaction);
 
     await transaction.commit();
     return res.status(200).json({ token: accessToken });

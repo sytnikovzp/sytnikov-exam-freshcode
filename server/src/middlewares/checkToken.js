@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 // =============================================
 const constants = require('../constants');
-const userQueries = require('../controllers/queries/userQueries');
+const { findExistingUser } = require('../controllers/queries/userQueries');
 
 module.exports.getUserByToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -16,7 +16,7 @@ module.exports.getUserByToken = async (req, res, next) => {
   try {
     const tokenData = jwt.verify(token, constants.AUTH.JWT_SECRET);
 
-    const foundUser = await userQueries.findUser({ id: tokenData.userId });
+    const foundUser = await findExistingUser({ id: tokenData.userId });
 
     if (!foundUser) {
       return next(createError(404, 'User not found!'));

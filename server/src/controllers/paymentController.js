@@ -2,8 +2,8 @@ const moment = require('moment');
 const { v4: uuid } = require('uuid');
 // =============================================
 const constants = require('../constants');
-const userQueries = require('./queries/userQueries');
-const bankQueries = require('./queries/bankQueries');
+const { updateExistingUser } = require('./queries/userQueries');
+const { updateBankBalance } = require('./queries/bankQueries');
 const { Sequelize, sequelize, Contest } = require('../db/dbPostgres/models');
 
 const createContests = async (contests, price, userId, transaction) => {
@@ -35,7 +35,7 @@ module.exports.payment = async (req, res, next) => {
     const { number, cvc, expiry, price, contests } = req.body;
     const cleanedCardNumber = number.replace(/ /g, '');
 
-    await bankQueries.updateBankBalance(
+    await updateBankBalance(
       {
         balance: sequelize.literal(`
           CASE
@@ -83,14 +83,14 @@ module.exports.cashout = async (req, res, next) => {
     const { number, cvc, expiry, sum } = req.body;
     const cleanedCardNumber = number.replace(/ /g, '');
 
-    const updatedUser = await userQueries.updateUser(
+    const updatedUser = await updateExistingUser(
       { balance: sequelize.literal(`"balance" - '${sum}'`) },
       req.tokenData.userId,
       transaction,
       { sum }
     );
 
-    await bankQueries.updateBankBalance(
+    await updateBankBalance(
       {
         balance: sequelize.literal(`
           CASE

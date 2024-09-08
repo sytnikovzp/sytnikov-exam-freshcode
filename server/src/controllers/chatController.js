@@ -1,10 +1,10 @@
-const createError = require('http-errors');
+const controller = require('../socketInit');
+// =============================================
 const Conversation = require('../db/dbMongo/models/Conversation');
 const Message = require('../db/dbMongo/models/Message');
 const Catalog = require('../db/dbMongo/models/Catalog');
-const dbPostgres = require('../db/dbPostgres/models');
-const userQueries = require('./queries/userQueries');
-const controller = require('../socketInit');
+const { User } = require('../db/dbPostgres/models');
+const { findExistingUser } = require('./queries/userQueries');
 
 module.exports.addMessage = async (req, res, next) => {
   const participants = [req.tokenData.userId, req.body.recipient];
@@ -102,7 +102,7 @@ module.exports.getChat = async (req, res, next) => {
       },
     ]);
 
-    const interlocutor = await userQueries.findUser({
+    const interlocutor = await findExistingUser({
       id: req.query.interlocutorId,
     });
     res.send({
@@ -165,7 +165,7 @@ module.exports.getPreview = async (req, res, next) => {
         )
       );
     });
-    const senders = await dbPostgres.User.findAll({
+    const senders = await User.findAll({
       where: {
         id: interlocutors,
       },

@@ -3,7 +3,7 @@ const createError = require('http-errors');
 // =============================================
 const { User } = require('../../db/dbPostgres/models');
 
-module.exports.updateUser = async (data, userId, transaction) => {
+module.exports.updateExistingUser = async (data, userId, transaction) => {
   const [updatedCount, [updatedUser]] = await User.update(data, {
     where: { id: userId },
     returning: true,
@@ -17,7 +17,7 @@ module.exports.updateUser = async (data, userId, transaction) => {
   return updatedUser.dataValues;
 };
 
-module.exports.findUser = async (predicate, transaction) => {
+module.exports.findExistingUser = async (predicate, transaction) => {
   const result = await User.findOne({
     where: predicate,
     transaction,
@@ -30,7 +30,7 @@ module.exports.findUser = async (predicate, transaction) => {
   return result.get({ plain: true });
 };
 
-module.exports.userCreation = async (data, transaction) => {
+module.exports.createNewUser = async (data, transaction) => {
   const newUser = await User.create(data, { transaction });
 
   if (!newUser) {

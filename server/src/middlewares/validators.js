@@ -1,21 +1,22 @@
 const createError = require('http-errors');
+// =============================================
 const {
-  registrationSchema,
-  loginSchema,
-  contestSchema,
+  registrationScheme,
+  loginScheme,
+  contestScheme,
 } = require('../utils/validationSchemes');
 
 module.exports.validateRegistrationData = async (req, res, next) => {
-  const validationResult = await registrationSchema.isValid(req.body);
+  const validationResult = await registrationScheme.isValid(req.body);
   if (!validationResult) {
-    next(createError(400, 'Invalid data for registration'));
+    next(createError(400, 'Invalid data for registration!'));
   } else {
     next();
   }
 };
 
 module.exports.validateLogin = async (req, res, next) => {
-  const validationResult = await loginSchema.isValid(req.body);
+  const validationResult = await loginScheme.isValid(req.body);
   if (validationResult) {
     next();
   } else {
@@ -27,7 +28,7 @@ module.exports.validateContestCreation = (req, res, next) => {
   const promiseArray = [];
   req.body.contests.forEach((el, index) => {
     promiseArray.push(
-      contestSchema.isValid(el).then((isValid) => ({
+      contestScheme.isValid(el).then((isValid) => ({
         isValid,
         index,
         data: el,

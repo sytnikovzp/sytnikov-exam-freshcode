@@ -3,9 +3,15 @@ const createError = require('http-errors');
 const controller = require('../socketInit');
 // =============================================
 const constants = require('../constants');
-const contestQueries = require('./queries/contestQueries');
-const userQueries = require('./queries/userQueries');
-const UtilFunctions = require('../utils/functions');
+const utilFunctions = require('../utils/functions');
+const {
+  createNewOffer,
+  updateExistingOffer,
+  updateExistingContest,
+  updateExistingContestStatus,
+  updateExistingOfferStatus,
+} = require('./queries/contestQueries');
+const { updateExistingUser } = require('./queries/userQueries');
 const {
   Sequelize,
   sequelize,
@@ -17,7 +23,7 @@ const {
 } = require('../db/dbPostgres/models');
 
 const rejectOffer = async (offerId, creatorId, contestId) => {
-  const rejectedOffer = await contestQueries.updateOffer(
+  const rejectedOffer = await updateExistingOffer(
     { status: constants.OFFER_STATUS.REJECTED },
     { id: offerId }
   );
@@ -39,7 +45,7 @@ const resolveOffer = async (
   priority,
   transaction
 ) => {
-  const finishedContest = await contestQueries.updateContestStatus(
+  const finishedContest = await updateExistingContestStatus(
     {
       status: sequelize.literal(`   CASE
             WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${
@@ -55,14 +61,14 @@ const resolveOffer = async (
     { orderId },
     transaction
   );
-  await userQueries.updateUser(
+  await updateExistingUser(
     {
       balance: sequelize.literal('balance + ' + finishedContest.prize),
     },
     creatorId,
     transaction
   );
-  const updatedOffers = await contestQueries.updateOfferStatus(
+  const updatedOffers = await updateExistingOfferStatus(
     {
       status: sequelize.literal(` CASE
             WHEN "id"=${offerId} THEN '${constants.OFFER_STATUS.WON}'
@@ -109,7 +115,7 @@ module.exports.createOffer = async (req, res, next) => {
   obj.userId = req.tokenData.userId;
   obj.contestId = req.body.contestId;
   try {
-    const result = await contestQueries.createOffer(obj);
+    const result = await createNewOffer(obj);
     delete result.contestId;
     delete result.userId;
     controller
@@ -158,7 +164,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
 };
 
 module.exports.getAllContests = (req, res, next) => {
-  const predicates = UtilFunctions.createWhereForAllContests(
+  const predicates = utilFunctions.createWhereForAllContests(
     req.body.typeIndex,
     req.body.contestId,
     req.body.industry,
@@ -283,7 +289,7 @@ module.exports.updateContest = async (req, res, next) => {
   const contestId = req.body.contestId;
   delete req.body.contestId;
   try {
-    const updatedContest = await contestQueries.updateContest(req.body, {
+    const updatedContest = await updateExistingContest(req.body, {
       id: contestId,
       userId: req.tokenData.userId,
     });

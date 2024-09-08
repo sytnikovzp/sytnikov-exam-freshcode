@@ -1,7 +1,10 @@
 const controller = require('../socketInit');
 // =============================================
-const userQueries = require('./queries/userQueries');
-const ratingQueries = require('./queries/ratingQueries');
+const { updateExistingUser } = require('./queries/userQueries');
+const {
+  createNewRating,
+  updateExistingRating,
+} = require('./queries/ratingQueries');
 const {
   Sequelize,
   sequelize,
@@ -11,7 +14,7 @@ const {
 
 function getQuery(offerId, userId, mark, isFirst, transaction) {
   const getCreateQuery = () =>
-    ratingQueries.createRating(
+    createNewRating(
       {
         offerId,
         mark,
@@ -20,7 +23,7 @@ function getQuery(offerId, userId, mark, isFirst, transaction) {
       transaction
     );
   const getUpdateQuery = () =>
-    ratingQueries.updateRating({ mark }, { offerId, userId }, transaction);
+    updateExistingRating({ mark }, { offerId, userId }, transaction);
   return isFirst ? getCreateQuery : getUpdateQuery;
 }
 
@@ -32,7 +35,7 @@ module.exports.updateUser = async (req, res, next) => {
       req.body.avatar = req.file.filename;
     }
 
-    const updatedUser = await userQueries.updateUser(
+    const updatedUser = await updateExistingUser(
       req.body,
       req.tokenData.userId,
       transaction
@@ -85,7 +88,7 @@ module.exports.changeMark = async (req, res, next) => {
     }
     avg = sum / offersArray.length;
 
-    await userQueries.updateUser({ rating: avg }, creatorId, transaction);
+    await updateExistingUser({ rating: avg }, creatorId, transaction);
     await transaction.commit();
     controller.getNotificationController().emitChangeMark(creatorId);
     res.send({ userId: creatorId, rating: avg });

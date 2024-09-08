@@ -2,7 +2,7 @@ const createError = require('http-errors');
 // =============================================
 const { Contest, Offer } = require('../../db/dbPostgres/models');
 
-module.exports.updateContest = async (data, predicate, transaction) => {
+module.exports.updateExistingContest = async (data, predicate, transaction) => {
   const [updatedCount, [updatedContest]] = await Contest.update(data, {
     where: predicate,
     returning: true,
@@ -16,7 +16,7 @@ module.exports.updateContest = async (data, predicate, transaction) => {
   return updatedContest.dataValues;
 };
 
-module.exports.updateContestStatus = async (data, predicate, transaction) => {
+module.exports.updateExistingContestStatus = async (data, predicate, transaction) => {
   const updateResult = await Contest.update(data, {
     where: predicate,
     returning: true,
@@ -30,7 +30,7 @@ module.exports.updateContestStatus = async (data, predicate, transaction) => {
   return updateResult[1][0].dataValues;
 };
 
-module.exports.createOffer = async (data, transaction) => {
+module.exports.createNewOffer = async (data, transaction) => {
   const result = await Offer.create(data, { transaction });
 
   if (!result) {
@@ -40,7 +40,7 @@ module.exports.createOffer = async (data, transaction) => {
   return result.get({ plain: true });
 };
 
-module.exports.updateOffer = async (data, predicate, transaction) => {
+module.exports.updateExistingOffer = async (data, predicate, transaction) => {
   const [updatedCount, [updatedOffer]] = await Offer.update(data, {
     where: predicate,
     returning: true,
@@ -54,7 +54,7 @@ module.exports.updateOffer = async (data, predicate, transaction) => {
   return updatedOffer.dataValues;
 };
 
-module.exports.updateOfferStatus = async (data, predicate, transaction) => {
+module.exports.updateExistingOfferStatus = async (data, predicate, transaction) => {
   const result = await Offer.update(data, {
     where: predicate,
     returning: true,
