@@ -15,7 +15,6 @@ router.post(
   checkToken.checkToken,
   basicMiddlewares.onlyForCustomer,
   upload.uploadContestFiles,
-  basicMiddlewares.parseBody,
   validators.validateContestCreation,
   paymentController.payment
 );

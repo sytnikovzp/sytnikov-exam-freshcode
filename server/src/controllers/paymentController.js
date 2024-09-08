@@ -39,10 +39,10 @@ module.exports.payment = async (req, res, next) => {
       {
         balance: sequelize.literal(`
           CASE
-            WHEN "cardNumber" = :number AND "cvc" = :cvc AND "expiry" = :expiry
-              THEN "balance" - :price
-            WHEN "cardNumber" = :bankNumber AND "cvc" = :bankCvc AND "expiry" = :bankExpiry
-              THEN "balance" + :price
+            WHEN "card_number" = '${cleanedCardNumber}' AND "cvc" = '${cvc}' AND "expiry" = '${expiry}'
+              THEN "balance" - '${price}'
+            WHEN "card_number" = '${constants.SQUADHELP_BANK.NUMBER}' AND "cvc" = '${constants.SQUADHELP_BANK.CVC}' AND "expiry" = '${constants.SQUADHELP_BANK.EXPIRY}'
+              THEN "balance" + '${price}'
           END
         `),
       },
@@ -68,7 +68,7 @@ module.exports.payment = async (req, res, next) => {
 
     await createContests(contests, price, req.tokenData.userId, transaction);
     await transaction.commit();
-    res.send();
+    res.status(204).send();
   } catch (error) {
     console.error(error.message);
     await transaction.rollback();
@@ -84,7 +84,7 @@ module.exports.cashout = async (req, res, next) => {
     const cleanedCardNumber = number.replace(/ /g, '');
 
     const updatedUser = await userQueries.updateUser(
-      { balance: sequelize.literal('balance - :sum') },
+      { balance: sequelize.literal(`"balance" - '${sum}'`) },
       req.tokenData.userId,
       transaction,
       { sum }
@@ -94,10 +94,10 @@ module.exports.cashout = async (req, res, next) => {
       {
         balance: sequelize.literal(`
           CASE
-            WHEN "cardNumber" = :number AND "expiry" = :expiry AND "cvc" = :cvc
-              THEN "balance" + :sum
-            WHEN "cardNumber" = :bankNumber AND "expiry" = :bankExpiry AND "cvc" = :bankCvc
-              THEN "balance" - :sum
+            WHEN "card_number" = '${cleanedCardNumber}' AND "cvc" = '${cvc}' AND "expiry" = '${expiry}'
+              THEN "balance" + '${sum}'
+            WHEN "card_number" = '${constants.SQUADHELP_BANK.NUMBER}' AND "cvc" = '${constants.SQUADHELP_BANK.CVC}' AND "expiry" = '${constants.SQUADHELP_BANK.EXPIRY}'
+              THEN "balance" - '${sum}'
           END
         `),
       },
@@ -122,7 +122,7 @@ module.exports.cashout = async (req, res, next) => {
     );
 
     await transaction.commit();
-    res.send({ balance: updatedUser.balance });
+    res.status(200).json({ balance: updatedUser.balance });
   } catch (error) {
     console.error(error.message);
     await transaction.rollback();

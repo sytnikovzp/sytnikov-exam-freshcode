@@ -1,9 +1,18 @@
-### Login user
+### Login user as Customer
 POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "CusTomeR@gmail.com",
+  "email": "Customer@gmail.com",
+  "password": "Qwerty123"
+}
+
+### Login user as Creator
+POST http://localhost:3000/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "Creator@gmail.com",
   "password": "Qwerty123"
 }
 

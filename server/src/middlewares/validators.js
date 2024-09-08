@@ -19,20 +19,31 @@ module.exports.validateLogin = async (req, res, next) => {
   if (validationResult) {
     next();
   } else {
-    next(createError(400, 'Invalid data for login'));
+    next(createError(400, 'Invalid data for login!'));
   }
 };
 
 module.exports.validateContestCreation = (req, res, next) => {
   const promiseArray = [];
-  req.body.contests.forEach((el) => {
-    promiseArray.push(contestSchema.isValid(el));
+  req.body.contests.forEach((el, index) => {
+    promiseArray.push(
+      contestSchema.isValid(el).then((isValid) => ({
+        isValid,
+        index,
+        data: el,
+      }))
+    );
   });
+
   return Promise.all(promiseArray)
     .then((results) => {
       results.forEach((result) => {
-        if (!result) {
-          next(createError(400, 'bad request'));
+        if (!result.isValid) {
+          console.error(
+            `Validation error at index ${result.index}:`,
+            result.data
+          );
+          next(createError(400, 'Bad request: validation error!'));
         }
       });
       next();
