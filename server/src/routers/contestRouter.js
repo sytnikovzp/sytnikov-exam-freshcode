@@ -37,11 +37,11 @@ router.patch(
 );
 
 router.post(
-  '/setNewOffer',
+  '/createOffer',
   checkToken.checkToken,
   upload.uploadLogoFiles,
   basicMiddlewares.canSendOffer,
-  contestController.setNewOffer
+  contestController.createOffer
 );
 
 router.post(

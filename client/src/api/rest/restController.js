@@ -29,7 +29,7 @@ const restController = {
       },
     }),
   updateContest: (data) => api.patch('contest/updateContest', data),
-  setNewOffer: (data) => api.post('contest/setNewOffer', data),
+  createOffer: (data) => api.post('contest/createOffer', data),
   setOfferStatus: (data) => api.post('contest/setOfferStatus', data),
   dataForContest: (data) => api.post('contest/dataForContest', data),
   downloadFile: (data) => api.get(`contest/downloadFile/${data.fileName}`),

@@ -57,7 +57,7 @@ const getContestByIdExtraReducers = createExtraReducers({
 export const addOffer = decorateAsyncThunk({
   key: `${constants.CONTEST_BY_ID_SLICE_NAME}/addOffer`,
   thunk: async (payload) => {
-    const { data } = await restController.setNewOffer(payload);
+    const { data } = await restController.createOffer(payload);
     return data;
   },
 });

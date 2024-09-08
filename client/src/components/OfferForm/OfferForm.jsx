@@ -53,7 +53,7 @@ const OfferForm = (props) => {
     data.append('contestType', contestType);
     data.append('offerData', values.offerData);
     data.append('customerId', customerId);
-    props.setNewOffer(data);
+    props.createOffer(data);
     resetForm();
   };
 
@@ -92,7 +92,7 @@ const OfferForm = (props) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setNewOffer: (data) => dispatch(addOffer(data)),
+  createOffer: (data) => dispatch(addOffer(data)),
   clearOfferError: () => dispatch(clearAddOfferError()),
 });
 

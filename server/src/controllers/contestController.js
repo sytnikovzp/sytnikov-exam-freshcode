@@ -235,7 +235,7 @@ module.exports.updateContest = async (req, res, next) => {
   }
 };
 
-module.exports.setNewOffer = async (req, res, next) => {
+module.exports.createOffer = async (req, res, next) => {
   const obj = {};
   if (req.body.contestType === constants.CONTEST_TYPES.LOGO_CONTEST) {
     obj.fileName = req.file.filename;
