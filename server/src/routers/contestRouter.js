@@ -9,6 +9,21 @@ const upload = require('../utils/fileUpload');
 
 const router = new Router();
 
+router.post(
+  '/createOffer',
+  checkToken.checkToken,
+  upload.uploadLogoFiles,
+  basicMiddlewares.canSendOffer,
+  contestController.createOffer
+);
+
+router.post(
+  '/setOfferStatus',
+  checkToken.checkToken,
+  basicMiddlewares.onlyForCustomerWhoCreateContest,
+  contestController.setOfferStatus
+);
+
 router.get(
   '/getAllContests',
   checkToken.checkToken,
@@ -34,21 +49,6 @@ router.patch(
   checkToken.checkToken,
   upload.updateContestFile,
   contestController.updateContest
-);
-
-router.post(
-  '/createOffer',
-  checkToken.checkToken,
-  upload.uploadLogoFiles,
-  basicMiddlewares.canSendOffer,
-  contestController.createOffer
-);
-
-router.post(
-  '/setOfferStatus',
-  checkToken.checkToken,
-  basicMiddlewares.onlyForCustomerWhoCreateContest,
-  contestController.setOfferStatus
 );
 
 router.post(

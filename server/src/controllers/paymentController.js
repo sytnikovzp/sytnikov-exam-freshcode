@@ -1,47 +1,54 @@
-const createError = require('http-errors');
-const constants = require('../constants');
-const dbPostgres = require('../db/dbPostgres/models');
 const moment = require('moment');
 const { v4: uuid } = require('uuid');
+// =============================================
+const constants = require('../constants');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
+const { Sequelize, sequelize, Contest } = require('../db/dbPostgres/models');
 
 module.exports.payment = async (req, res, next) => {
-  let transaction;
+  const transaction = await sequelize.transaction();
+
   try {
-    transaction = await dbPostgres.sequelize.transaction();
+    const { number, cvc, expiry, price, contests } = req.body;
+    const cleanedCardNumber = number.replace(/ /g, '');
+
     await bankQueries.updateBankBalance(
       {
-        balance: dbPostgres.sequelize.literal(`
-                CASE
-            WHEN "cardNumber"='${req.body.number.replace(
-              / /g,
-              ''
-            )}' AND "cvc"='${req.body.cvc}' AND "expiry"='${req.body.expiry}'
-                THEN "balance"-${req.body.price}
-            WHEN "cardNumber"='${constants.SQUADHELP_BANK.NUMBER}' AND "cvc"='${
-          constants.SQUADHELP_BANK.CVC
-        }' AND "expiry"='${constants.SQUADHELP_BANK.EXPIRY}'
-                THEN "balance"+${req.body.price} END
+        balance: sequelize.literal(`
+          CASE
+            WHEN "cardNumber" = :number AND "cvc" = :cvc AND "expiry" = :expiry
+              THEN "balance" - :price
+            WHEN "cardNumber" = :bankNumber AND "cvc" = :bankCvc AND "expiry" = :bankExpiry
+              THEN "balance" + :price
+          END
         `),
       },
       {
         cardNumber: {
-          [dbPostgres.Sequelize.Op.in]: [
-            constants.SQUADHELP_BANK.NUMBER,
-            req.body.number.replace(/ /g, ''),
-          ],
+          [Sequelize.Op.in]: [constants.SQUADHELP_BANK.NUMBER, cleanedCardNumber],
         },
       },
-      transaction
+      transaction,
+      {
+        number: cleanedCardNumber,
+        cvc,
+        expiry,
+        price,
+        bankNumber: constants.SQUADHELP_BANK.NUMBER,
+        bankCvc: constants.SQUADHELP_BANK.CVC,
+        bankExpiry: constants.SQUADHELP_BANK.EXPIRY,
+      }
     );
+
     const orderId = uuid();
-    req.body.contests.forEach((contest, index) => {
+    contests.forEach((contest, index) => {
       const prize =
-        index === req.body.contests.length - 1
-          ? Math.ceil(req.body.price / req.body.contests.length)
-          : Math.floor(req.body.price / req.body.contests.length);
-      contest = Object.assign(contest, {
+        index === contests.length - 1
+          ? Math.ceil(price / contests.length)
+          : Math.floor(price / contests.length);
+
+      Object.assign(contest, {
         status: index === 0 ? 'active' : 'pending',
         userId: req.tokenData.userId,
         priority: index + 1,
@@ -50,59 +57,64 @@ module.exports.payment = async (req, res, next) => {
         prize,
       });
     });
-    await dbPostgres.Contest.bulkCreate(req.body.contests, transaction);
-    transaction.commit();
+
+    await Contest.bulkCreate(contests, transaction);
+    await transaction.commit();
     res.send();
   } catch (error) {
-    transaction.rollback();
-    console.log(error.message);
+    console.error(error.message);
+    await transaction.rollback();
     next(error);
   }
 };
 
 module.exports.cashout = async (req, res, next) => {
-  let transaction;
+  const transaction = await sequelize.transaction();
+
   try {
-    transaction = await dbPostgres.sequelize.transaction();
+    const { number, cvc, expiry, sum } = req.body;
+    const cleanedCardNumber = number.replace(/ /g, '');
+
     const updatedUser = await userQueries.updateUser(
-      { balance: dbPostgres.sequelize.literal('balance - ' + req.body.sum) },
+      { balance: sequelize.literal('balance - :sum') },
       req.tokenData.userId,
-      transaction
+      transaction,
+      { sum }
     );
+
     await bankQueries.updateBankBalance(
       {
-        balance: dbPostgres.sequelize.literal(`CASE 
-                WHEN "cardNumber"='${req.body.number.replace(
-                  / /g,
-                  ''
-                )}' AND "expiry"='${req.body.expiry}' AND "cvc"='${
-          req.body.cvc
-        }'
-                    THEN "balance"+${req.body.sum}
-                WHEN "cardNumber"='${
-                  constants.SQUADHELP_BANK.NUMBER
-                }' AND "expiry"='${
-          constants.SQUADHELP_BANK.EXPIRY
-        }' AND "cvc"='${constants.SQUADHELP_BANK.CVC}'
-                    THEN "balance"-${req.body.sum}
-                 END
-                `),
+        balance: sequelize.literal(`
+          CASE
+            WHEN "cardNumber" = :number AND "expiry" = :expiry AND "cvc" = :cvc
+              THEN "balance" + :sum
+            WHEN "cardNumber" = :bankNumber AND "expiry" = :bankExpiry AND "cvc" = :bankCvc
+              THEN "balance" - :sum
+          END
+        `),
       },
       {
         cardNumber: {
-          [dbPostgres.Sequelize.Op.in]: [
-            constants.SQUADHELP_BANK.NUMBER,
-            req.body.number.replace(/ /g, ''),
-          ],
+          [Sequelize.Op.in]: [constants.SQUADHELP_BANK.NUMBER, cleanedCardNumber],
         },
       },
-      transaction
+      transaction,
+      {
+        number: cleanedCardNumber,
+        cvc,
+        expiry,
+        sum,
+        bankNumber: constants.SQUADHELP_BANK.NUMBER,
+        bankCvc: constants.SQUADHELP_BANK.CVC,
+        bankExpiry: constants.SQUADHELP_BANK.EXPIRY,
+      }
     );
-    transaction.commit();
+
+    await transaction.commit();
     res.send({ balance: updatedUser.balance });
   } catch (error) {
-    transaction.rollback();
-    console.log(error.message);
+    console.error(error.message);
+    await transaction.rollback();
     next(error);
   }
 };

@@ -10,7 +10,13 @@ const restController = {
   updateUser: (data) => api.patch('user/updateUser', data),
   changeMark: (data) => api.patch('user/changeMark', data),
 
+  // Payments & create contest
+  payMent: (data) => api.post('payment/pay', data.formData),
+  cashOut: (data) => api.post('payment/cashout', data),
+
   // Contest management
+  createOffer: (data) => api.post('contest/createOffer', data),
+  setOfferStatus: (data) => api.post('contest/setOfferStatus', data),
   getAllContests: (params) => api.get('contest/getAllContests', { params }),
   getContestById: (data) =>
     api.get('contest/getContestById', {
@@ -29,14 +35,8 @@ const restController = {
       },
     }),
   updateContest: (data) => api.patch('contest/updateContest', data),
-  createOffer: (data) => api.post('contest/createOffer', data),
-  setOfferStatus: (data) => api.post('contest/setOfferStatus', data),
   dataForContest: (data) => api.post('contest/dataForContest', data),
   downloadFile: (data) => api.get(`contest/downloadFile/${data.fileName}`),
-
-  // Payments
-  payMent: (data) => api.post('payment/pay', data.formData),
-  cashOut: (data) => api.post('payment/cashout', data),
 
   // Chat management
   getPreviewChat: () => api.get('chat/getPreview'),
