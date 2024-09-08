@@ -6,6 +6,28 @@ const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const { Sequelize, sequelize, Contest } = require('../db/dbPostgres/models');
 
+const createContests = async (contests, price, userId, transaction) => {
+  const orderId = uuid();
+
+  contests.forEach((contest, index) => {
+    const prize =
+      index === contests.length - 1
+        ? Math.ceil(price / contests.length)
+        : Math.floor(price / contests.length);
+
+    Object.assign(contest, {
+      status: index === 0 ? 'active' : 'pending',
+      userId,
+      priority: index + 1,
+      orderId,
+      createdAt: moment().format('YYYY-MM-DD HH:mm'),
+      prize,
+    });
+  });
+
+  await Contest.bulkCreate(contests, transaction);
+};
+
 module.exports.payment = async (req, res, next) => {
   const transaction = await sequelize.transaction();
 
@@ -26,7 +48,10 @@ module.exports.payment = async (req, res, next) => {
       },
       {
         cardNumber: {
-          [Sequelize.Op.in]: [constants.SQUADHELP_BANK.NUMBER, cleanedCardNumber],
+          [Sequelize.Op.in]: [
+            constants.SQUADHELP_BANK.NUMBER,
+            cleanedCardNumber,
+          ],
         },
       },
       transaction,
@@ -41,24 +66,7 @@ module.exports.payment = async (req, res, next) => {
       }
     );
 
-    const orderId = uuid();
-    contests.forEach((contest, index) => {
-      const prize =
-        index === contests.length - 1
-          ? Math.ceil(price / contests.length)
-          : Math.floor(price / contests.length);
-
-      Object.assign(contest, {
-        status: index === 0 ? 'active' : 'pending',
-        userId: req.tokenData.userId,
-        priority: index + 1,
-        orderId,
-        createdAt: moment().format('YYYY-MM-DD HH:mm'),
-        prize,
-      });
-    });
-
-    await Contest.bulkCreate(contests, transaction);
+    await createContests(contests, price, req.tokenData.userId, transaction);
     await transaction.commit();
     res.send();
   } catch (error) {
@@ -95,7 +103,10 @@ module.exports.cashout = async (req, res, next) => {
       },
       {
         cardNumber: {
-          [Sequelize.Op.in]: [constants.SQUADHELP_BANK.NUMBER, cleanedCardNumber],
+          [Sequelize.Op.in]: [
+            constants.SQUADHELP_BANK.NUMBER,
+            cleanedCardNumber,
+          ],
         },
       },
       transaction,
