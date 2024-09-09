@@ -3,7 +3,7 @@ const createError = require('http-errors');
 const controller = require('../socketInit');
 // =============================================
 const constants = require('../constants');
-const utilFunctions = require('../utils/functions');
+const { createWhereForAllContests } = require('../utils/functions');
 const {
   createNewOffer,
   updateExistingOffer,
@@ -48,12 +48,10 @@ const resolveOffer = async (
   const finishedContest = await updateExistingContestStatus(
     {
       status: sequelize.literal(`   CASE
-            WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${
-        constants.CONTEST_STATUS.FINISHED
-      }'
-            WHEN "orderId"='${orderId}' AND "priority"=${priority + 1}  THEN '${
-        constants.CONTEST_STATUS.ACTIVE
-      }'
+            WHEN "id"=${contestId}  AND "orderId"='${orderId}' 
+              THEN '${constants.CONTEST_STATUS.FINISHED}'
+            WHEN "orderId"='${orderId}' AND "priority"=${priority + 1}  
+              THEN '${constants.CONTEST_STATUS.ACTIVE}'
             ELSE '${constants.CONTEST_STATUS.PENDING}'
             END
     `),
@@ -71,7 +69,8 @@ const resolveOffer = async (
   const updatedOffers = await updateExistingOfferStatus(
     {
       status: sequelize.literal(` CASE
-            WHEN "id"=${offerId} THEN '${constants.OFFER_STATUS.WON}'
+            WHEN "id"=${offerId} 
+              THEN '${constants.OFFER_STATUS.WON}'
             ELSE '${constants.OFFER_STATUS.REJECTED}'
             END
     `),
@@ -95,76 +94,17 @@ const resolveOffer = async (
     .getNotificationController()
     .emitChangeOfferStatus(
       arrayRoomsId,
-      'Someone of yours offers was rejected',
+      'Someone of yours offers was rejected!',
       contestId
     );
   controller
     .getNotificationController()
-    .emitChangeOfferStatus(creatorId, 'Someone of your offers WIN', contestId);
+    .emitChangeOfferStatus(creatorId, 'Someone of your offers WIN!', contestId);
   return updatedOffers[0].dataValues;
 };
 
-module.exports.createOffer = async (req, res, next) => {
-  const obj = {};
-  if (req.body.contestType === constants.CONTEST_TYPES.LOGO_CONTEST) {
-    obj.fileName = req.file.filename;
-    obj.originalFileName = req.file.originalname;
-  } else {
-    obj.text = req.body.offerData;
-  }
-  obj.userId = req.tokenData.userId;
-  obj.contestId = req.body.contestId;
-  try {
-    const result = await createNewOffer(obj);
-    delete result.contestId;
-    delete result.userId;
-    controller
-      .getNotificationController()
-      .emitEntryCreated(req.body.customerId);
-    const User = Object.assign({}, req.tokenData, { id: req.tokenData.userId });
-    res.send(Object.assign({}, result, { User }));
-  } catch (error) {
-    console.log(error.message);
-    next(error);
-  }
-};
-
-module.exports.setOfferStatus = async (req, res, next) => {  // !!!!!
-  let transaction;
-  if (req.body.command === 'reject') {
-    try {
-      const offer = await rejectOffer(
-        req.body.offerId,
-        req.body.creatorId,
-        req.body.contestId
-      );
-      res.send(offer);
-    } catch (error) {
-      console.log(error.message);
-      next(error);
-    }
-  } else if (req.body.command === 'resolve') {
-    try {
-      transaction = await sequelize.transaction();
-      const winningOffer = await resolveOffer(
-        req.body.contestId,
-        req.body.creatorId,
-        req.body.orderId,
-        req.body.offerId,
-        req.body.priority,
-        transaction
-      );
-      res.send(winningOffer);
-    } catch (error) {
-      transaction.rollback();
-      console.log(error.message);
-      next(error);
-    }
-  }
-};
-
 module.exports.getAllContests = (req, res, next) => {
-  const predicates = utilFunctions.createWhereForAllContests(
+  const predicates = createWhereForAllContests(
     req.body.typeIndex,
     req.body.contestId,
     req.body.industry,
@@ -337,4 +277,64 @@ module.exports.dataForContest = async (req, res, next) => {
 module.exports.downloadFile = async (req, res) => {
   const file = constants.PATHS.CONTESTS_DEFAULT_DIR + req.params.fileName;
   res.download(file);
+};
+
+module.exports.createOffer = async (req, res, next) => {
+  const obj = {};
+  if (req.body.contestType === constants.CONTEST_TYPES.LOGO_CONTEST) {
+    obj.fileName = req.file.filename;
+    obj.originalFileName = req.file.originalname;
+  } else {
+    obj.text = req.body.offerData;
+  }
+  obj.userId = req.tokenData.userId;
+  obj.contestId = req.body.contestId;
+  try {
+    const result = await createNewOffer(obj);
+    delete result.contestId;
+    delete result.userId;
+    controller
+      .getNotificationController()
+      .emitEntryCreated(req.body.customerId);
+    const User = Object.assign({}, req.tokenData, { id: req.tokenData.userId });
+    res.send(Object.assign({}, result, { User }));
+  } catch (error) {
+    console.log(error.message);
+    next(error);
+  }
+};
+
+module.exports.setOfferStatus = async (req, res, next) => {
+  // !!!!!
+  let transaction;
+  if (req.body.command === 'reject') {
+    try {
+      const offer = await rejectOffer(
+        req.body.offerId,
+        req.body.creatorId,
+        req.body.contestId
+      );
+      res.send(offer);
+    } catch (error) {
+      console.log(error.message);
+      next(error);
+    }
+  } else if (req.body.command === 'resolve') {
+    try {
+      transaction = await sequelize.transaction();
+      const winningOffer = await resolveOffer(
+        req.body.contestId,
+        req.body.creatorId,
+        req.body.orderId,
+        req.body.offerId,
+        req.body.priority,
+        transaction
+      );
+      res.send(winningOffer);
+    } catch (error) {
+      transaction.rollback();
+      console.log(error.message);
+      next(error);
+    }
+  }
 };

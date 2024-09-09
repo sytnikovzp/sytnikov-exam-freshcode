@@ -22,7 +22,7 @@ router.post(
 router.post(
   '/cashout',
   checkToken.checkToken,
-  basicMiddlewares.onlyForCreative,
+  basicMiddlewares.onlyForCreator,
   paymentController.cashout
 );
 

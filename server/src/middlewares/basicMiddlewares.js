@@ -33,7 +33,7 @@ module.exports.canGetContest = async (req, res, next) => {
   }
 };
 
-module.exports.onlyForCreative = (req, res, next) => {
+module.exports.onlyForCreator = (req, res, next) => {
   if (req.tokenData.role !== constants.USER_ROLES.CREATOR) {
     next(createError(423, 'Not enough rights!'));
   }

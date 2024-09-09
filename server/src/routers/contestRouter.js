@@ -27,7 +27,7 @@ router.post(
 router.get(
   '/getAllContests',
   checkToken.checkToken,
-  basicMiddlewares.onlyForCreative,
+  basicMiddlewares.onlyForCreator,
   contestController.getAllContests
 );
 

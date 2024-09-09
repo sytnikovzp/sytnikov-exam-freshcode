@@ -1,0 +1,44 @@
+### Get all contests (without filters, default pagination)
+GET http://localhost:3000/api/contest/getAllContests HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1ODgxNTUxLCJleHAiOjE3MjU4ODUxNTF9.pJh-TfNJEJ5GDqQiQEGea46Vo5_qEnCLYnibTd869kE
+
+{
+  "typeIndex": null,
+  "contestId": null,
+  "industry": null,
+  "awardSort": null,
+  "limit": 10,
+  "offset": 0,
+  "ownEntries": false
+}
+
+### Get all contests (with filters by industry and awardSort, pagination applied)
+GET http://localhost:3000/api/contest/getAllContests HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1ODgxNTUxLCJleHAiOjE3MjU4ODUxNTF9.pJh-TfNJEJ5GDqQiQEGea46Vo5_qEnCLYnibTd869kE
+
+{
+  "typeIndex": 1,
+  "contestId": null,
+  "industry": "Health",
+  "awardSort": "asc",
+  "limit": 5,
+  "offset": 0,
+  "ownEntries": false
+}
+
+### Get all contests (only user’s own entries)
+GET http://localhost:3000/api/contest/getAllContests HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1ODgxNTUxLCJleHAiOjE3MjU4ODUxNTF9.pJh-TfNJEJ5GDqQiQEGea46Vo5_qEnCLYnibTd869kE
+
+{
+  "typeIndex": null,
+  "contestId": null,
+  "industry": null,
+  "awardSort": null,
+  "limit": 10,
+  "offset": 0,
+  "ownEntries": true
+}
