@@ -1,4 +1,4 @@
-const dbPostgres = require('../db/dbPostgres/models');
+const { sequelize } = require('../db/dbPostgres/models');
 
 module.exports.syncModel = async (model) => {
   try {
@@ -13,7 +13,7 @@ module.exports.syncModel = async (model) => {
 
 module.exports.syncModels = async () => {
   try {
-    await dbPostgres.sequelize.sync({ alter: true });
+    await sequelize.sync({ alter: true });
     console.log('===========================================');
     console.log('Sync all models has been done successfully!');
   } catch (error) {

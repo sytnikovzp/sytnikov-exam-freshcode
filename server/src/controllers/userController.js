@@ -61,7 +61,7 @@ module.exports.updateUser = async (req, res, next) => {
   }
 };
 
-module.exports.changeMark = async (req, res, next) => {
+module.exports.changeMark = async (req, res, next) => {  // !!!!!!!!!!!!!!!!!!!!!!!!!
   let sum = 0;
   let avg = 0;
   let transaction;

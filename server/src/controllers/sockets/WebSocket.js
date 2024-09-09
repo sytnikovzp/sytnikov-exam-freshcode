@@ -14,7 +14,7 @@ class WebSocket {
     });
   }
 
-  anotherSubscribes(socket) {}
+  anotherSubscribes() {}
 
   onSubscribe(socket) {
     socket.on(constants.SOCKET_EVENTS.SUBSCRIBE, (id) => {

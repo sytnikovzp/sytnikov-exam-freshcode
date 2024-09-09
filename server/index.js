@@ -5,8 +5,8 @@ require('dotenv').config({ path: '../.env' });
 const mongoose = require('mongoose');
 // ==========================================
 const app = require('./src/app');
-const controller = require('./src/socketInit');
-const dbPostgres = require('./src/db/dbPostgres/models');
+const { createConnection } = require('./src/socketInit');
+const { sequelize } = require('./src/db/dbPostgres/models');
 // const { syncModel, syncModels } = require('./src/utils/syncModels');
 // ==========================================
 const env = process.env.NODE_ENV || 'development';
@@ -17,7 +17,7 @@ const config = require(pathToConfig)[env];
 
 const postgresConnect = async () => {
   try {
-    await dbPostgres.sequelize.authenticate();
+    await sequelize.authenticate();
     console.log(
       `Connection to DB <<< ${process.env.POSTGRES_DB_NAME} >>> successfully!`
     );
@@ -45,7 +45,7 @@ mongoConnect();
 
 // ===================== SYNC`s model(s) =========================
 
-// syncModel(dbPostgres.model_name);
+// syncModel(model_name);
 // syncModels();
 
 // ================ Create server with HTTP module ===============
@@ -61,7 +61,7 @@ server.listen(PORT, HOST, () =>
   console.log(`Server running at http://${HOST}:${PORT}/api`)
 );
 
-controller.createConnection(server);
+createConnection(server);
 
 console.log();
 console.log('===== Server is started successfully! =====');

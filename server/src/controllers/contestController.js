@@ -129,7 +129,7 @@ module.exports.createOffer = async (req, res, next) => {
   }
 };
 
-module.exports.setOfferStatus = async (req, res, next) => {
+module.exports.setOfferStatus = async (req, res, next) => {  // !!!!!
   let transaction;
   if (req.body.command === 'reject') {
     try {
