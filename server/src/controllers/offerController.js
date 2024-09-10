@@ -10,10 +10,11 @@ const {
 const { updateExistingUser } = require('./queries/userQueries');
 const { sequelize } = require('../db/dbPostgres/models');
 
-const rejectOffer = async (offerId, creatorId, contestId) => {
+const rejectOffer = async (offerId, creatorId, contestId, transaction) => {
   const rejectedOffer = await updateExistingOffer(
     { status: constants.OFFER_STATUS.REJECTED },
-    { id: offerId }
+    { id: offerId },
+    { transaction }
   );
 
   controller
@@ -102,20 +103,23 @@ const resolveOffer = async (
 };
 
 module.exports.createOffer = async (req, res, next) => {
-  const obj = {};
-
-  if (req.body.contestType === constants.CONTEST_TYPES.LOGO_CONTEST) {
-    obj.fileName = req.file.filename;
-    obj.originalFileName = req.file.originalname;
-  } else {
-    obj.text = req.body.offerData;
-  }
-
-  obj.userId = req.tokenData.userId;
-  obj.contestId = req.body.contestId;
+  const transaction = await sequelize.transaction();
 
   try {
-    const result = await createNewOffer(obj);
+    const obj = {};
+
+    if (req.body.contestType === constants.CONTEST_TYPES.LOGO_CONTEST) {
+      obj.fileName = req.file.filename;
+      obj.originalFileName = req.file.originalname;
+    } else {
+      obj.text = req.body.offerData;
+    }
+
+    obj.userId = req.tokenData.userId;
+    obj.contestId = req.body.contestId;
+
+    const result = await createNewOffer(obj, transaction);
+
     delete result.contestId;
     delete result.userId;
 
@@ -125,9 +129,12 @@ module.exports.createOffer = async (req, res, next) => {
 
     const User = Object.assign({}, req.tokenData, { id: req.tokenData.userId });
 
+    await transaction.commit();
+
     res.send(Object.assign({}, result, { User }));
   } catch (error) {
     console.log(error.message);
+    await transaction.rollback();
     next(error);
   }
 };
@@ -135,21 +142,19 @@ module.exports.createOffer = async (req, res, next) => {
 module.exports.setOfferStatus = async (req, res, next) => {
   const transaction = await sequelize.transaction();
 
-  if (req.body.command === 'reject') {
-    try {
+  try {
+    if (req.body.command === 'reject') {
       const offer = await rejectOffer(
         req.body.offerId,
         req.body.creatorId,
-        req.body.contestId
+        req.body.contestId,
+        transaction
       );
 
+      await transaction.commit();
+
       return res.status(200).json(offer);
-    } catch (error) {
-      console.log(error.message);
-      next(error);
-    }
-  } else if (req.body.command === 'resolve') {
-    try {
+    } else if (req.body.command === 'resolve') {
       const winningOffer = await resolveOffer(
         req.body.contestId,
         req.body.creatorId,
@@ -159,11 +164,13 @@ module.exports.setOfferStatus = async (req, res, next) => {
         transaction
       );
 
+      await transaction.commit();
+
       return res.status(200).json(winningOffer);
-    } catch (error) {
-      transaction.rollback();
-      console.log(error.message);
-      next(error);
     }
+  } catch (error) {
+    console.log(error.message);
+    await transaction.rollback();
+    next(error);
   }
 };

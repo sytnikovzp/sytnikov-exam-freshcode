@@ -99,6 +99,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Contest',
       tableName: 'contests',
+      timestamps: true,
       underscored: true,
     }
   );

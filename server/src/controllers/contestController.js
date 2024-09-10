@@ -2,7 +2,13 @@ const createError = require('http-errors');
 // =============================================
 const constants = require('../constants');
 const { createWhereForAllContests } = require('../utils/functions');
-const { Contest, Offer, User, Rating } = require('../db/dbPostgres/models');
+const {
+  sequelize,
+  Contest,
+  Offer,
+  User,
+  Rating,
+} = require('../db/dbPostgres/models');
 
 module.exports.getAllContests = async (req, res, next) => {
   try {
@@ -135,6 +141,8 @@ module.exports.getCustomersContests = async (req, res, next) => {
 };
 
 module.exports.updateContest = async (req, res, next) => {
+  const transaction = await sequelize.transaction();
+
   try {
     const { contestId } = req.params;
 
@@ -149,16 +157,20 @@ module.exports.updateContest = async (req, res, next) => {
 
     const contest = await Contest.findOne({
       where: { id: contestId, userId: req.tokenData.userId },
+      transaction,
     });
 
     if (!contest) {
       throw createError(404, 'Contest not found!');
     }
 
-    await contest.update(req.body);
+    await contest.update(req.body, { transaction });
+
+    await transaction.commit();
 
     return res.status(200).json(contest);
   } catch (error) {
+    await transaction.rollback();
     console.log(error.message);
     next(error);
   }
