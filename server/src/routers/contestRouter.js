@@ -45,16 +45,16 @@ router.get(
 );
 
 router.patch(
-  '/updateContest',
+  '/updateContest/:contestId',
   checkToken.checkToken,
   upload.updateContestFile,
   contestController.updateContest
 );
 
-router.post(
-  '/dataForContest',
+router.get(
+  '/getDataForContest',
   checkToken.checkToken,
-  contestController.dataForContest
+  contestController.getDataForContest
 );
 
 router.get(

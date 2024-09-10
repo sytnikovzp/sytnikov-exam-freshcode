@@ -7,7 +7,6 @@ const { createWhereForAllContests } = require('../utils/functions');
 const {
   createNewOffer,
   updateExistingOffer,
-  updateExistingContest,
   updateExistingContestStatus,
   updateExistingOfferStatus,
 } = require('./queries/contestQueries');
@@ -103,41 +102,41 @@ const resolveOffer = async (
   return updatedOffers[0].dataValues;
 };
 
-module.exports.getAllContests = (req, res, next) => {
-  const predicates = createWhereForAllContests(
-    req.body.typeIndex,
-    req.body.contestId,
-    req.body.industry,
-    req.body.awardSort
-  );
-  Contest.findAll({
-    where: predicates.where,
-    order: predicates.order,
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
-    include: [
-      {
-        model: Offer,
-        required: req.body.ownEntries,
-        where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
-        attributes: ['id'],
-      },
-    ],
-  })
-    .then((contests) => {
-      contests.forEach(
-        (contest) =>
-          (contest.dataValues.count = contest.dataValues.Offers.length)
-      );
-      let haveMore = true;
-      if (contests.length === 0) {
-        haveMore = false;
-      }
-      res.send({ contests, haveMore });
-    })
-    .catch((error) => {
-      next(error);
+module.exports.getAllContests = async (req, res, next) => {
+  try {
+    const predicates = createWhereForAllContests(
+      req.body.typeIndex,
+      req.body.contestId,
+      req.body.industry,
+      req.body.awardSort
+    );
+
+    const contests = await Contest.findAll({
+      where: predicates.where,
+      order: predicates.order,
+      limit: req.body.limit || 10,
+      offset: req.body.offset || 0,
+      include: [
+        {
+          model: Offer,
+          required: req.body.ownEntries,
+          where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
+          attributes: ['id'],
+        },
+      ],
     });
+
+    contests.forEach(
+      (contest) => (contest.dataValues.count = contest.dataValues.Offers.length)
+    );
+
+    const haveMore = contests.length === (req.body.limit || 10);
+
+    res.send({ contests, haveMore });
+  } catch (error) {
+    console.error(error.message);
+    next(error);
+  }
 };
 
 module.exports.getContestById = async (req, res, next) => {
@@ -202,60 +201,71 @@ module.exports.getContestById = async (req, res, next) => {
   }
 };
 
-module.exports.getCustomersContests = (req, res, next) => {
-  Contest.findAll({
-    where: { status: req.headers.status, userId: req.tokenData.userId },
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
-    order: [['id', 'DESC']],
-    include: [
-      {
-        model: Offer,
-        required: false,
-        attributes: ['id'],
-      },
-    ],
-  })
-    .then((contests) => {
-      contests.forEach(
-        (contest) =>
-          (contest.dataValues.count = contest.dataValues.Offers.length)
-      );
-      let haveMore = true;
-      if (contests.length === 0) {
-        haveMore = false;
-      }
-      res.send({ contests, haveMore });
-    })
-    .catch((error) => next(createError(500, error)));
+module.exports.getCustomersContests = async (req, res, next) => {
+  try {
+    const { status, limit = 10, offset = 0 } = req.query;
+
+    const contests = await Contest.findAll({
+      where: { status, userId: req.tokenData.userId },
+      limit: parseInt(limit, 10),
+      offset: parseInt(offset, 10),
+      order: [['id', 'DESC']],
+      include: [
+        {
+          model: Offer,
+          required: false,
+          attributes: ['id'],
+        },
+      ],
+    });
+
+    contests.forEach(
+      (contest) => (contest.dataValues.count = contest.dataValues.Offers.length)
+    );
+
+    const haveMore = contests.length === limit;
+
+    res.send({ contests, haveMore });
+  } catch (error) {
+    console.error(error.message);
+    next(error);
+  }
 };
 
 module.exports.updateContest = async (req, res, next) => {
-  if (req.file) {
-    req.body.fileName = req.file.filename;
-    req.body.originalFileName = req.file.originalname;
-  }
-  const contestId = req.body.contestId;
-  delete req.body.contestId;
   try {
-    const updatedContest = await updateExistingContest(req.body, {
-      id: contestId,
-      userId: req.tokenData.userId,
+    const { contestId } = req.params;
+
+    if (!contestId) {
+      return res.status(400).send({ message: 'Contest ID is required' });
+    }
+
+    if (req.file) {
+      req.body.fileName = req.file.filename;
+      req.body.originalFileName = req.file.originalname;
+    }
+
+    const contest = await Contest.findOne({
+      where: { id: contestId, userId: req.tokenData.userId },
     });
-    res.send(updatedContest);
+
+    if (!contest) {
+      return res.status(404).send({ message: 'Contest not found' });
+    }
+
+    await contest.update(req.body);
+
+    res.send(contest);
   } catch (error) {
     console.log(error.message);
     next(error);
   }
 };
 
-module.exports.dataForContest = async (req, res, next) => {
+module.exports.getDataForContest = async (req, res, next) => {
   const response = {};
   try {
-    const {
-      body: { characteristic1, characteristic2 },
-    } = req;
-    console.log(req.body, characteristic1, characteristic2);
+    const { characteristic1, characteristic2 } = req.query;
     const types = [characteristic1, characteristic2, 'industry'].filter(
       Boolean
     );
@@ -266,20 +276,24 @@ module.exports.dataForContest = async (req, res, next) => {
           [Sequelize.Op.or]: types,
         },
       },
+      attributes: ['type', 'describe'],
     });
-    if (!characteristics) {
-      next(createError(500, 'no characteristics'));
+
+    if (characteristics.length === 0) {
+      return res.status(404).send({ message: 'No characteristics found!' });
     }
+
     characteristics.forEach((characteristic) => {
       if (!response[characteristic.type]) {
         response[characteristic.type] = [];
       }
       response[characteristic.type].push(characteristic.describe);
     });
+
     res.send(response);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, 'cannot get contest preferences'));
+    next(createError(500, 'Cannot get contest preferences!'));
   }
 };
 
