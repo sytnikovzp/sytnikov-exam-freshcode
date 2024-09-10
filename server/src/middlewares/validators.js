@@ -40,7 +40,7 @@ module.exports.validateContestCreation = (req, res, next) => {
     .then((results) => {
       results.forEach((result) => {
         if (!result.isValid) {
-          console.error(
+          console.log(
             `Validation error at index ${result.index}:`,
             result.data
           );

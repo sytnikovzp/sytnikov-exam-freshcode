@@ -68,9 +68,10 @@ module.exports.payment = async (req, res, next) => {
 
     await createContests(contests, price, req.tokenData.userId, transaction);
     await transaction.commit();
+
     res.sendStatus(res.statusCode);
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
     await transaction.rollback();
     next(error);
   }
@@ -122,9 +123,10 @@ module.exports.cashout = async (req, res, next) => {
     );
 
     await transaction.commit();
+
     res.status(200).json({ balance: updatedUser.balance });
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
     await transaction.rollback();
     next(error);
   }

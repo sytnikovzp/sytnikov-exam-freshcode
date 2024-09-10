@@ -41,7 +41,6 @@ module.exports.registration = async (req, res, next) => {
     );
 
     await updateExistingUser({ accessToken }, newUser.id, transaction);
-
     await transaction.commit();
     return res.status(200).json({ token: accessToken });
   } catch (error) {
@@ -84,7 +83,6 @@ module.exports.login = async (req, res, next) => {
     );
 
     await updateExistingUser({ accessToken }, foundUser.id, transaction);
-
     await transaction.commit();
     return res.status(200).json({ token: accessToken });
   } catch (error) {

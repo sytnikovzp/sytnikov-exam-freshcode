@@ -22,8 +22,10 @@ function getQuery(offerId, userId, mark, isFirst, transaction) {
       },
       transaction
     );
+
   const getUpdateQuery = () =>
     updateExistingRating({ mark }, { offerId, userId }, transaction);
+
   return isFirst ? getCreateQuery : getUpdateQuery;
 }
 
@@ -55,24 +57,29 @@ module.exports.updateUser = async (req, res, next) => {
       rating: updatedUser.rating,
     });
   } catch (error) {
+    console.log('Error occurred during update user: ', error.message);
     await transaction.rollback();
-    console.error('Error occurred during update user:', error.message);
     next(error);
   }
 };
 
-module.exports.changeMark = async (req, res, next) => {  // !!!!!!!!!!!!!!!!!!!!!!!!!
+module.exports.changeMark = async (req, res, next) => {
+  const transaction = await sequelize.transaction({
+    isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED,
+  });
+
+  const { isFirst, offerId, mark, creatorId } = req.body;
+
+  const userId = req.tokenData.userId;
+
   let sum = 0;
   let avg = 0;
-  let transaction;
-  const { isFirst, offerId, mark, creatorId } = req.body;
-  const userId = req.tokenData.userId;
+
   try {
-    transaction = await sequelize.transaction({
-      isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED,
-    });
     const query = getQuery(offerId, userId, mark, isFirst, transaction);
+
     await query();
+
     const offersArray = await Rating.findAll({
       include: [
         {
@@ -83,20 +90,23 @@ module.exports.changeMark = async (req, res, next) => {  // !!!!!!!!!!!!!!!!!!!!
       ],
       transaction,
     });
+
     for (let i = 0; i < offersArray.length; i++) {
       sum += offersArray[i].dataValues.mark;
     }
+
     avg = sum / offersArray.length;
 
     await updateExistingUser({ rating: avg }, creatorId, transaction);
+
     await transaction.commit();
+
     controller.getNotificationController().emitChangeMark(creatorId);
-    res.send({ userId: creatorId, rating: avg });
+
+    return res.status(200).json({ userId: creatorId, rating: avg });
   } catch (error) {
-    if (transaction) {
-      await transaction.rollback();
-    }
     console.log(error.message);
+    await transaction.rollback();
     next(error);
   }
 };

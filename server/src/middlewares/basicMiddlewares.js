@@ -12,6 +12,7 @@ module.exports.canGetContest = async (req, res, next) => {
         where: { id: req.params.contestId, userId: req.tokenData.userId },
       });
     }
+
     if (req.tokenData.role === constants.USER_ROLES.CREATOR) {
       result = await Contest.findOne({
         where: {
@@ -51,7 +52,7 @@ module.exports.onlyForCustomer = (req, res, next) => {
 
 module.exports.canSendOffer = async (req, res, next) => {
   if (req.tokenData.role !== constants.USER_ROLES.CREATOR) {
-    next(createError(423, 'Not enough rights!'));
+    throw createError(423, 'Not enough rights!');
   }
 
   try {
@@ -65,7 +66,7 @@ module.exports.canSendOffer = async (req, res, next) => {
     if (
       result.get({ plain: true }).status !== constants.CONTEST_STATUS.ACTIVE
     ) {
-      next(createError(423, 'Not enough rights!'));
+      throw createError(423, 'Not enough rights!');
     }
 
     next();
@@ -86,7 +87,7 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
     });
 
     if (!result) {
-      next(createError(423, 'Not enough rights!'));
+      throw createError(423, 'Not enough rights!');
     }
 
     next();
@@ -109,7 +110,7 @@ module.exports.canUpdateContest = async (req, res, next) => {
     });
 
     if (!result) {
-      next(createError(423, 'Not enough rights!'));
+      throw createError(423, 'Not enough rights!');
     }
 
     next();

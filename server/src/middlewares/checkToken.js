@@ -8,7 +8,7 @@ module.exports.getUserByToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return next(createError(401, 'Authorization token is required!'));
+    throw createError(401, 'Authorization token is required!');
   }
 
   const token = authHeader.split(' ')[1];
@@ -19,7 +19,7 @@ module.exports.getUserByToken = async (req, res, next) => {
     const foundUser = await findExistingUser({ id: tokenData.userId });
 
     if (!foundUser) {
-      return next(createError(404, 'User not found!'));
+      throw createError(404, 'User not found!');
     }
 
     res.status(200).json({
@@ -37,10 +37,12 @@ module.exports.getUserByToken = async (req, res, next) => {
     if (error.name === 'JsonWebTokenError') {
       return next(createError(401, 'Invalid token!'));
     }
+
     if (error.name === 'TokenExpiredError') {
       return next(createError(401, 'Token expired!'));
     }
-    console.error(error.message);
+
+    console.log(error.message);
     next(error);
   }
 };
@@ -49,13 +51,13 @@ module.exports.checkToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return next(createError(401, 'Token is required!'));
+    throw createError(401, 'Token is required!');
   }
 
   const token = authHeader.split(' ')[1];
 
   if (!token) {
-    return next(createError(401, 'Invalid token format!'));
+    throw createError(401, 'Invalid token format!');
   }
 
   try {
