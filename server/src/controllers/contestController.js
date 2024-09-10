@@ -142,8 +142,10 @@ module.exports.getAllContests = (req, res, next) => {
 
 module.exports.getContestById = async (req, res, next) => {
   try {
+    const { contestId } = req.params;
+
     let contestInfo = await Contest.findOne({
-      where: { id: req.headers.contestId },
+      where: { id: contestId },
       order: [[Offer, 'id', 'asc']],
       include: [
         {
@@ -179,13 +181,20 @@ module.exports.getContestById = async (req, res, next) => {
         },
       ],
     });
+
+    if (!contestInfo) {
+      return res.status(404).send({ message: 'Contest not found' });
+    }
+
     contestInfo = contestInfo.get({ plain: true });
+
     contestInfo.Offers.forEach((offer) => {
       if (offer.Rating) {
         offer.mark = offer.Rating.mark;
       }
       delete offer.Rating;
     });
+
     res.send(contestInfo);
   } catch (error) {
     console.log(error.message);
