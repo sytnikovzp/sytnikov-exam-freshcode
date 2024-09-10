@@ -23,7 +23,7 @@ const OptionalSelects = (props) => {
               selectInput: styles.select,
               warning: styles.warning,
             }}
-            optionsArray={props.dataForContest.data.typeOfName}
+            optionsArray={props.getDataForContest.data.typeOfName}
           />
           <SelectInput
             name="styleName"
@@ -34,7 +34,7 @@ const OptionalSelects = (props) => {
               selectInput: styles.select,
               warning: styles.warning,
             }}
-            optionsArray={props.dataForContest.data.nameStyle}
+            optionsArray={props.getDataForContest.data.nameStyle}
           />
         </>
       );
@@ -66,7 +66,7 @@ const OptionalSelects = (props) => {
               warning: styles.warning,
             }}
             header="Brand Style"
-            optionsArray={props.dataForContest.data.brandStyle}
+            optionsArray={props.getDataForContest.data.brandStyle}
           />
         </>
       );
@@ -98,7 +98,7 @@ const OptionalSelects = (props) => {
               warning: styles.warning,
             }}
             header="Type tagline"
-            optionsArray={props.dataForContest.data.typeOfTagline}
+            optionsArray={props.getDataForContest.data.typeOfTagline}
           />
         </>
       );

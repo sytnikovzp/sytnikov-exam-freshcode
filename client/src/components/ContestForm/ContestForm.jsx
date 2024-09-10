@@ -68,7 +68,7 @@ class ContestForm extends React.Component {
   }
 
   render() {
-    const { isFetching, error } = this.props.dataForContest;
+    const { isFetching, error } = this.props.getDataForContest;
     if (error) {
       return <TryAgain getData={this.getPreference} />;
     }
@@ -117,7 +117,7 @@ class ContestForm extends React.Component {
                     warning: styles.warning,
                   }}
                   header="Describe industry associated with your venture"
-                  optionsArray={this.props.dataForContest.data.industry}
+                  optionsArray={this.props.getDataForContest.data.industry}
                 />
               </div>
               <div className={styles.inputContainer}>
@@ -180,7 +180,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isEditContest,
     contestCreationStore: state.contestCreationStore,
-    dataForContest: state.dataForContest,
+    getDataForContest: state.getDataForContest,
     initialValues: ownProps.defaultData,
   };
 };

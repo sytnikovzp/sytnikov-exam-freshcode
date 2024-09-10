@@ -24,6 +24,6 @@ Content-Type: application/json
 {
   "isFirst": true,
   "offerId": 123,
-  "mark": 4.5,
-  "creatorId": 456
+  "creatorId": 456,
+  "mark": 4.5
 }

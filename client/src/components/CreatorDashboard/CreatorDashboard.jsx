@@ -64,7 +64,7 @@ class CreatorDashboard extends React.Component {
   renderIndustryType = () => {
     const array = [];
     const { creatorFilter } = this.props;
-    const { industry } = this.props.dataForContest.data;
+    const { industry } = this.props.getDataForContest.data;
     array.push(
       <option key={0} value={null}>
         Choose industry
@@ -204,7 +204,7 @@ class CreatorDashboard extends React.Component {
 
   render() {
     const { error, haveMore, creatorFilter } = this.props;
-    const { isFetching } = this.props.dataForContest;
+    const { isFetching } = this.props.getDataForContest;
     return (
       <div className={styles.mainContainer}>
         <div className={styles.filterContainer}>
@@ -286,8 +286,8 @@ class CreatorDashboard extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { contestsList, dataForContest } = state;
-  return { ...contestsList, dataForContest };
+  const { contestsList, getDataForContest } = state;
+  return { ...contestsList, getDataForContest };
 };
 
 const mapDispatchToProps = (dispatch) => ({

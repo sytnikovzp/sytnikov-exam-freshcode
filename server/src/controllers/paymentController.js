@@ -68,7 +68,7 @@ module.exports.payment = async (req, res, next) => {
 
     await createContests(contests, price, req.tokenData.userId, transaction);
     await transaction.commit();
-    res.status(204).send();
+    res.sendStatus(res.statusCode);
   } catch (error) {
     console.error(error.message);
     await transaction.rollback();

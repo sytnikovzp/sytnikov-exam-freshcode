@@ -1,7 +1,7 @@
-### Payment
+### Payment & create contests
 POST http://localhost:3000/api/payment/pay HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTg4MjQ4MiwiZXhwIjoxNzI1ODg2MDgyfQ.YEolMbhEZGI6uN0x8XM705EhispafZLpZFAP6xRa85M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2OTIyMiwiZXhwIjoxNzI1OTcyODIyfQ.4Sg9S6rVvBCz9MguXdmVWa_22PXldcDknYBJfd1kZlk
 
 {
   "name": "Yriy",
@@ -37,10 +37,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpc
   ]
 }
 
+// =============================================
+
 ### Cash out
 POST http://localhost:3000/api/payment/cashout HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTg4MjQ4MiwiZXhwIjoxNzI1ODg2MDgyfQ.YEolMbhEZGI6uN0x8XM705EhispafZLpZFAP6xRa85M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2OTIyMiwiZXhwIjoxNzI1OTcyODIyfQ.4Sg9S6rVvBCz9MguXdmVWa_22PXldcDknYBJfd1kZlk
 
 {
   "name": "Yriy",

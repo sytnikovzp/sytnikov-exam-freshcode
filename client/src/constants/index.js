@@ -70,7 +70,7 @@ export default {
   CONTEST_CREATION_SLICE_NAME: 'contestCreation',
   CONTEST_UPDATION_SLICE_NAME: 'contestUpdation',
   CONTESTS_SLICE_NAME: 'contests',
-  DATA_FOR_CONTEST_SLICE_NAME: 'dataForContest',
+  DATA_FOR_CONTEST_SLICE_NAME: 'getDataForContest',
   PAYMENT_SLICE_NAME: 'payment',
   USER_PROFILE_SLICE_NAME: 'userProfile',
   USER_SLICE_NAME: 'user',

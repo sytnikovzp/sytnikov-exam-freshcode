@@ -262,38 +262,30 @@ module.exports.updateContest = async (req, res, next) => {
   }
 };
 
-module.exports.getDataForContest = async (req, res, next) => {
+module.exports.getDataForContest = (req, res, next) => {
   const response = {};
   try {
     const { characteristic1, characteristic2 } = req.query;
+
     const types = [characteristic1, characteristic2, 'industry'].filter(
       Boolean
     );
-
-    const characteristics = await Select.findAll({
-      where: {
-        type: {
-          [Sequelize.Op.or]: types,
-        },
-      },
-      attributes: ['type', 'describe'],
-    });
-
-    if (characteristics.length === 0) {
-      return res.status(404).send({ message: 'No characteristics found!' });
-    }
-
-    characteristics.forEach((characteristic) => {
-      if (!response[characteristic.type]) {
-        response[characteristic.type] = [];
+    types.forEach((type) => {
+      if (constants.SELECT_OPTIONS[type]) {
+        response[type] = constants.SELECT_OPTIONS[type];
       }
-      response[characteristic.type].push(characteristic.describe);
     });
+
+    if (!types.length) {
+      Object.keys(constants.SELECT_OPTIONS).forEach((key) => {
+        response[key] = constants.SELECT_OPTIONS[key];
+      });
+    }
 
     res.send(response);
   } catch (error) {
     console.log(error.message);
-    next(createError(500, 'Cannot get contest preferences!'));
+    next(createError(500, 'Сannot get contest preferences!'));
   }
 };
 

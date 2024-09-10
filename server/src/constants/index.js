@@ -62,4 +62,43 @@ module.exports = {
   BLOCK_STATUS: {
     CHANGE: 'CHANGE_BLOCK_STATUS',
   },
+
+  SELECT_OPTIONS: {
+    typeOfName: ['Company', 'Product', 'Project'],
+    nameStyle: [
+      'Classic',
+      'Fun',
+      'Professional',
+      'Descriptive',
+      'Youthful',
+      'Any',
+    ],
+    typeOfTagline: [
+      'Classic',
+      'Fun',
+      'Powerful',
+      'Descriptive',
+      'Modern',
+      'Any',
+    ],
+    brandStyle: [
+      'Techy',
+      'Fun',
+      'Fancy',
+      'Minimal',
+      'Brick & Mortar',
+      'Photo-based',
+    ],
+    industry: [
+      'Creative Agency',
+      'Consulting Firm',
+      'Skin care',
+      'Biotech',
+      'Publisher',
+      'Education',
+      'Footwear',
+      'Medical',
+      'Builders',
+    ],
+  },
 };

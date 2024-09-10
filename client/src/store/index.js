@@ -19,7 +19,7 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     userStore: userReducer,
-    dataForContest: dataForContestReducer,
+    getDataForContest: dataForContestReducer,
     payment: paymentReducer,
     contestsList: contestsReducer,
     contestCreationStore: contestCreationReducer,

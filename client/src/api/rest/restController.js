@@ -34,8 +34,8 @@ const restController = {
         status: data.contestStatus,
       },
     }),
-  updateContest: (data) => api.patch('contest/updateContest', data),
-  dataForContest: (data) => api.post('contest/dataForContest', data),
+  updateContest: (data) => api.put('contest/updateContest', data),
+  getDataForContest: (data) => api.post('contest/getDataForContest', data),
   downloadFile: (data) => api.get(`contest/downloadFile/${data.fileName}`),
 
   // Chat management

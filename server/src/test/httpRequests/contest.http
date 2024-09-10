@@ -1,7 +1,7 @@
 ### Get all contests (without filters, default pagination)
 GET http://localhost:3000/api/contest/getAllContests HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1OTU3NjcyLCJleHAiOjE3MjU5NjEyNzJ9.NNdEPMPE2hxnGvkL4pl9a4fTmrGHnwHdP8eC4q7Ojlk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1OTY5NDkwLCJleHAiOjE3MjU5NzMwOTB9.ukmB2E0GGhK8oqYJry3JMWgGyAs7s-u2dyKRcnD6PGA
 
 {
   "typeIndex": null,
@@ -16,7 +16,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpc
 ### Get all contests (with filters by industry and awardSort, pagination applied)
 GET http://localhost:3000/api/contest/getAllContests HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1OTU3NjcyLCJleHAiOjE3MjU5NjEyNzJ9.NNdEPMPE2hxnGvkL4pl9a4fTmrGHnwHdP8eC4q7Ojlk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1OTY5NDkwLCJleHAiOjE3MjU5NzMwOTB9.ukmB2E0GGhK8oqYJry3JMWgGyAs7s-u2dyKRcnD6PGA
 
 {
   "typeIndex": 1,
@@ -31,7 +31,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpc
 ### Get all contests (only user’s own entries)
 GET http://localhost:3000/api/contest/getAllContests HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1OTU3NjcyLCJleHAiOjE3MjU5NjEyNzJ9.NNdEPMPE2hxnGvkL4pl9a4fTmrGHnwHdP8eC4q7Ojlk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1OTY5NDkwLCJleHAiOjE3MjU5NzMwOTB9.ukmB2E0GGhK8oqYJry3JMWgGyAs7s-u2dyKRcnD6PGA
 
 {
   "typeIndex": null,
@@ -45,29 +45,24 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpc
 
 // =============================================
 
-### Get contest by ID (Customer role)
-GET http://localhost:3000/api/contest/getContestById/1 HTTP/1.1
+### Get contest by ID
+GET http://localhost:3000/api/contest/getContestById/3 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2MjU3MywiZXhwIjoxNzI1OTY2MTczfQ.bvNo3XQpwl-1kIrEBnGdVv80B7Afw_vxtBMh3SAfEWs
-
-### Get contest by ID (Creator role)
-GET http://localhost:3000/api/contest/getContestById/1 HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImZpcnN0TmFtZSI6IkNyZWF0b3IiLCJsYXN0TmFtZSI6IlRlc3QiLCJkaXNwbGF5TmFtZSI6IkNyZWF0b3JUZXN0IiwiZW1haWwiOiJjcmVhdG9yQGdtYWlsLmNvbSIsInJvbGUiOiJjcmVhdG9yIiwiYXZhdGFyIjoiYW5vbi5wbmciLCJiYWxhbmNlIjoiMCIsInJhdGluZyI6MCwiaWF0IjoxNzI1OTU3NjcyLCJleHAiOjE3MjU5NjEyNzJ9.NNdEPMPE2hxnGvkL4pl9a4fTmrGHnwHdP8eC4q7Ojlk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2NzQyMywiZXhwIjoxNzI1OTcxMDIzfQ.2Ff9HIAn2axZb_tQwkwrXkAx7FpefIkHQdxGXpXfJPU
 
 // =============================================
 
 ### Get customers contests
 GET http://localhost:3000/api/contest/getCustomersContests?status=active&limit=10&offset=0
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2MjU3MywiZXhwIjoxNzI1OTY2MTczfQ.bvNo3XQpwl-1kIrEBnGdVv80B7Afw_vxtBMh3SAfEWs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2NzQyMywiZXhwIjoxNzI1OTcxMDIzfQ.2Ff9HIAn2axZb_tQwkwrXkAx7FpefIkHQdxGXpXfJPU
 
 // =============================================
 
 ### Update Contest without file
 PATCH http://localhost:3000/api/contest/updateContest/1 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2MjU3MywiZXhwIjoxNzI1OTY2MTczfQ.bvNo3XQpwl-1kIrEBnGdVv80B7Afw_vxtBMh3SAfEWs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2NzQyMywiZXhwIjoxNzI1OTcxMDIzfQ.2Ff9HIAn2axZb_tQwkwrXkAx7FpefIkHQdxGXpXfJPU
 
 {
   "title": "Patched Contest Title",
@@ -80,19 +75,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpc
 
 // =============================================
 
-### Get data for contest (two characteristic)
+### Get data for contest (example: typeOfName & nameStyle)
 GET http://localhost:3000/api/contest/getDataForContest?characteristic1=typeOfName&characteristic2=nameStyle HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2MjU3MywiZXhwIjoxNzI1OTY2MTczfQ.bvNo3XQpwl-1kIrEBnGdVv80B7Afw_vxtBMh3SAfEWs
-
-### Get data for contest (one characteristic)
-GET http://localhost:3000/api/contest/getDataForContest?characteristic1=typeOfName HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2MjU3MywiZXhwIjoxNzI1OTY2MTczfQ.bvNo3XQpwl-1kIrEBnGdVv80B7Afw_vxtBMh3SAfEWs
-
-### Get data for contest (no characteristic)
-GET http://localhost:3000/api/contest/getDataForContest HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2MjU3MywiZXhwIjoxNzI1OTY2MTczfQ.bvNo3XQpwl-1kIrEBnGdVv80B7Afw_vxtBMh3SAfEWs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImZpcnN0TmFtZSI6IkN1c3RvbWVyIiwibGFzdE5hbWUiOiJUZXN0IiwiZGlzcGxheU5hbWUiOiJDdXN0b21lclRlc3QiLCJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImF2YXRhciI6ImFub24ucG5nIiwiYmFsYW5jZSI6IjAiLCJyYXRpbmciOjAsImlhdCI6MTcyNTk2NzQyMywiZXhwIjoxNzI1OTcxMDIzfQ.2Ff9HIAn2axZb_tQwkwrXkAx7FpefIkHQdxGXpXfJPU
 
 // =============================================
