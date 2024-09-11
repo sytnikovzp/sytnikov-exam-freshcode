@@ -44,15 +44,14 @@ module.exports.registration = async (req, res, next) => {
     await transaction.commit();
     return res.status(200).json({ token: accessToken });
   } catch (error) {
+    console.log(error.message);
     await transaction.rollback();
 
     if (error.name === 'SequelizeUniqueConstraintError') {
-      next(createError(409, 'This email was already used!'));
-    } else {
-      console.log(error.message);
-      await transaction.rollback();
-      next(error);
+      return next(createError(409, 'This email was already used!'));
     }
+
+    next(error);
   }
 };
 
@@ -62,7 +61,10 @@ module.exports.login = async (req, res, next) => {
   try {
     const emailLowerCase = req.body.email.toLowerCase();
 
-    const foundUser = await findExistingUser({ email: emailLowerCase }, transaction);
+    const foundUser = await findExistingUser(
+      { email: emailLowerCase },
+      transaction
+    );
 
     await passwordCompare(req.body.password, foundUser.password);
 

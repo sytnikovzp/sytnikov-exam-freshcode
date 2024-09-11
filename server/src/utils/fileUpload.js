@@ -37,9 +37,9 @@ const uploadLogoFiles = multer({ storage: storageContestFiles }).single(
 module.exports.uploadAvatar = (req, res, next) => {
   uploadAvatars(req, res, (err) => {
     if (err instanceof multer.MulterError) {
-      next(createError(500, 'Multer error'));
+      return next(createError(500, 'Multer error'));
     } else if (err) {
-      next(createError(500, err));
+      return next(createError(500, err));
     }
     next();
   });
@@ -48,9 +48,9 @@ module.exports.uploadAvatar = (req, res, next) => {
 module.exports.uploadContestFiles = (req, res, next) => {
   uploadContestFiles(req, res, (err) => {
     if (err instanceof multer.MulterError) {
-      next(createError(500, 'Multer error'));
+      return next(createError(500, 'Multer error'));
     } else if (err) {
-      next(createError(500, err));
+      return next(createError(500, err));
     }
     next();
   });
@@ -59,9 +59,9 @@ module.exports.uploadContestFiles = (req, res, next) => {
 module.exports.updateContestFile = (req, res, next) => {
   updateContestFile(req, res, (err) => {
     if (err instanceof multer.MulterError) {
-      next(createError(500, 'Multer error'));
+      return next(createError(500, 'Multer error'));
     } else if (err) {
-      next(createError(500, err));
+      return next(createError(500, err));
     }
     next();
   });
@@ -70,9 +70,9 @@ module.exports.updateContestFile = (req, res, next) => {
 module.exports.uploadLogoFiles = (req, res, next) => {
   uploadLogoFiles(req, res, (err) => {
     if (err instanceof multer.MulterError) {
-      next(createError(500, 'Multer error'));
+      return next(createError(500, 'Multer error'));
     } else if (err) {
-      next(createError(500, err));
+      return next(createError(500, err));
     }
     next();
   });

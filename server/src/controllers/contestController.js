@@ -1,7 +1,7 @@
 const createError = require('http-errors');
 // =============================================
 const constants = require('../constants');
-const { createWhereForAllContests } = require('../utils/functions');
+const { Sequelize } = require('../db/dbPostgres/models');
 const {
   sequelize,
   Contest,
@@ -10,25 +10,61 @@ const {
   Rating,
 } = require('../db/dbPostgres/models');
 
+function getPredicateTypes(index) {
+  return {
+    [Sequelize.Op.or]: [constants.CONTEST_TYPES.TYPES[index].split(',')],
+  };
+}
+
 module.exports.getAllContests = async (req, res, next) => {
   try {
-    const predicates = createWhereForAllContests(
-      req.body.typeIndex,
-      req.body.contestId,
-      req.body.industry,
-      req.body.awardSort
-    );
+    const object = {
+      where: {},
+      order: [],
+    };
+
+    console.log('Query Parameters:', req.query);
+
+    if (req.query.typeIndex) {
+      Object.assign(object.where, {
+        contestType: getPredicateTypes(req.query.typeIndex),
+      });
+    }
+    if (req.query.contestId) {
+      Object.assign(object.where, { id: req.query.contestId });
+    }
+    if (req.query.industry) {
+      Object.assign(object.where, { industry: req.query.industry });
+    }
+    if (req.query.awardSort) {
+      object.order.push(['prize', req.query.awardSort]);
+    }
+
+    Object.assign(object.where, {
+      status: {
+        [Sequelize.Op.or]: [
+          constants.CONTEST_STATUS.FINISHED,
+          constants.CONTEST_STATUS.ACTIVE,
+        ],
+      },
+    });
+    object.order.push(['id', 'desc']);
+
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const offset = parseInt(req.query.offset, 10) || 0;
+
+    const ownEntries = req.query.ownEntries === 'true';
 
     const contests = await Contest.findAll({
-      where: predicates.where,
-      order: predicates.order,
-      limit: req.body.limit || 10,
-      offset: req.body.offset || 0,
+      where: object.where,
+      order: object.order,
+      limit,
+      offset,
       include: [
         {
           model: Offer,
-          required: req.body.ownEntries,
-          where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
+          required: ownEntries,
+          where: ownEntries ? { userId: req.tokenData.userId } : {},
           attributes: ['id'],
         },
       ],
@@ -38,7 +74,7 @@ module.exports.getAllContests = async (req, res, next) => {
       (contest) => (contest.dataValues.count = contest.dataValues.Offers.length)
     );
 
-    const haveMore = contests.length === (req.body.limit || 10);
+    const haveMore = contests.length > 0;
 
     return res.status(200).json({ contests, haveMore });
   } catch (error) {

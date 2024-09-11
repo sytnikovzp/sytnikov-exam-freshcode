@@ -30,6 +30,16 @@ module.exports = {
     NAME_CONTEST: 'name',
     LOGO_CONTEST: 'logo',
     TAGLINE_CONTEST: 'tagline',
+    TYPES: [
+      '',
+      'name,tagline,logo',
+      'name',
+      'tagline',
+      'logo',
+      'name,tagline',
+      'logo,tagline',
+      'name,logo',
+    ],
   },
 
   OFFER_STATUS: {

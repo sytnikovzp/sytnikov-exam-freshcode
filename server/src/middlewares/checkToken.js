@@ -7,8 +7,8 @@ const { findExistingUser } = require('../controllers/queries/userQueries');
 module.exports.getUserByToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader) {
-    throw createError(401, 'Authorization token is required!');
+  if (typeof authHeader !== 'string' || !authHeader.startsWith('Bearer ')) {
+    return next(createError(401, 'Authorization token is required!'));
   }
 
   const token = authHeader.split(' ')[1];
@@ -19,7 +19,7 @@ module.exports.getUserByToken = async (req, res, next) => {
     const foundUser = await findExistingUser({ id: tokenData.userId });
 
     if (!foundUser) {
-      throw createError(404, 'User not found!');
+      return next(createError(404, 'User not found!'));
     }
 
     res.status(200).json({
@@ -34,6 +34,8 @@ module.exports.getUserByToken = async (req, res, next) => {
       rating: foundUser.rating,
     });
   } catch (error) {
+    console.log(error.message);
+
     if (error.name === 'JsonWebTokenError') {
       return next(createError(401, 'Invalid token!'));
     }
@@ -42,7 +44,6 @@ module.exports.getUserByToken = async (req, res, next) => {
       return next(createError(401, 'Token expired!'));
     }
 
-    console.log(error.message);
     next(error);
   }
 };
@@ -50,14 +51,14 @@ module.exports.getUserByToken = async (req, res, next) => {
 module.exports.checkToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader) {
-    throw createError(401, 'Token is required!');
+  if (typeof authHeader !== 'string' || !authHeader.startsWith('Bearer ')) {
+    return next(createError(401, 'Authorization token is required!'));
   }
 
   const token = authHeader.split(' ')[1];
 
   if (!token) {
-    throw createError(401, 'Invalid token format!');
+    return next(createError(401, 'Invalid token format!'));
   }
 
   try {

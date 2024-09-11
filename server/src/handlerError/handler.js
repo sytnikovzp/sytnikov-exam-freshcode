@@ -9,7 +9,7 @@ module.exports = (err, req, res, next) => {
     return res.status(406).send('Not Enough money!');
   }
 
-  const statusCode = err.code || 500;
+  const statusCode = err.status || 500;
   const message = err.message || 'Server Error';
 
   res.status(statusCode).send(message);

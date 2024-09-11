@@ -9,7 +9,7 @@ const {
 module.exports.validateRegistrationData = async (req, res, next) => {
   const validationResult = await registrationScheme.isValid(req.body);
   if (!validationResult) {
-    next(createError(400, 'Invalid data for registration!'));
+    return next(createError(400, 'Invalid data for registration!'));
   } else {
     next();
   }
@@ -20,7 +20,7 @@ module.exports.validateLogin = async (req, res, next) => {
   if (validationResult) {
     next();
   } else {
-    next(createError(400, 'Invalid data for login!'));
+    return next(createError(400, 'Invalid data for login!'));
   }
 };
 

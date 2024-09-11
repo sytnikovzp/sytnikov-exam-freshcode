@@ -36,7 +36,7 @@ module.exports.canGetContest = async (req, res, next) => {
 
 module.exports.onlyForCreator = (req, res, next) => {
   if (req.tokenData.role !== constants.USER_ROLES.CREATOR) {
-    next(createError(423, 'Not enough rights!'));
+    return next(createError(423, 'This page only for creators!'));
   }
 
   next();
@@ -44,7 +44,7 @@ module.exports.onlyForCreator = (req, res, next) => {
 
 module.exports.onlyForCustomer = (req, res, next) => {
   if (req.tokenData.role !== constants.USER_ROLES.CUSTOMER) {
-    next(createError(423, 'This page only for customers!'));
+    return next(createError(423, 'This page only for customers!'));
   }
 
   next();
