@@ -10,8 +10,8 @@ const upload = require('../utils/fileUpload');
 const router = new Router();
 
 router.get(
-  '/getUser',
-  checkToken.getUserByToken
+  '/getCurrentUser',
+  checkToken.getUserByToken,
 );
 
 router.patch(

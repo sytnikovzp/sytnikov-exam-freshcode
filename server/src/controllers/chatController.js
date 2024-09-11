@@ -191,7 +191,7 @@ module.exports.getPreview = async (req, res, next) => {
   }
 };
 
-module.exports.blackList = async (req, res) => {
+module.exports.blackList = async (req, res, next) => {
   const predicate =
     'blackList.' + req.body.participants.indexOf(req.tokenData.userId);
   try {
@@ -206,11 +206,11 @@ module.exports.blackList = async (req, res) => {
     )[0];
     controller.getChatController().emitChangeBlockStatus(interlocutorId, chat);
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 };
 
-module.exports.favoriteChat = async (req, res) => {
+module.exports.favoriteChat = async (req, res, next) => {
   const predicate =
     'favoriteList.' + req.body.participants.indexOf(req.tokenData.userId);
   try {
@@ -221,7 +221,7 @@ module.exports.favoriteChat = async (req, res) => {
     );
     res.send(chat);
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 };
 

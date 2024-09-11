@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const controller = require('../socketInit');
 // =============================================
 const constants = require('../constants');
@@ -14,14 +15,14 @@ const rejectOffer = async (offerId, creatorId, contestId, transaction) => {
   const rejectedOffer = await updateExistingOffer(
     { status: constants.OFFER_STATUS.REJECTED },
     { id: offerId },
-    { transaction }
+    transaction
   );
 
   controller
     .getNotificationController()
     .emitChangeOfferStatus(
       creatorId,
-      'Someone of yours offers was rejected',
+      'Someone of yours offers was rejected!',
       contestId
     );
 
@@ -39,15 +40,15 @@ const resolveOffer = async (
   const finishedContest = await updateExistingContestStatus(
     {
       status: sequelize.literal(`   CASE
-            WHEN "id"=${contestId}  AND "orderId"='${orderId}' 
-              THEN '${constants.CONTEST_STATUS.FINISHED}'
-            WHEN "orderId"='${orderId}' AND "priority"=${priority + 1}  
-              THEN '${constants.CONTEST_STATUS.ACTIVE}'
-            ELSE '${constants.CONTEST_STATUS.PENDING}'
-            END
-    `),
+                WHEN "id"=${contestId}  AND "order_id"='${orderId}' 
+                  THEN '${constants.CONTEST_STATUS.FINISHED}'
+                WHEN "order_id"='${orderId}' AND "priority"=${priority + 1}  
+                  THEN '${constants.CONTEST_STATUS.ACTIVE}'
+                ELSE '${constants.CONTEST_STATUS.PENDING}'
+                END
+        `),
     },
-    { orderId },
+    { order_id: orderId },
     transaction
   );
 
@@ -62,22 +63,17 @@ const resolveOffer = async (
   const updatedOffers = await updateExistingOfferStatus(
     {
       status: sequelize.literal(` CASE
-            WHEN "id"=${offerId} 
-              THEN '${constants.OFFER_STATUS.WON}'
-            ELSE '${constants.OFFER_STATUS.REJECTED}'
-            END
-    `),
+              WHEN "id"=${offerId} 
+                THEN '${constants.OFFER_STATUS.WON}'
+              ELSE '${constants.OFFER_STATUS.REJECTED}'
+              END
+        `),
     },
-    {
-      contestId,
-    },
+    { contestId },
     transaction
   );
 
-  transaction.commit();
-
   const arrayRoomsId = [];
-
   updatedOffers.forEach((offer) => {
     if (
       offer.status === constants.OFFER_STATUS.REJECTED &&

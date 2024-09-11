@@ -7,17 +7,17 @@ module.exports.updateExistingContestStatus = async (
   predicate,
   transaction
 ) => {
-  const updateResult = await Contest.update(data, {
+  const [updatedCount, updatedContests] = await Contest.update(data, {
     where: predicate,
     returning: true,
     transaction,
   });
 
-  if (updateResult[0] < 1) {
-    throw createError(500, 'Cannot update сontest status!');
+  if (updatedCount < 1) {
+    throw createError(500, 'Cannot update contest status!');
   }
 
-  return updateResult[1][0].dataValues;
+  return updatedContests[0].dataValues;
 };
 
 module.exports.createNewOffer = async (data, transaction) => {
@@ -49,15 +49,15 @@ module.exports.updateExistingOfferStatus = async (
   predicate,
   transaction
 ) => {
-  const result = await Offer.update(data, {
+  const [updatedCount, updatedOffers] = await Offer.update(data, {
     where: predicate,
     returning: true,
     transaction,
   });
 
-  if (result[0] < 1) {
+  if (updatedCount < 1) {
     throw createError(500, 'Cannot update offer status!');
   }
 
-  return result[1];
+  return updatedOffers;
 };
